@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $company->name }} | Resmi Web Sitesi</title>
+    
+    <!-- CSRF Token (Güvenli AJAX İstekleri İçin Meta Etiketi) -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Plus Jakarta Sans - Kurumsal ve Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 CSS (Modern Hata/Başarı Mesaj Kutuları İçin) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0f52ba;       /* Saf Kurumsal Mavi */
+            --royal-blue: #1e3a8a;         /* Koyu Lacivert / Başlıklar */
+            --soft-blue: #f0f5ff;          /* Arka Plan Hafif Mavi Tonu */
+            --text-dark: #1e293b;          /* Göz yormayan koyu gri metin */
+            --text-muted: #64748b;         /* Yardımcı metin rengi */
+            --border-color: #e2e8f0;       /* İnce temiz kenarlıklar */
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc; 
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* ÜST MENÜ (NAVBAR) */
+        .kurumsal-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 18px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--royal-blue) !important;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: var(--primary-blue);
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue) !important;
+        }
+
+        /* HERO BÖLÜMÜ (GİRİŞ ALANI) */
+        .hero-section {
+            background: linear-gradient(135deg, var(--soft-blue) 0%, #ffffff 100%);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            background-color: rgba(15, 82, 186, 0.1);
+            color: var(--primary-blue);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--royal-blue);
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 35px;
+            max-width: 550px;
+        }
+
+        /* GENEL BÖLÜM AYARLARI */
+        .section-padding {
+            padding: 90px 0;
+        }
+
+        .section-title {
+            font-size: 34px;
+            font-weight: 700;
+            color: var(--royal-blue);
+            margin-bottom: 15px;
+        }
+
+        /* KARTLAR */
+        .kurumsal-kart {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+        }
+
+        .kurumsal-kart:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(15, 82, 186, 0.08);
+            border-color: rgba(15, 82, 186, 0.2);
+        }
+
+        .kart-ikon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--soft-blue);
+            color: var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+        }
+
+        .kurumsal-kart:hover .kart-ikon {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+        }
+
+        /* HAKKIMIZDA BÖLÜMÜ */
+        .hakkimizda-section {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .istatistik-kutusu {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .istatistik-sayi {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        /* İLETİŞİM BÖLÜMÜ */
+        .iletisim-section {
+            background-color: var(--soft-blue);
+        }
+
+        .iletisim-bilgi-satiri {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .iletisim-ikon-yuvarlagi {
+            width: 45px;
+            height: 45px;
+            background-color: #ffffff;
+            color: var(--primary-blue);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-control-kurumsal {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-control-kurumsal:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(15, 82, 186, 0.1);
+            outline: none;
+        }
+
+        /* BUTONLAR */
+        .btn-kurumsal {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-kurumsal:hover {
+            background-color: #0d439c;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 82, 186, 0.3);
+        }
+
+        .btn-kurumsal-outline {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            font-weight: 600;
+            padding: 10px 26px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-kurumsal-outline:hover {
+            background-color: var(--soft-blue);
+            color: var(--primary-blue);
+        }
+
+        /* FOOTER */
+        .kurumsal-footer {
+            background-color: #0f172a; 
+            color: #94a3b8;
+            padding: 50px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ÜST MENÜ (NAVBAR) -->
+    <nav class="navbar navbar-expand-lg kurumsal-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>{{ $company->name }}</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars fs-4 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-2">
+                    <li class="nav-item"><a class="nav-link" href="#">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hizmetler">Hizmetlerimiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hakkimizda">Hakkımızda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#iletisim">İletişim</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO GİRİŞ BÖLÜMÜ -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <span class="hero-badge"><i class="fa-solid fa-sparkles me-1"></i> Kurumsal Çözümler</span>
+                    <h1 class="hero-title">İşinizi Dijital Dünyada Güvenle Büyütün</h1>
+                    <p class="hero-desc">
+                        {{ $company->about }}
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#iletisim" class="btn btn-kurumsal text-decoration-none shadow-sm">Hemen Başlayın</a>
+                        <a href="#hakkimizda" class="btn btn-kurumsal-outline text-decoration-none">Bizi Tanıyın</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block text-end">
+                    <i class="fa-solid fa-chart-line" style="font-size: 280px; color: rgba(15, 82, 186, 0.05);"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HİZMETLER BÖLÜMÜ -->
+    <section id="hizmetler" class="container section-padding">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Neden Bizimle Çalışmalısınız?</h2>
+            <p class="text-muted max-w-2xl mx-auto">Sizler için en yüksek standartlarda kurumsal solutions üretiyoruz.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="kurumsal-kart h-100">
+                    <div class="kart-ikon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Yüksek Güvenlik</h5>
+                    <p class="text-muted small m-0">Verileriniz ve tüm dijital süreçleriniz uçtan uca modern güvenlik duvarları ile korunur.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kurumsal-kart h-100">
+                    <div class="kart-ikon">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">Tam Performans</h5>
+                    <p class="text-muted small m-0">Gecikme olmadan, her talebe anında yanıt veren ultra hızlı entegrasyon çözümleri.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kurumsal-kart h-100">
+                    <div class="kart-ikon">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h5 class="fw-bold mb-3">7/24 Destek</h5>
+                    <p class="text-muted small m-0">İhtiyaç duyduğunuz her an uzman kadromuzla yanınızda yer alarak operasyonlarınızı destekliyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HAKKIMIZDA BÖLÜMÜ -->
+    <section id="hakkimizda" class="hakkimizda-section section-padding">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Kurumsal Başarı Hikayemiz</h2>
+                    <p class="text-muted mt-3 mb-4">
+                        {{ $company->about }}
+                    </p>
+                    <div class="row g-4 border-top pt-4">
+                        <div class="col-6 col-sm-4">
+                            <div class="istatistik-kutusu">
+                                <div class="istatistik-sayi">500+</div>
+                                <div class="small text-muted fw-medium">Mutlu Müşteri</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="istatistik-kutusu">
+                                <div class="istatistik-sayi">12+</div>
+                                <div class="small text-muted fw-medium">Yıllık Tecrübe</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-4">
+                            <div class="istatistik-kutusu">
+                                <div class="istatistik-sayi">24/7</div>
+                                <div class="small text-muted fw-medium">Aktif İzleme</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block text-center">
+                    <i class="fa-solid fa-handshake" style="font-size: 240px; color: rgba(15, 82, 186, 0.05);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İLETİŞİM BÖLÜMÜ -->
+    <section id="iletisim" class="iletisim-section section-padding">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Bizimle İletişime Geçin</h2>
+                <p class="text-muted">Sorularınız veya iş birliği talepleriniz için formu doldurabilir veya doğrudan bize ulaşabilirsiniz.</p>
+            </div>
+
+            <div class="row g-5">
+                <!-- İletişim Bilgileri (Sol Sütun) -->
+                <div class="col-lg-5">
+                    <div class="kurumsal-kart h-100">
+                        <h4 class="fw-bold text-dark mb-4">İletişim Bilgileri</h4>
+                        
+                        <div class="iletisim-bilgi-satiri">
+                            <div class="iletisim-ikon-yuvarlagi">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <div>
+                                <div class="small text-muted fw-medium">Şirket Adı</div>
+                                <div class="fw-bold text-dark">{{ $company->name }}</div>
+                            </div>
+                        </div>
+
+                        <div class="iletisim-bilgi-satiri">
+                            <div class="iletisim-ikon-yuvarlagi">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="small text-muted fw-medium">Telefon Numarası</div>
+                                <div class="fw-bold text-dark">{{ $company->phone }}</div>
+                            </div>
+                        </div>
+
+                        <div class="iletisim-bilgi-satiri">
+                            <div class="iletisim-ikon-yuvarlagi">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="small text-muted fw-medium">E-posta Adresi</div>
+                                <div class="fw-bold text-dark">{{ $company->email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hızlı Mesaj Formu (Sağ Sütun) -->
+                <div class="col-lg-7">
+                    <div class="kurumsal-kart">
+                        <h4 class="fw-bold text-dark mb-4">Hızlı Mesaj Gönder</h4>
+                        
+                        <!-- Form asenkron post rotasına bağlanmıştır knk -->
+                        <form id="canliIletisimFormu" action="/site/{{ $company->slug }}/contact" method="POST" onsubmit="canliFormuGonder(event)">
+                            @csrf
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small text-muted fw-medium">Adınız Soyadınız</label>
+                                    <input type="text" name="name" id="cName" class="form-control form-control-kurumsal" placeholder="Örn: Ahmet Yılmaz">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small text-muted fw-medium">E-posta Adresiniz</label>
+                                    <input type="email" name="email" id="cEmail" class="form-control form-control-kurumsal" placeholder="name@company.com">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted fw-medium">Konu</label>
+                                    <input type="text" name="subject" id="cSubject" class="form-control form-control-kurumsal" placeholder="Mesajınızın konusu nedir?">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small text-muted fw-medium">Mesajınız</label>
+                                    <textarea name="message" id="cMessage" class="form-control form-control-kurumsal" rows="4" placeholder="Mesajınızı buraya yazın..."></textarea>
+                                </div>
+                                <div class="col-12 text-end mt-4">
+                                    <button type="submit" class="btn btn-kurumsal">Mesajı İlet</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER ALANI -->
+    <footer class="kurumsal-footer">
+        <div class="container text-center">
+            <h5 class="text-white fw-bold mb-3">{{ $company->name }}</h5>
+            <p class="m-0 text-gray">© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
+        </div>
+        <div class="d-flex gap-3 justify-content-center mt-3">
+            @foreach($company->socialMedias as $social)
+                @if($social->platform == 'instagram')
+                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-instagram"></i></a>
+                @elseif($social->platform == 'twitter' || $social->platform == 'x')
+                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-x-twitter"></i></a>
+                @elseif($social->platform == 'linkedin')
+                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-linkedin"></i></a>
+                @elseif($social->platform == 'youtube')
+                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-youtube"></i></a>
+                @endif
+            @endforeach
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JavaScript CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- FETCH API İLE SAYFA YENİLEMEDEN VALIDASYONLU GÖNDERİM SCRIPT'I -->
+    <script>
+    function canliFormuGonder(event) {
+        event.preventDefault(); // Sayfanın kırpışıp yenilenmesini engelliyoruz knk
+
+        const form = document.getElementById('canliIletisimFormu');
+        const postUrl = form.getAttribute('action'); 
+
+        // Input verilerini JSON gövdesi olarak paketliyoruz
+        const formData = {
+            name: document.getElementById('cName').value,
+            email: document.getElementById('cEmail').value,
+            subject: document.getElementById('cSubject').value,
+            message: document.getElementById('cMessage').value
+        };
+
+        const token = document.querySelector('input[name="_token"]').value;
+
+        fetch(postUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json', // Laravel'in hata durumunda HTML yerine JSON basması için şarttır
+                'X-CSRF-TOKEN': token
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                // Eğer Laravel 422 Validasyon hatası verdiyse hata nesnesini aşağıya fırlatıyoruz
+                return response.json().then(err => { throw err; });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Her şey kurallara uygunsa fırlayacak başarı kutusu
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı!',
+                text: data.message, 
+                confirmButtonColor: '#0f52ba'
+            });
+            form.reset(); // İşlem başarılıysa form içini temizler
+        })
+        .catch(error => {
+            console.error(error);
+            
+            let hataListesi = '';
+            // Laravel'den gelen senin o Türkçe özel validasyon hatalarını ayıklayıp alt alta birleştiriyoruz
+            if (error.errors) {
+                hataListesi = Object.values(error.errors).flat().join('<br>');
+            } else {
+                hataListesi = error.message || 'Sistemsel bir bağlantı hatası oluştu knk.';
+            }
+
+            // Hata mesajlarını şık bir SweetAlert kutusunda listeliyoruz
+            Swal.fire({
+                icon: 'error',
+                title: 'Eksik veya Hatalı Giriş!',
+                html: `<div class="text-start text-danger" style="font-size:14px; font-weight:500;">${hataListesi}</div>`,
+                confirmButtonColor: '#0f52ba'
+            });
+        });
+    }
+    </script>
+</body>
+</html>
