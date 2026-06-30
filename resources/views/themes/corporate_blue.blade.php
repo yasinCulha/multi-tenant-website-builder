@@ -490,25 +490,25 @@
                         <div class="d-flex flex-column gap-2 align-items-center align-items-md-start">
                             @foreach($company->phones as $phone)
                                 @if($phone->type == 'cep')
-                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
                                         <i class="fa-solid fa-mobile-screen-button text-primary"></i> 
                                         <span><strong>Cep:</strong> {{ $phone->number }}</span>
-                                    </a>
+                                    </p>
                                 @elseif($phone->type == 'sabit')
-                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
                                         <i class="fa-solid fa-phone text-primary"></i> 
                                         <span><strong>Sabit Hat:</strong> {{ $phone->number }}</span>
-                                    </a>
+                                    </p>
                                 @elseif($phone->type == 'Whatsapp')
                                     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone->number) }}" target="_blank" class="text-light text-decoration-none d-flex align-items-center gap-2 link-success-hover">
                                         <i class="fa-brands fa-whatsapp text-success fs-5"></i> 
                                         <span><strong>WhatsApp:</strong> {{ $phone->number }}</span>
                                     </a>
                                 @elseif($phone->type == 'destek')
-                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
                                         <i class="fa-solid fa-headset text-primary"></i> 
                                         <span><strong>Destek:</strong> {{ $phone->number }}</span>
-                                    </a>
+                                    </p>
                                 @endif
                             @endforeach
                         </div>
