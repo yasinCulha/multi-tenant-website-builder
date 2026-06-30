@@ -499,7 +499,7 @@
                                         <i class="fa-solid fa-phone text-primary"></i> 
                                         <span><strong>Sabit Hat:</strong> {{ $phone->number }}</span>
                                     </p>
-                                @elseif($phone->type == 'Whatsapp')
+                                @elseif($phone->type == 'whatsapp')
                                     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone->number) }}" target="_blank" class="text-light text-decoration-none d-flex align-items-center gap-2 link-success-hover">
                                         <i class="fa-brands fa-whatsapp text-success fs-5"></i> 
                                         <span><strong>WhatsApp:</strong> {{ $phone->number }}</span>
