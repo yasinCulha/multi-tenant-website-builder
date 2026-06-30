@@ -447,25 +447,109 @@
     </section>
 
     <!-- FOOTER ALANI -->
-    <footer class="kurumsal-footer">
-        <div class="container text-center">
-            <h5 class="text-white fw-bold mb-3">{{ $company->name }}</h5>
-            <p class="m-0 text-gray">© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
-        </div>
-        <div class="d-flex gap-3 justify-content-center mt-3">
-            @foreach($company->socialMedias as $social)
-                @if($social->platform == 'instagram')
-                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-instagram"></i></a>
-                @elseif($social->platform == 'twitter' || $social->platform == 'x')
-                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-x-twitter"></i></a>
-                @elseif($social->platform == 'linkedin')
-                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-linkedin"></i></a>
-                @elseif($social->platform == 'youtube')
-                    <a href="{{ $social->url }}" target="_blank" class="text-light fs-4"><i class="fa-brands fa-youtube"></i></a>
+    <footer class="kurumsal-footer bg-dark text-light py-5 border-top border-secondary">
+        <div class="container">
+            {{-- Üst Kısım: Firma Adı --}}
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h5 class="text-white fw-bold mb-2 tracking-wide text-uppercase" style="letter-spacing: 1px;">
+                        {{ $company->name }}
+                    </h5>
+                    <p class="m-0 text-gray">© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
+                    <div class="mx-auto bg-primary" style="width: 50px; height: 3px; border-radius: 2px;"></div>
+                </div>
+            </div>
+        
+            {{-- Orta Kısım: Sosyal Medya ve İletişim Bilgileri --}}
+            <div class="row g-4 justify-content-center align-items-start my-3">
+                
+                {{-- SOSYAL MEDYA SÜTUNU --}}
+                @if($company->socialMedias && $company->socialMedias->isNotEmpty())
+                    <div class="col-md-5 text-center text-md-end border-end-md border-secondary pe-md-4">
+                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;">Sosyal Medya Hesaplarımız</span>
+                        <div class="d-flex gap-2 justify-content-center justify-content-md-end flex-wrap">
+                            @foreach($company->socialMedias as $social)
+                                @if($social->platform == 'instagram')
+                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="Instagram"><i class="fa-brands fa-instagram fs-5"></i></a>
+                                @elseif($social->platform == 'twitter' || $social->platform == 'x')
+                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="X / Twitter"><i class="fa-brands fa-x fs-5"></i></a>
+                                @elseif($social->platform == 'linkedin')
+                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="LinkedIn"><i class="fa-brands fa-linkedin-in fs-5"></i></a>
+                                @elseif($social->platform == 'youtube')
+                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="YouTube"><i class="fa-brands fa-youtube fs-5"></i></a>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
-            @endforeach
+
+                {{-- İLETİŞİM NUMARALARI SÜTUNU --}}
+                @if($company->phones && $company->phones->isNotEmpty())
+                    <div class="col-md-5 text-center text-md-start ps-md-4">
+                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;">İletişim Numaralarımız</span>
+                        <div class="d-flex flex-column gap-2 align-items-center align-items-md-start">
+                            @foreach($company->phones as $phone)
+                                @if($phone->type == 'cep')
+                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                        <i class="fa-solid fa-mobile-screen-button text-primary"></i> 
+                                        <span><strong>Cep:</strong> {{ $phone->number }}</span>
+                                    </a>
+                                @elseif($phone->type == 'sabit')
+                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                        <i class="fa-solid fa-phone text-primary"></i> 
+                                        <span><strong>Sabit Hat:</strong> {{ $phone->number }}</span>
+                                    </a>
+                                @elseif($phone->type == 'Whatsapp')
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone->number) }}" target="_blank" class="text-light text-decoration-none d-flex align-items-center gap-2 link-success-hover">
+                                        <i class="fa-brands fa-whatsapp text-success fs-5"></i> 
+                                        <span><strong>WhatsApp:</strong> {{ $phone->number }}</span>
+                                    </a>
+                                @elseif($phone->type == 'destek')
+                                    <a href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                        <i class="fa-solid fa-headset text-primary"></i> 
+                                        <span><strong>Destek:</strong> {{ $phone->number }}</span>
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+            </div>
+
+            <hr class="border-secondary my-4">
+
+            {{-- Alt Kısım: Copyright --}}
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="m-0 text-muted small">&copy; 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
+                </div>
+            </div>
         </div>
     </footer>
+
+    {{-- Footer İçin Küçük CSS Dokunuşları (İstersen CSS dosyana ekleyebilirsin) --}}
+    <style>
+        .kurumsal-footer a {
+            transition: all 0.3s ease;
+        }
+        .kurumsal-footer .btn-outline-light:hover {
+            background-color: #fff;
+            color: #212529 !important;
+            transform: translateY(-2px);
+        }
+        .link-primary-hover:hover {
+            color: #0d6efd !important;
+        }
+        .link-success-hover:hover {
+            color: #198754 !important;
+        }
+        @media (min-width: 768px) {
+            .border-end-md {
+                border-end: 1px solid #495057 !important;
+            }
+        }
+    </style>
 
     <!-- Bootstrap 5 JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

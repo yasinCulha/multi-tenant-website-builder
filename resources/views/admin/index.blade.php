@@ -386,203 +386,132 @@
         </div>
 
         <div class="modal fade" id="companyEditModal" tabindex="-1">
-
             <div class="modal-dialog modal-xl modal-dialog-scrollable">
-
                 <div class="modal-content bg-dark text-light border-secondary">
-
                     <div class="modal-header">
-
                         <h4 class="modal-title">
-
                             <i class="fa-solid fa-building text-warning me-2"></i>
-
                             Firma Bilgilerini Düzenle
-
                         </h4>
-
                         <button
                             class="btn-close btn-close-white"
                             data-bs-dismiss="modal">
                         </button>
-
                     </div>
 
                     <form id="companyEditForm">
-
                         @csrf
-
-                        <div class="modal-body">
-
+                        <div class="modal-body" style="max-height:70vh; overflow-y:auto;>
                             <input
                                 type="hidden"
                                 id="editCompanyId">
 
                             <!-- Firma -->
-
                             <h5 class="mb-3 text-success">
-
                                 Firma Bilgileri
-
                             </h5>
 
                             <div class="row">
-
                                 <div class="col-md-6">
-
                                     <label>Firma Adı</label>
-
                                     <input
                                         id="editCompanyName"
                                         class="form-control bg-dark text-light border-secondary">
-
                                 </div>
 
                                 <div class="col-md-6">
-
                                     <label>Yönetici Maili</label>
-
                                     <input
                                         id="editCompanyEmail"
                                         type="email"
                                         class="form-control bg-dark text-light border-secondary">
-
                                 </div>
-
                             </div>
-
                             <hr>
 
                             <!-- Şifre -->
-
                             <h5 class="mb-3 text-success">
-
                                 Şifre Değiştir
-
                             </h5>
 
                             <div class="row">
-
                                 <div class="col-md-4">
-
                                     <label>Eski Şifre</label>
-
                                     <input
                                         id="oldPassword"
                                         type="password"
                                         class="form-control bg-dark text-light border-secondary">
-
                                 </div>
 
                                 <div class="col-md-4">
-
                                     <label>Yeni Şifre</label>
-
                                     <input
                                         id="newPassword"
                                         type="password"
                                         class="form-control bg-dark text-light border-secondary">
-
                                 </div>
 
                                 <div class="col-md-4">
-
                                     <label>Yeni Şifre Tekrar</label>
-
                                     <input
                                         id="newPasswordConfirmation"
                                         type="password"
                                         class="form-control bg-dark text-light border-secondary">
-
                                 </div>
-
                             </div>
-
                             <hr>
 
                             <!-- Telefon -->
-
                             <div class="d-flex justify-content-between align-items-center mb-3">
-
                                 <h5 class="text-success m-0">
-
                                     Telefonlar
-
                                 </h5>
 
                                 <button
                                     id="btnEditPhone"
                                     type="button"
                                     class="btn btn-success btn-sm">
-
                                     <i class="fa-solid fa-plus"></i>
-
                                     Telefon
-
                                 </button>
-
                             </div>
-
                             <div id="editPhones"></div>
-
                             <hr>
 
                             <!-- Sosyal -->
-
                             <div class="d-flex justify-content-between align-items-center mb-3">
-
                                 <h5 class="text-success m-0">
-
                                     Sosyal Medya
-
                                 </h5>
 
                                 <button
                                     id="btnEditSocial"
                                     type="button"
                                     class="btn btn-primary btn-sm">
-
                                     <i class="fa-solid fa-plus"></i>
-
                                     Sosyal Medya
-
                                 </button>
-
                             </div>
-
                             <div id="editSocials"></div>
-
                         </div>
 
                         <div class="modal-footer">
-
                             <button
                                 class="btn btn-secondary"
                                 data-bs-dismiss="modal">
-
                                 Vazgeç
-
                             </button>
-
                             <button
                                 id="btnCompanyUpdate"
                                 type="submit"
                                 class="btn btn-warning">
-
                                 <i class="fa-solid fa-floppy-disk me-2"></i>
-
                                 Güncelle
-
                             </button>
-
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

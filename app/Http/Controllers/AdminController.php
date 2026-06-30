@@ -333,14 +333,14 @@ class AdminController extends Controller
             return "<code>resources/views/" . str_replace('.', '/', $viewPath) . ".blade.php</i> dosyası bulunamadı, adını kontrol et!";
         }
 
-        $company = Company::with('socialMedias')->first(); 
+        $company = Company::with(['socialMedias','phones'])->first(); 
 
         if (!$company) {
             // Eğer veritabanın tamamen boşsa, hata vermemesi için geçici nesne oluşturuyoruz
             $company = new \stdClass();
             $company->name = "Örnek Firma Adı (Ön İzleme)";
             $company->slug = "ornek-firma";
-            $company->phone = "0555 555 55 55";
+            $company->phones = collect([]);
             $company->email = "info@ornekfirma.com";
             $company->about = "Bu bir tema ön izleme alanıdır. Sistemde kayıtlı firma bulunduğunda buradaki veriler dinamik olarak değişecektir.";
             $company->socialMedias=collect([]);
