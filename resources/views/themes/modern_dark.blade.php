@@ -320,15 +320,9 @@
     <footer class="py-5" style="background:#111827; border-top:1px solid #374151;">
         <div class="container">
                 <div class="text-center mb-5">
-
                     <h3 class="fw-bold text-white">
                         {{ $company->name }}
                     </h3>
-
-                    <p class="text-secondary mb-0">
-                        © 2026 Tüm Hakları Saklıdır.
-                    </p>
-
                 </div>
                 <div class="row g-4">
 
