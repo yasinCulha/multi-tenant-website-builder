@@ -381,34 +381,41 @@ class AdminController extends Controller
 
     
     //TENANT SECTİON
-    public function showTenantSite($slug)
-    {
-        // Firmayı bul
-        $company = Company::where('slug', $slug)->firstOrFail();
+    public function showTenantSite($slug, ThemeManager $themeManager)
+{
+    // Firmayı bul
+    $company = Company::where('slug', $slug)->firstOrFail();
 
-        // Firmanın aktif teması
-        $theme = $company->theme;
-        
+    // Aktif tema
+    $theme = $company->theme;
 
-        if (!$theme) {
-            abort(404, 'Tema bulunamadı.');
-        }
-
-        // Tema ayarları
-        $themeSetting = CompanyThemeSetting::where(
-            'company_id',
-            $company->id
-        )->first();
-
-        $settings = $themeSetting?->settings ?? [];
-
-        // Blade yolu
-        $themePath = "{$theme->folder_path}.index";
-        return view($themePath, [
-            'company' => $company,
-            'settings' => $settings,
-        ]);
+    if (!$theme) {
+        abort(404, 'Tema bulunamadı.');
     }
+
+    // Firma ayarları
+    $themeSetting = CompanyThemeSetting::where(
+        'company_id',
+        $company->id
+    )->first();
+
+    // Default ayarlar
+    $defaultSettings = $themeManager->defaults($theme->folder_path);
+
+    // Veritabanındaki ayarlar
+    $companySettings = $themeSetting?->settings ?? [];
+
+    // Default + Firma ayarlarını birleştir
+    $settings = array_replace_recursive(
+        $defaultSettings,
+        $companySettings
+    );
+
+    return view("themes.{$theme->folder_path}.index", [
+        'company'  => $company,
+        'settings' => $settings,
+    ]);
+}
     public function companyDashboard()
     {
         // Giriş yapan kullanıcının firmasını çekiyoruz
