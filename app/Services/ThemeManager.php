@@ -56,6 +56,7 @@ class ThemeManager
     {
         $file = $this->themePath . "/{$slug}/default.json";
 
+
         if (!File::exists($file)) {
             return [];
         }
