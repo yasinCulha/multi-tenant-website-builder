@@ -70,7 +70,6 @@ class ThemeManager
     public function editor(string $slug)
     {
         $file = $this->themePath . "/{$slug}/editor.json";
-        dd(json_decode(File::get($file), true));
 
 
         if (!File::exists($file)) {
