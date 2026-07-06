@@ -1,0 +1,67 @@
+{
+  "hero": {
+    "title_prefix": "Geleceğin Teknolojisini",
+    "company_name": "Firma Adı",
+    "title_suffix": "İle İnşa Edin",
+    "description": "Bu varsayılan açıklamadır.",
+    "button_primary_text": "Teklif Al",
+    "button_secondary_text": "Daha Fazla Bilgi"
+  },
+  "general": {
+    "company_name": "Firma Adı",
+    "company_website": "/"
+  },
+  "navbar": {
+    "nav_home": "Anasayfa",
+    "nav_home_url": "#ana-sayfa",
+
+    "nav_about": "Hakkımızda",
+    "nav_about_url": "#hakkimizda",
+
+    "nav_services": "Hizmetler",
+    "nav_services_url": "#hizmetler",
+
+    "nav_contact": "İletişim",
+    "nav_contact_url": "#iletisim",
+
+    "cta_button_text": "Teklif Al",
+    "cta_button_url": "#iletisim"
+  },
+  "about": {
+    "badge_title": "Uçtan Uca Yönetim",
+    "badge_desc": "Deneyimli kadromuzla tüm dijital altyapı...",
+    "section_tag": "Biz Kimiz?",
+    "section_title": "Teknoloji Dünyasında...",
+    "text_p1": "firma adı olarak kurulduğumuz günden bu yana",
+    "text_p2": "müşterilerimizin dijital dönüşüm yolculuğunda yanlarında yer alıyoruz.",
+    "stat_1_value": "100+",
+    "stat_1_label": "Tamamlanan Proje",
+    "stat_2_label": "50+",
+    "stat_2_value": "Mutlu Kurumsal Müşteri"
+  },
+  "services": {
+    "section_title": "Neler Yapıyoruz?",
+    "section_subtitle": "htiyaçlarınıza özel uçtan uca...",
+    "item_1_title": "Özel Web Yazılımları",
+    "sitem_1_desc": "Yüksek performanslı, SEO...",
+    "item_2_title": "Yapay Zeka & Veri",
+    "item_2_desc": "Verilerinizi anlamlı rapor...",
+    "item_3_title": "Siber Güvenlik",
+    "item_3_desc": "Sistemlerinizin güvenliğini en ..."
+  },
+  "contact": {
+    "section_title": "Bizimle İletişime Geçin",
+    "section_subtitle": "ojeniz mi var? Formu doldurun..",
+    "form_name_label": "Adınız Soyadınız",
+    "form_email_label": "E-Posta Adresiniz",
+    "form_subject_label": "Mesaj Konusu",
+    "form_message_label": "Mesajınız",
+    "form_submit_button": "Talebi Gönder"
+  },
+  "footer": {
+    "social_title": " Sosyal Medya",
+    "contact_title": " İletişim",
+    "phone.{{ $index }}.type": "Telefonların Başlığı",
+    "copyright_text": "Copyright Metni"
+  }
+}
