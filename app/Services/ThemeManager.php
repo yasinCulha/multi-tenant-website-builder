@@ -11,7 +11,7 @@ class ThemeManager
 
     public function __construct()
     {
-        $this->themePath = resource_path('themes');
+        $this->themePath = resource_path('views/themes');
     }
 
     /**
