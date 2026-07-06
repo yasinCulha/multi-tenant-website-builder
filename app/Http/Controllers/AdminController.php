@@ -403,7 +403,7 @@ class AdminController extends Controller
         $settings = $themeSetting?->settings ?? [];
 
         // Blade yolu
-        $themePath = "themes.{$theme->folder_path}.index";
+        $themePath = "{$theme->folder_path}.index";
         return view($themePath, [
             'company' => $company,
             'settings' => $settings,
