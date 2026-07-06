@@ -479,8 +479,8 @@ class AdminController extends Controller
     dd(
         $theme,
     $theme->folder_path,
-    $themeManager->editor($theme->folder_path)
-    $theme->toArray()
+    $themeManager->editor($theme->folder_path),
+    $theme->toArray(),
 );
     return view('tenant.editor.index', [
         'company'  => $company,
