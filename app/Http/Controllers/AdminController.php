@@ -9,9 +9,60 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\CompanyThemeSetting;
+use App\Services\ThemeManager;
+use App\Services\ThemeEngine;
+use App\Services\ThemeRenderer;
 
 class AdminController extends Controller
 {
+    public function adminLoginForm()
+    {
+        // Eğer zaten giriş yapmış bir Süper Admin ise direkt Yönetim Merkezi'
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return redirect('/admin'); 
+        }
+        
+        return view('auth.admin_login');
+    }
+    // 2. Süper Admin Giriş İşlemini Yönet
+    public function adminLoginPost(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+       
+        if (Auth::attempt($credentials, $request->has('remember'))) 
+        {
+
+            
+            // KRİTİK KONTROL: Giriş yapan kişi Süper Admin DEĞİLSE hemen dışarı atıyoruz!
+            if (Auth::user()->role != 'admin') { 
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Bu gizli kapı yalnızca Süper Admin yetkililerine özeldir knk!'
+                ])->withInput();
+            }
+
+            // Kişi Süper Admin ise Yönetim Merkezine başarıyla ulaşıyor
+            $request->session()->regenerate();
+            return redirect()->route('admin.index'); 
+        }
+        return back()->withErrors([
+            'email' => 'E-posta veya şifre yanlış.'
+        ])->withInput();
+    }
+    public function adminLogout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/admin-login');
+    }
     // Admin panelinin ana sayfası
     public function index()
     {
@@ -25,6 +76,43 @@ class AdminController extends Controller
         return view('admin.index', compact('companies', 'themes'));
     }
 
+    // firma login ekranı 
+    public function companyLoginPost(Request $request)
+    {
+        // 1. Validasyon kontrolü
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'E-posta adresi zorunludur.',
+            'password.required' => 'Şifre alanı boş bırakılamaz.',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        // 2. Giriş denemesi
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            
+            // 3. SÜPER ADMIN KORUMASI: Giriş yapan kişi süper admin ise kovuyoruz knk
+            if (Auth::user()->role == 'admin') { 
+                Auth::logout(); // Oturumu hemen kapat
+                
+                return back()->withErrors([
+                    'email' => 'Geçersiz Giriş'
+                ])->withInput();
+            }
+
+            // 4. Kullanıcı süper admin değilse normal firmadır, paneline fırlat
+            $request->session()->regenerate();
+            return redirect()->intended('/company/dashboard'); // Firmanın ana paneli nereye çıkıyorsa
+        }
+
+        // Bilgiler tamamen hatalıysa
+        return back()->withErrors([
+            'email' => 'Girdiğiniz bilgiler sistemdeki hiçbir firma kullanıcısı ile eşleşmedi.',
+        ])->withInput();
+    }
+
     // Formdan gelen verilerle Yeni Firma ve Kullanıcı oluşturan fonksiyon
     public function storeCompany(Request $request)
     {
@@ -35,7 +123,44 @@ class AdminController extends Controller
         $company = Company::create([
             'name' => $request->company_name,
             'slug' => $slug,
-            'theme_id' => null
+            'theme_id' => null,
+            'settings' => [
+
+                'hero' => [
+
+                    'title' => 'Hoş Geldiniz',
+
+                    'subtitle' => 'Web sitenize hoş geldiniz.',
+
+                    'button' => 'Bize Ulaşın'
+
+                ],
+
+                'about' => [
+
+                    'title' => 'Hakkımızda',
+
+                    'text' => 'Hakkımızda yazınızı buraya ekleyebilirsiniz.'
+
+                ],
+
+                'footer' => [
+
+                    'text' => '© 2026 Tüm Hakları Saklıdır.'
+
+                ],
+
+                'colors' => [
+
+                    'primary' => '#10B981',
+
+                    'secondary' => '#1F2937',
+
+                    'background' => '#FFFFFF'
+
+                ]
+
+            ]
         ]);
         if($request->has('socials')) {
             foreach ($request->socials as $social) {
@@ -258,18 +383,33 @@ class AdminController extends Controller
     //TENANT SECTİON
     public function showTenantSite($slug)
     {
+        // Firmayı bul
         $company = Company::where('slug', $slug)->firstOrFail();
 
-        if($company->theme){
-            $themePath = $company->theme->folder_path;
-        } else {
-            $themePath = 'themes.corporate_blue';
+        // Firmanın aktif teması
+        $theme = $company->theme;
+        
+
+        if (!$theme) {
+            abort(404, 'Tema bulunamadı.');
         }
 
-        // Dinamik olarak o temanın blade dosyasını yüklüyor ve içine firma verilerini gönderiyoruz
-        return view($themePath, compact('company'));
+        // Tema ayarları
+        $themeSetting = CompanyThemeSetting::where(
+            'company_id',
+            $company->id
+        )->first();
+
+        $settings = $themeSetting?->settings ?? [];
+
+        // Blade yolu
+        $themePath = "themes.{$theme->folder_path}.index";
+        return view($themePath, [
+            'company' => $company,
+            'settings' => $settings,
+        ]);
     }
-    public function tenantDashboard()
+    public function companyDashboard()
     {
         // Giriş yapan kullanıcının firmasını çekiyoruz
         $company = auth()->user()->company;
@@ -286,18 +426,93 @@ class AdminController extends Controller
     }
 
     // Firma sahibinin formdan seçtiği temayı veri tabanına kaydeden fonksiyon
-    public function updateTheme(Request $request)
+    public function updateTheme(Request $request,ThemeEngine $themeEngine,ThemeManager $themeManager)
     {
         $company = auth()->user()->company;
 
-        if ($company) {
-            $company->update([
-                'theme_id' => $request->theme_id
-            ]);
+        if (!$company) {
+            return back()->with('error', 'Firma bulunamadı.');
         }
 
-        return redirect()->back()->with('success', 'Web sitenizin teması başarıyla güncellendi!');
+        $theme = Theme::findOrFail($request->theme_id);
+
+        $themeEngine->activateTheme(
+            $company,
+            $theme
+        );
+
+        return redirect()->back()
+            // ->route(
+            //     'company.theme.editor',
+            //     $theme->id
+            // )
+            ->with(
+                'success',
+                'Tema başarıyla seçildi.'
+            );
     }
+    public function themeEditor(Theme $theme, ThemeManager $themeManager)
+{
+    $company = auth()->user()->company;
+
+    if (!$company) {
+        return back()->with('error', 'Firma bulunamadı.');
+    }
+
+    $themeSetting = CompanyThemeSetting::where(
+        'company_id',
+        $company->id
+    )->first();
+
+    if (!$themeSetting) {
+        return back()->with('error', 'Tema ayarı bulunamadı.');
+    }
+
+    $defaultSettings = $themeManager->defaults($theme->folder_path);
+
+    $dbSettings = $themeSetting->settings ?? [];
+
+    $settings = array_replace_recursive(
+        $defaultSettings,
+        $dbSettings
+    );
+
+    return view('tenant.editor.index', [
+        'company'  => $company,
+        'theme'    => $theme,
+        'editor'   => $themeManager->editor($theme->folder_path),
+        'settings' => $settings,
+    ]);
+}
+   public function saveTheme(Request $request)
+{
+    $company = auth()->user()->company;
+
+    if (!$company) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Firma bulunamadı.'
+        ], 404);
+    }
+
+    $themeSetting = CompanyThemeSetting::where(
+        'company_id',
+        $company->id
+    )->firstOrFail();
+
+    // Gelen JSON verisini settings alanına yazıyoruz
+    $themeSetting->settings = $request->settings;
+    $themeSetting->save(); // Veritabanına kaydetmeyi aktif ettik knk
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Tema başarıyla kaydedildi knk.',
+        // Debug etmek istediğin verileri buraya koy ki JS konsolunda görebil:
+        'debug_data_type' => gettype($request->settings),
+        'debug_data' => $request->settings
+    ]);
+}
+    
     public function handleContactForm(Request $request, $slug)
     {
         // URL'deki slug ile veri tabanındaki firmayı eşleştiriyoruz
@@ -324,27 +539,36 @@ class AdminController extends Controller
             'message' => 'Mesajınız başarıyla gönderildi! Teşekkür ederiz.'
         ], 200);
     }
-    public function themePreview($themeId)
-    {
-        $theme = Theme::findOrFail($themeId);
-        $viewPath = str_replace('/', '.', $theme->folder_path);
+   public function themePreview($themeId)
+{
+    $theme = Theme::findOrFail($themeId);
 
-        if (!view()->exists($viewPath)) {
-            return "<code>resources/views/" . str_replace('.', '/', $viewPath) . ".blade.php</i> dosyası bulunamadı, adını kontrol et!";
-        }
+    $viewPath = 'themes.' . $theme->slug . '.index';
 
-        $company = Company::with(['socialMedias','phones'])->first(); 
 
-        if (!$company) {
-            // Eğer veritabanın tamamen boşsa, hata vermemesi için geçici nesne oluşturuyoruz
-            $company = new \stdClass();
-            $company->name = "Örnek Firma Adı (Ön İzleme)";
-            $company->slug = "ornek-firma";
-            $company->phones = collect([]);
-            $company->email = "info@ornekfirma.com";
-            $company->about = "Bu bir tema ön izleme alanıdır. Sistemde kayıtlı firma bulunduğunda buradaki veriler dinamik olarak değişecektir.";
-            $company->socialMedias=collect([]);
-        }
-        return view($viewPath, compact('theme','company'));
+    // View kontrolü
+    if (!view()->exists( $viewPath)) {
+        // Hata durumunda Laravel'in aradığı gerçek klasör yolunu gösterelim
+        $displayPath = 'resources/views/' . str_replace('.', '/',  $viewPath) . '.blade.php';
+        return "<code>" . $displayPath . "</code> dosyası bulunamadı, klasör veya dosya adını kontrol et!";
     }
+
+    $company = Company::with(['socialMedias','phones'])->first(); 
+
+    if (!$company) {
+        $company = new \stdClass();
+        $company->name = "Örnek Firma Adı (Ön İzleme)";
+        $company->slug = "ornek-firma";
+        $company->phones = collect([]);
+        $company->email = "info@ornekfirma.com";
+        $company->about = "Bu bir tema ön izleme alanıdır. Sistemde kayıtlı firma bulunduğunda buradaki veriler dinamik olarak değişecektir.";
+        $company->socialMedias = collect([]);
+    }
+    
+    $settings='';
+    // Doğru klasör rotasıyla view'ı döndürüyoruz
+    return view( $viewPath, compact('theme', 'company','settings'));
+}
+
+    
 }

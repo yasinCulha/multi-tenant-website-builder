@@ -1,0 +1,71 @@
+{
+  "hero": {
+    "badge_text": "Kurumsal Çözümler",
+    "title": "İşinizi Dijital Dünyada Güvenle Büyütün",
+    "company_name": "Firma Adı",
+    "title_suffix": "İle İnşa Edin",
+    "description": "Bu varsayılan açıklamadır.",
+    "button_primary_text": "Teklif Al",
+    "button_secondary_text": "Daha Fazla Bilgi",
+    "styles": {
+      "title_color": "#4169E1"
+    }
+  },
+  "general": {
+    "company_name": "Firma Adı",
+    "company_website": "/"
+  },
+  "navbar": {
+    "nav_home": "Anasayfa",
+    "nav_home_url": "#ana-sayfa",
+
+    "nav_about": "Hakkımızda",
+    "nav_about_url": "#hakkimizda",
+
+    "nav_services": "Hizmetler",
+    "nav_services_url": "#hizmetler",
+
+    "nav_contact": "İletişim",
+    "nav_contact_url": "#iletisim",
+
+    "cta_button_text": "Teklif Al",
+    "cta_button_url": "#iletisim"
+  },
+  "about": {
+    "section_title": "Teknoloji Dünyasında...",
+    "description": "firma adı olarak kurulduğumuz günden bu yana müşterilerimizin dijital dönüşüm yolculuğunda yanlarında yer alıyoruz. ",
+    "stat_1_value": "100+",
+    "stat_1_label": "Tamamlanan Proje",
+    "stat_2_label": "50+",
+    "stat_2_value": "Mutlu Kurumsal Müşteri",
+    "stat_3_label": "24/7",
+    "stat_3_value": "Aktif İzleme"
+  },
+  "services": {
+    "section_title": "Neden Bizimle Çalışmalısınız?",
+    "section_subtitle": "Sizler için en yüksek standartlarda kurumsal çözümler üretiyoruz.",
+    "item_1_title": "Yüksek Güvenlik",
+    "item_1_desc": "Verileriniz ve tüm dijital süreçleriniz uçtan uca modern güvenlik duvarları ile korunur.",
+    "item_2_title": "Tam Performans ",
+    "item_2_desc": "Gecikme olmadan, her talebe anında yanıt veren ultra hızlı entegrasyon çözümleri.",
+    "item_3_title": "7/24 Destek",
+    "item_3_desc": "İhtiyaç duyduğunuz her an uzman kadromuzla yanınızda yer alarak operasyonlarınızı destekliyoruz."
+  },
+  "contact": {
+    "section_title": "Bizimle İletişime Geçin",
+    "section_subtitle": "ojeniz mi var? Formu doldurun..",
+    "info_title":"İletişim Bilgileri",
+    "form_title":"Hızlı Mesaj Gönder",
+    "form_name_label": "Adınız Soyadınız",
+    "form_email_label": "E-Posta Adresiniz",
+    "form_subject_label": "Mesaj Konusu",
+    "form_message_label": "Mesajınız",
+    "form_submit_button": "Talebi Gönder"
+  },
+  "footer": {
+    "social_title": " Sosyal Medya",
+    "contact_title": " İletişim",
+    "phone.{{ $index }}.type": "Telefonların Başlığı",
+    "copyright_text": "Copyright Metni"
+  }
+}

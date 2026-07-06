@@ -30,4 +30,8 @@ class Company extends Model
         
         return $this->hasMany(CompanyPhone::class);
     }
+    public function themeSetting()
+    {  
+        return $this->hasOne(CompanyThemeSetting::class);
+    }
 }

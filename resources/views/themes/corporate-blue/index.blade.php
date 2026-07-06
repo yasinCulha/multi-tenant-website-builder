@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $company->name }} | Resmi Web Sitesi</title>
+    <title data-bind="meta.title">{{ data_get($settings, 'meta.title', $company->name . ' | Resmi Web Sitesi') }}</title>
     
     <!-- CSRF Token (Güvenli AJAX İstekleri İçin Meta Etiketi) -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -249,19 +249,35 @@
     <!-- ÜST MENÜ (NAVBAR) -->
     <nav class="navbar navbar-expand-lg kurumsal-navbar sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ data_get($settings, 'general.company_website', '#') }}" data-bind-href="general.company_website">
                 <i class="fa-solid fa-briefcase"></i>
-                <span>{{ $company->name }}</span>
+                <span data-bind="general.company_name">{{ data_get($settings, 'general.company_name', $company->name) }}</span>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa-solid fa-bars fs-4 text-dark"></i>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-2">
-                    <li class="nav-item"><a class="nav-link" href="#">Ana Sayfa</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#hizmetler">Hizmetlerimiz</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#hakkimizda">Hakkımızda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#iletisim">İletişim</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_home_url', '#') }}" data-bind-href="navbar.nav_home_url">
+                            <span data-bind="navbar.nav_home">{{ data_get($settings, 'navbar.nav_home', 'Ana Sayfa') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_services_url', '#hizmetler') }}" data-bind-href="navbar.nav_services_url">
+                            <span data-bind="navbar.nav_services">{{ data_get($settings, 'navbar.nav_services', 'Hizmetlerimiz') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_about_url', '#hakkimizda') }}" data-bind-href="navbar.nav_about_url">
+                            <span data-bind="navbar.nav_about">{{ data_get($settings, 'navbar.nav_about', 'Hakkımızda') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_contact_url', '#iletisim') }}" data-bind-href="navbar.nav_contact_url">
+                            <span data-bind="navbar.nav_contact">{{ data_get($settings, 'navbar.nav_contact', 'İletişim') }}</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -272,14 +288,23 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <span class="hero-badge"><i class="fa-solid fa-sparkles me-1"></i> Kurumsal Çözümler</span>
-                    <h1 class="hero-title">İşinizi Dijital Dünyada Güvenle Büyütün</h1>
-                    <p class="hero-desc">
-                        {{ $company->about }}
+                    <span class="hero-badge">
+                        <i class="fa-solid fa-sparkles me-1"></i>
+                        <span data-bind="hero.badge_text">{{ data_get($settings, 'hero.badge_text', 'Kurumsal Çözümler') }}</span>
+                    </span>
+                    <h1 class="hero-title" id="heroTitlePreview"  data-bind="hero.styles.title_color" data-bind-style="color"style="color:{{ data_get($settings,'hero.styles.title_color','#4169E1') }}">
+                        <span data-bind="hero.title">{{ data_get($settings, 'hero.title', 'İşinizi Dijital Dünyada Güvenle Büyütün') }}</span>
+                    </h1>
+                    <p class="hero-desc" id="heroDescriptionPreview">
+                        <span data-bind="hero.description">{{ data_get($settings, 'hero.description', 'Bu varsayılan açıklamadır.') }}</span>
                     </p>
                     <div class="d-flex gap-3">
-                        <a href="#iletisim" class="btn btn-kurumsal text-decoration-none shadow-sm">Hemen Başlayın</a>
-                        <a href="#hakkimizda" class="btn btn-kurumsal-outline text-decoration-none">Bizi Tanıyın</a>
+                        <a href="{{ data_get($settings, 'hero.button_primary_url', '#iletisim') }}" data-bind-href="hero.button_primary_url" class="btn btn-kurumsal text-decoration-none shadow-sm" id="heroButtonPreview">
+                            <span data-bind="hero.button_primary_text">{{ data_get($settings, 'hero.button_primary_text', 'Hemen Başlayın') }}</span>
+                        </a>
+                        <a href="{{ data_get($settings, 'hero.button_secondary_url', '#hakkimizda') }}" data-bind-href="hero.button_secondary_url" class="btn btn-kurumsal-outline text-decoration-none" id="aboutButtonPreview">
+                            <span data-bind="hero.button_secondary_text">{{ data_get($settings, 'hero.button_secondary_text', 'Bizi Tanıyın') }}</span>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-6 d-none d-lg-block text-end">
@@ -292,8 +317,12 @@
     <!-- HİZMETLER BÖLÜMÜ -->
     <section id="hizmetler" class="container section-padding">
         <div class="text-center mb-5">
-            <h2 class="section-title">Neden Bizimle Çalışmalısınız?</h2>
-            <p class="text-muted max-w-2xl mx-auto">Sizler için en yüksek standartlarda kurumsal solutions üretiyoruz.</p>
+            <h2 class="section-title">
+                <span data-bind="services.section_title">{{ data_get($settings, 'services.section_title', 'Neden Bizimle Çalışmalısınız?') }}</span>
+            </h2>
+            <p class="text-muted max-w-2xl mx-auto">
+                <span data-bind="services.section_subtitle">{{ data_get($settings, 'services.section_subtitle', 'Sizler için en yüksek standartlarda kurumsal çözümler üretiyoruz.') }}</span>
+            </p>
         </div>
 
         <div class="row g-4">
@@ -302,8 +331,12 @@
                     <div class="kart-ikon">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Yüksek Güvenlik</h5>
-                    <p class="text-muted small m-0">Verileriniz ve tüm dijital süreçleriniz uçtan uca modern güvenlik duvarları ile korunur.</p>
+                    <h5 class="fw-bold mb-3">
+                        <span data-bind="services.item_1_title">{{ data_get($settings, 'services.item_1_title', 'Yüksek Güvenlik') }}</span>
+                    </h5>
+                    <p class="text-muted small m-0">
+                        <span data-bind="services.item_1_desc">{{ data_get($settings, 'services.item_1_desc', 'Verileriniz ve tüm dijital süreçleriniz uçtan uca modern güvenlik duvarları ile korunur.') }}</span>
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -311,8 +344,12 @@
                     <div class="kart-ikon">
                         <i class="fa-solid fa-bolt"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">Tam Performans</h5>
-                    <p class="text-muted small m-0">Gecikme olmadan, her talebe anında yanıt veren ultra hızlı entegrasyon çözümleri.</p>
+                    <h5 class="fw-bold mb-3">
+                        <span data-bind="services.item_2_title">{{ data_get($settings, 'services.item_2_title', 'Tam Performans') }}</span>
+                    </h5>
+                    <p class="text-muted small m-0">
+                        <span data-bind="services.item_2_desc">{{ data_get($settings, 'services.item_2_desc', 'Gecikme olmadan, her talebe anında yanıt veren ultra hızlı entegrasyon çözümleri.') }}</span>
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -320,8 +357,12 @@
                     <div class="kart-ikon">
                         <i class="fa-solid fa-headset"></i>
                     </div>
-                    <h5 class="fw-bold mb-3">7/24 Destek</h5>
-                    <p class="text-muted small m-0">İhtiyaç duyduğunuz her an uzman kadromuzla yanınızda yer alarak operasyonlarınızı destekliyoruz.</p>
+                    <h5 class="fw-bold mb-3">
+                        <span data-bind="services.item_3_title">{{ data_get($settings, 'services.item_3_title', '7/24 Destek') }}</span>
+                    </h5>
+                    <p class="text-muted small m-0">
+                        <span data-bind="services.item_3_desc">{{ data_get($settings, 'services.item_3_desc', 'İhtiyaç duyduğunuz her an uzman kadromuzla yanınızda yer alarak operasyonlarınızı destekliyoruz.') }}</span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -332,27 +373,43 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <h2 class="section-title">Kurumsal Başarı Hikayemiz</h2>
+                    <h2 class="section-title">
+                        <span data-bind="about.section_title">{{ data_get($settings, 'about.section_title', 'Kurumsal Başarı Hikayemiz') }}</span>
+                    </h2>
                     <p class="text-muted mt-3 mb-4">
-                        {{ $company->about }}
+                        <span data-bind="about.description">
+                            {{ data_get($settings, 'about.description', $company->name . ' olarak kurulduğumuz günden bu yana müşterilerimizin dijital dönüşüm yolculuğunda yanlarında yer alıyoruz.') }}
+                        </span>
                     </p>
                     <div class="row g-4 border-top pt-4">
                         <div class="col-6 col-sm-4">
                             <div class="istatistik-kutusu">
-                                <div class="istatistik-sayi">500+</div>
-                                <div class="small text-muted fw-medium">Mutlu Müşteri</div>
+                                <div class="istatistik-sayi">
+                                    <span data-bind="about.stat_1_value">{{ data_get($settings, 'about.stat_1_value', '500+') }}</span>
+                                </div>
+                                <div class="small text-muted fw-medium">
+                                    <span data-bind="about.stat_1_label">{{ data_get($settings, 'about.stat_1_label', 'Mutlu Müşteri') }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-6 col-sm-4">
                             <div class="istatistik-kutusu">
-                                <div class="istatistik-sayi">12+</div>
-                                <div class="small text-muted fw-medium">Yıllık Tecrübe</div>
+                                <div class="istatistik-sayi">
+                                    <span data-bind="about.stat_2_value">{{ data_get($settings, 'about.stat_2_value', '12+') }}</span>
+                                </div>
+                                <div class="small text-muted fw-medium">
+                                    <span data-bind="about.stat_2_label">{{ data_get($settings, 'about.stat_2_label', 'Yıllık Tecrübe') }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-6 col-sm-4">
                             <div class="istatistik-kutusu">
-                                <div class="istatistik-sayi">24/7</div>
-                                <div class="small text-muted fw-medium">Aktif İzleme</div>
+                                <div class="istatistik-sayi">
+                                    <span data-bind="about.stat_3_value">{{ data_get($settings, 'about.stat_3_value', '24/7') }}</span>
+                                </div>
+                                <div class="small text-muted fw-medium">
+                                    <span data-bind="about.stat_3_label">{{ data_get($settings, 'about.stat_3_label', 'Aktif İzleme') }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -368,15 +425,21 @@
     <section id="iletisim" class="iletisim-section section-padding">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Bizimle İletişime Geçin</h2>
-                <p class="text-muted">Sorularınız veya iş birliği talepleriniz için formu doldurabilir veya doğrudan bize ulaşabilirsiniz.</p>
+                <h2 class="section-title">
+                    <span data-bind="contact.section_title">{{ data_get($settings, 'contact.section_title', 'Bizimle İletişime Geçin') }}</span>
+                </h2>
+                <p class="text-muted">
+                    <span data-bind="contact.section_subtitle">{{ data_get($settings, 'contact.section_subtitle', 'Sorularınız veya iş birliği talepleriniz için formu doldurabilir veya doğrudan bize ulaşabilirsiniz.') }}</span>
+                </p>
             </div>
 
             <div class="row g-5">
                 <!-- İletişim Bilgileri (Sol Sütun) -->
                 <div class="col-lg-5">
                     <div class="kurumsal-kart h-100">
-                        <h4 class="fw-bold text-dark mb-4">İletişim Bilgileri</h4>
+                        <h4 class="fw-bold text-dark mb-4">
+                            <span data-bind="contact.info_title">{{ data_get($settings, 'contact.info_title', 'İletişim Bilgileri') }}</span>
+                        </h4>
                         
                         <div class="iletisim-bilgi-satiri">
                             <div class="iletisim-ikon-yuvarlagi">
@@ -384,7 +447,7 @@
                             </div>
                             <div>
                                 <div class="small text-muted fw-medium">Şirket Adı</div>
-                                <div class="fw-bold text-dark">{{ $company->name }}</div>
+                                <div class="fw-bold text-dark" data-bind="general.company_name">{{ data_get($settings, 'general.company_name', $company->name) }}</div>
                             </div>
                         </div>
 
@@ -394,7 +457,7 @@
                             </div>
                             <div>
                                 <div class="small text-muted fw-medium">Telefon Numarası</div>
-                                <div class="fw-bold text-dark">{{ $company->phone }}</div>
+                                <div class="fw-bold text-dark" data-bind="general.company_phone">{{ data_get($settings, 'general.company_phone', $company->phone) }}</div>
                             </div>
                         </div>
 
@@ -404,7 +467,7 @@
                             </div>
                             <div>
                                 <div class="small text-muted fw-medium">E-posta Adresi</div>
-                                <div class="fw-bold text-dark">{{ $company->email }}</div>
+                                <div class="fw-bold text-dark" data-bind="general.company_email">{{ data_get($settings, 'general.company_email', $company->email) }}</div>
                             </div>
                         </div>
                     </div>
@@ -413,30 +476,41 @@
                 <!-- Hızlı Mesaj Formu (Sağ Sütun) -->
                 <div class="col-lg-7">
                     <div class="kurumsal-kart">
-                        <h4 class="fw-bold text-dark mb-4">Hızlı Mesaj Gönder</h4>
+                        <h4 class="fw-bold text-dark mb-4">
+                            <span data-bind="contact.form_title">{{ data_get($settings, 'contact.form_title', 'Hızlı Mesaj Gönder') }}</span>
+                        </h4>
                         
-                        <!-- Form asenkron post rotasına bağlanmıştır knk -->
                         <form id="canliIletisimFormu" action="/site/{{ $company->slug }}/contact" method="POST" onsubmit="canliFormuGonder(event)">
                             @csrf
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label small text-muted fw-medium">Adınız Soyadınız</label>
+                                    <label class="form-label small text-muted fw-medium">
+                                        <span data-bind="contact.form_name_label">{{ data_get($settings, 'contact.form_name_label', 'Adınız Soyadınız') }}</span>
+                                    </label>
                                     <input type="text" name="name" id="cName" class="form-control form-control-kurumsal" placeholder="Örn: Ahmet Yılmaz">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label small text-muted fw-medium">E-posta Adresiniz</label>
-                                    <input type="email" name="email" id="cEmail" class="form-control form-control-kurumsal" placeholder="name@company.com">
+                                    <label class="form-label small text-muted fw-medium">
+                                        <span data-bind="contact.form_email_label">{{ data_get($settings, 'contact.form_email_label', 'E-posta Adresiniz') }}</span>
+                                    </label>
+                                    <input type="type" name="email" id="cEmail" class="form-control form-control-kurumsal" placeholder="name@company.com">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label small text-muted fw-medium">Konu</label>
+                                    <label class="form-label small text-muted fw-medium">
+                                        <span data-bind="contact.form_subject_label">{{ data_get($settings, 'contact.form_subject_label', 'Konu') }}</span>
+                                    </label>
                                     <input type="text" name="subject" id="cSubject" class="form-control form-control-kurumsal" placeholder="Mesajınızın konusu nedir?">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label small text-muted fw-medium">Mesajınız</label>
+                                    <label class="form-label small text-muted fw-medium">
+                                        <span data-bind="contact.form_message_label">{{ data_get($settings, 'contact.form_message_label', 'Mesajınız') }}</span>
+                                    </label>
                                     <textarea name="message" id="cMessage" class="form-control form-control-kurumsal" rows="4" placeholder="Mesajınızı buraya yazın..."></textarea>
                                 </div>
                                 <div class="col-12 text-end mt-4">
-                                    <button type="submit" class="btn btn-kurumsal">Mesajı İlet</button>
+                                    <button type="submit" class="btn btn-kurumsal">
+                                        <span data-bind="contact.form_submit_button">{{ data_get($settings, 'contact.form_submit_button', 'Mesajı İlet') }}</span>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -452,10 +526,12 @@
             {{-- Üst Kısım: Firma Adı --}}
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    <h5 class="text-white fw-bold mb-2 tracking-wide text-uppercase" style="letter-spacing: 1px;">
-                        {{ $company->name }}
+                    <h5 class="text-white fw-bold mb-2 tracking-wide text-uppercase" style="letter-spacing: 1px;" data-bind="general.company_name">
+                        {{ var_export(data_get($settings, 'general.company_name', $company->name), true) ? data_get($settings, 'general.company_name', $company->name) : $company->name }}
                     </h5>
-                    <p class="m-0 text-gray">© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
+                    <p class="m-0 text-gray">
+                        <span data-bind="footer.copyright_text">{{ data_get($settings, 'footer.copyright_text', '© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.') }}</span>
+                    </p>
                     <div class="mx-auto bg-primary" style="width: 50px; height: 3px; border-radius: 2px;"></div>
                 </div>
             </div>
@@ -466,18 +542,28 @@
                 {{-- SOSYAL MEDYA SÜTUNU --}}
                 @if($company->socialMedias && $company->socialMedias->isNotEmpty())
                     <div class="col-md-5 text-center text-md-end border-end-md border-secondary pe-md-4">
-                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;">Sosyal Medya Hesaplarımız</span>
+                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;" data-bind="footer.social_title">
+                            {{ data_get($settings, 'footer.social_title', 'Sosyal Medya Hesaplarımız') }}
+                        </span>
                         <div class="d-flex gap-2 justify-content-center justify-content-md-end flex-wrap">
-                            @foreach($company->socialMedias as $social)
-                                @if($social->platform == 'instagram')
-                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="Instagram"><i class="fa-brands fa-instagram fs-5"></i></a>
-                                @elseif($social->platform == 'twitter' || $social->platform == 'x')
-                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="X / Twitter"><i class="fa-brands fa-x fs-5"></i></a>
-                                @elseif($social->platform == 'linkedin')
-                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="LinkedIn"><i class="fa-brands fa-linkedin-in fs-5"></i></a>
-                                @elseif($social->platform == 'youtube')
-                                    <a href="{{ $social->url }}" target="_blank" class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" title="YouTube"><i class="fa-brands fa-youtube fs-5"></i></a>
-                                @endif
+                            @foreach($company->socialMedias as $index => $social)
+                                <a href="{{ data_get($settings, "footer.social_media.$index.url", $social->url) }}" 
+                                   data-bind="footer.social_media.{{ $index }}.url"
+                                   data-bind-attr="href"
+                                   target="_blank" 
+                                   class="btn btn-outline-light btn-sm rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                   style="width: 38px; height: 38px;">
+                                   
+                                    @if($social->platform == 'instagram')
+                                        <i class="fa-brands fa-instagram fs-5"></i>
+                                    @elseif($social->platform == 'twitter' || $social->platform == 'x')
+                                        <i class="fa-brands fa-x fs-5"></i>
+                                    @elseif($social->platform == 'linkedin')
+                                        <i class="fa-brands fa-linkedin-in fs-5"></i>
+                                    @elseif($social->platform == 'youtube')
+                                        <i class="fa-brands fa-youtube fs-5"></i>
+                                    @endif
+                                </a>
                             @endforeach
                         </div>
                     </div>
@@ -486,28 +572,46 @@
                 {{-- İLETİŞİM NUMARALARI SÜTUNU --}}
                 @if($company->phones && $company->phones->isNotEmpty())
                     <div class="col-md-5 text-center text-md-start ps-md-4">
-                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;">İletişim Numaralarımız</span>
+                        <span class="text-muted d-block small text-uppercase fw-bold mb-3" style="letter-spacing: 0.5px;" data-bind="footer.contact_title">
+                            {{ data_get($settings, 'footer.contact_title', 'İletişim Numaralarımız') }}
+                        </span>
                         <div class="d-flex flex-column gap-2 align-items-center align-items-md-start">
-                            @foreach($company->phones as $phone)
+                            @foreach($company->phones as $index => $phone)
                                 @if($phone->type == 'cep')
-                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover m-0">
                                         <i class="fa-solid fa-mobile-screen-button text-primary"></i> 
-                                        <span><strong>Cep:</strong> {{ $phone->number }}</span>
+                                        <span>
+                                            <strong data-bind="footer.phone.{{ $index }}.type">{{ data_get($settings, "footer.phone.$index.type", 'Cep') }}:</strong> 
+                                            <span data-bind="footer.phone.{{ $index }}.number">{{ data_get($settings, "footer.phone.$index.number", $phone->number) }}</span>
+                                        </span>
                                     </p>
                                 @elseif($phone->type == 'sabit')
-                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover m-0">
                                         <i class="fa-solid fa-phone text-primary"></i> 
-                                        <span><strong>Sabit Hat:</strong> {{ $phone->number }}</span>
+                                        <span>
+                                            <strong data-bind="footer.phone.{{ $index }}.type">{{ data_get($settings, "footer.phone.$index.type", 'Sabit Hat') }}:</strong> 
+                                            <span data-bind="footer.phone.{{ $index }}.number">{{ data_get($settings, "footer.phone.$index.number", $phone->number) }}</span>
+                                        </span>
                                     </p>
                                 @elseif($phone->type == 'whatsapp')
-                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone->number) }}" target="_blank" class="text-light text-decoration-none d-flex align-items-center gap-2 link-success-hover">
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', data_get($settings, "footer.phone.$index.number", $phone->number)) }}" 
+                                       data-bind="footer.phone.{{ $index }}.number"
+                                       data-bind-attr="href"
+                                       target="_blank" 
+                                       class="text-light text-decoration-none d-flex align-items-center gap-2 link-success-hover">
                                         <i class="fa-brands fa-whatsapp text-success fs-5"></i> 
-                                        <span><strong>WhatsApp:</strong> {{ $phone->number }}</span>
+                                        <span>
+                                            <strong data-bind="footer.phone.{{ $index }}.type">{{ data_get($settings, "footer.phone.$index.type", 'WhatsApp') }}:</strong> 
+                                            <span>{{ data_get($settings, "footer.phone.$index.number", $phone->number) }}</span>
+                                        </span>
                                     </a>
                                 @elseif($phone->type == 'destek')
-                                    <p href="tel:{{ $phone->number }}" class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover">
+                                    <p class="text-light text-decoration-none d-flex align-items-center gap-2 link-primary-hover m-0">
                                         <i class="fa-solid fa-headset text-primary"></i> 
-                                        <span><strong>Destek:</strong> {{ $phone->number }}</span>
+                                        <span>
+                                            <strong data-bind="footer.phone.{{ $index }}.type">{{ data_get($settings, "footer.phone.$index.type", 'Destek') }}:</strong> 
+                                            <span data-bind="footer.phone.{{ $index }}.number">{{ data_get($settings, "footer.phone.$index.number", $phone->number) }}</span>
+                                        </span>
                                     </p>
                                 @endif
                             @endforeach
@@ -522,13 +626,14 @@
             {{-- Alt Kısım: Copyright --}}
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="m-0 text-muted small">&copy; 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.</p>
+                    <p class="m-0 text-muted small">
+                        <span data-bind="footer.copyright_subtext">{{ data_get($settings, 'footer.copyright_subtext', '© 2026 Tüm Hakları Saklıdır. Güvenli Kurumsal Altyapı Çözümleri.') }}</span>
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
 
-    {{-- Footer İçin Küçük CSS Dokunuşları (İstersen CSS dosyana ekleyebilirsin) --}}
     <style>
         .kurumsal-footer a {
             transition: all 0.3s ease;
@@ -559,12 +664,11 @@
     <!-- FETCH API İLE SAYFA YENİLEMEDEN VALIDASYONLU GÖNDERİM SCRIPT'I -->
     <script>
     function canliFormuGonder(event) {
-        event.preventDefault(); // Sayfanın kırpışıp yenilenmesini engelliyoruz knk
+        event.preventDefault(); 
 
         const form = document.getElementById('canliIletisimFormu');
         const postUrl = form.getAttribute('action'); 
 
-        // Input verilerini JSON gövdesi olarak paketliyoruz
         const formData = {
             name: document.getElementById('cName').value,
             email: document.getElementById('cEmail').value,
@@ -578,40 +682,36 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json', // Laravel'in hata durumunda HTML yerine JSON basması için şarttır
+                'Accept': 'application/json', 
                 'X-CSRF-TOKEN': token
             },
             body: JSON.stringify(formData)
         })
         .then(response => {
             if (!response.ok) {
-                // Eğer Laravel 422 Validasyon hatası verdiyse hata nesnesini aşağıya fırlatıyoruz
                 return response.json().then(err => { throw err; });
             }
             return response.json();
         })
         .then(data => {
-            // Her şey kurallara uygunsa fırlayacak başarı kutusu
             Swal.fire({
                 icon: 'success',
                 title: 'Başarılı!',
                 text: data.message, 
                 confirmButtonColor: '#0f52ba'
             });
-            form.reset(); // İşlem başarılıysa form içini temizler
+            form.reset(); 
         })
         .catch(error => {
             console.error(error);
             
             let hataListesi = '';
-            // Laravel'den gelen senin o Türkçe özel validasyon hatalarını ayıklayıp alt alta birleştiriyoruz
             if (error.errors) {
                 hataListesi = Object.values(error.errors).flat().join('<br>');
             } else {
                 hataListesi = error.message || 'Sistemsel bir bağlantı hatası oluştu knk.';
             }
 
-            // Hata mesajlarını şık bir SweetAlert kutusunda listeliyoruz
             Swal.fire({
                 icon: 'error',
                 title: 'Eksik veya Hatalı Giriş!',

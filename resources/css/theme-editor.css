@@ -1,0 +1,649 @@
+body {
+    margin: 0;
+    background: #0f172a;
+    font-family: Inter, sans-serif;
+}
+
+.editor-navbar {
+    height: 75px;
+    background: #1e293b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    border-bottom: 1px solid #334155;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.editor-left {
+    width: 250px;
+}
+
+.editor-center {
+    text-align: center;
+    color: white;
+}
+
+.editor-center h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.editor-center small {
+    color: #94a3b8;
+}
+
+.editor-right {
+    width: 250px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+/* Temalara Dön */
+.btn-back {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    color: #10b981;
+}
+
+/* Kaydet Buton */
+.btn-save {
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-save:hover {
+    background: #059669;
+}
+
+/* Siteyi Görüntüle */
+.btn-preview {
+    background: #334155;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-preview:hover {
+    background: #475569;
+}
+
+/* Sidebar */
+/* .editor-content {
+
+    flex: 1;
+
+    display: flex;
+
+    gap: 25px;
+
+    padding: 25px;
+
+    background: #0F172A;
+
+} */
+
+.editor-sidebar {
+    width: 100%;
+    background: #1E293B;
+    border-right: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.sidebar-title {
+    padding: 25px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-title i {
+    color: #10B981;
+}
+
+.sidebar-menu {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+/* Menü Butonları */
+.menu-item {
+    background: transparent;
+    border: none;
+    color: #CBD5E1;
+    padding: 16px 18px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: .25s;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.menu-item i {
+    width: 22px;
+    font-size: 18px;
+}
+
+.menu-item:hover {
+    background: #334155;
+    color: white;
+    transform: translateX(5px);
+}
+
+.editor-panel {
+
+    display: none;
+
+}
+
+.editor-panel.active-panel {
+
+    display: block;
+
+}
+
+.menu-item.active {
+    background: #10B981;
+    color: white;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, .25);
+}
+
+.sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+}
+
+/* İçerik Kısmı */
+.editor-container {
+    display: grid;
+    grid-template-columns: 300px 420px minmax(520px, 1fr);
+    height: calc(100vh - 75px);
+    min-height: 0;
+    background: #0F172A;
+}
+
+.editor-content {
+    grid-column: 2 / 4;
+    display: grid;
+    grid-template-columns: 420px minmax(520px, 1fr);
+    min-width: 0;
+    min-height: 0;
+}
+
+.preview-card {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    min-height: 0;
+
+    height: 100%;
+
+    background: #1E293B;
+
+    border-radius: 0;
+
+    overflow: hidden;
+
+    border: none;
+
+    border-left: 1px solid #334155;
+
+}
+/* .browser-frame{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    transition:.35s;
+
+} */
+
+.browser-frame.desktop{
+
+    max-width:100%;
+
+}
+
+.browser-frame.tablet{
+
+    max-width:768px;
+
+}
+
+.browser-frame.mobile{
+
+    max-width:390px;
+
+}
+
+.preview-header {
+    height: 70px;
+    background: #162033;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid #334155;
+    flex-shrink: 0;
+
+}
+
+/* Device Butonları */
+.preview-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.preview-title {
+    color: #F8FAFC;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.preview-title i {
+    color: #10B981;
+}
+
+.device-btn {
+    background: #334155;
+    border: none;
+    color: #CBD5E1;
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.device-btn:hover {
+    background: #475569;
+}
+
+.device-btn.active {
+    background: #10B981;
+    color: white;
+}
+
+/* Siteyi Aç */
+.btn-open-site {
+    background: #10B981;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.btn-open-site:hover {
+    background: #059669;
+}
+
+/* Browser */
+.browser-frame {
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    min-height: 0;
+
+}
+
+.browser-top {
+    height: 50px;
+    background: #1E293B;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 12px 12px 0 0;
+    padding: 0 20px;
+    border: 1px solid #334155;
+    border-bottom: none;
+    flex-shrink: 0;
+}
+
+.browser-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.red {
+    background: #EF4444;
+}
+
+.yellow {
+    background: #F59E0B;
+}
+
+.green {
+    background: #22C55E;
+}
+
+.browser-url {
+    flex: 1;
+    background: #334155;
+    color: #CBD5E1;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+/* iframe */
+#previewFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    flex: 1;
+    border: none;
+
+}
+
+/* Settings Panel */
+.settings-panel {
+
+    width: 100%;
+
+    flex-direction: column;
+
+    height: 100%;
+
+    background: #1E293B;
+
+    border-radius: 8px;
+
+    border: 1px solid #334155;
+
+    min-height: 0;
+
+}
+
+.settings-header {
+    padding: 25px;
+    border-bottom: 1px solid #334155;
+}
+
+.settings-header h4 {
+    color: white;
+    margin: 0;
+
+}
+
+.settings-header p {
+    color: #94A3B8;
+    margin-top: 8px;
+}
+
+.settings-body {
+    padding: 25px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Form */
+.form-label {
+    color: white;
+}
+
+.form-control {
+    background: #0F172A;
+    border: 1px solid #334155;
+    color: white;
+
+}
+
+.form-control:focus {
+    background: #0F172A;
+    color: white;
+    border-color: #10B981;
+    box-shadow: none;
+}
+
+.panel-container{
+
+    min-width:0;
+
+    min-height:0;
+
+    height:100%;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    padding:24px;
+
+    border-right:1px solid #334155;
+
+}
+
+.editor-group {
+
+    background: #1f2937;
+
+    border: 1px solid rgba(255, 255, 255, .06);
+
+    border-radius: 14px;
+
+    margin-bottom: 24px;
+
+    overflow: hidden;
+
+}
+
+/* .editor-panel-container {
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+} */
+
+.editor-group-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+
+    background: #243042;
+
+}
+
+.editor-group-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 10px;
+
+    background: #10b981;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #fff;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+
+}
+
+.editor-group-title {
+
+    color: #fff;
+
+    margin: 0;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+.editor-group-description {
+
+    margin-top: 4px;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-bottom: 0;
+
+}
+
+.editor-group-body {
+
+    padding: 22px;
+
+}
+
+.panel-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.panel-container::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+.panel-container::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 20px;
+}
+
+.panel-container::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+@media (max-width: 1200px) {
+    .editor-container {
+        grid-template-columns: 260px 360px minmax(420px, 1fr);
+    }
+
+    .editor-content {
+        grid-template-columns: 360px minmax(420px, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .editor-container {
+        grid-template-columns: 220px minmax(320px, 1fr);
+        grid-template-rows: minmax(360px, 46%) minmax(420px, 54%);
+    }
+
+    .editor-sidebar {
+        grid-row: 1 / 3;
+    }
+
+    .preview-card {
+        grid-column: 2;
+    }
+
+    .editor-content {
+        grid-column: 2;
+        grid-template-columns: minmax(320px, 1fr);
+        grid-template-rows: minmax(360px, 46%) minmax(420px, 54%);
+    }
+}
+
+@media (max-width: 768px) {
+    .editor-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 75px);
+    }
+
+    .editor-sidebar {
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid #334155;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .menu-item {
+        flex: 0 0 auto;
+    }
+
+    .panel-container {
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 10px;
+        min-height: 420px;
+        border-right: none;
+        border-bottom: 1px solid #334155;
+    }
+
+    .preview-card {
+        min-height: 620px;
+    }
+}

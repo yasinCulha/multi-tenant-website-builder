@@ -24,15 +24,38 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        // 1. Validasyon kontrolü
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'E-posta adresi zorunludur.',
+            'password.required' => 'Şifre alanı boş bırakılamaz.',
+        ]);
 
-        $request->session()->regenerate();
+        $credentials = $request->only('email', 'password');
 
-        if (auth()->user()->role === 'admin') {
-            return redirect('/admin');
-        } else {
-            return redirect('/tenant/dashboard');
+        // 2. Giriş denemesi
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            
+            // 3. SÜPER ADMIN KORUMASI: Giriş yapan kişi süper admin ise kovuyoruz knk
+            if (Auth::user()->role == 'admin') { 
+                Auth::logout(); // Oturumu hemen kapat
+                
+                return back()->withErrors([
+                    'email' => 'Geçersiz Giriş'
+                ])->withInput();
+            }
+
+            // 4. Kullanıcı süper admin değilse normal firmadır, paneline fırlat
+            $request->session()->regenerate();
+            return redirect()->intended('/company/dashboard'); // Firmanın ana paneli nereye çıkıyorsa
         }
+
+        // Bilgiler tamamen hatalıysa
+        return back()->withErrors([
+            'email' => 'Girdiğiniz bilgiler sistemdeki hiçbir firma kullanıcısı ile eşleşmedi.',
+        ])->withInput();
     }
 
     /**

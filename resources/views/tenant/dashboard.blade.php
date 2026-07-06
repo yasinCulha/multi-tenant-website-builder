@@ -205,112 +205,152 @@
             </div>
         @endif
 
-        <div class="row mb-4 justify-content-end">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-dark border-secondary text-light" onkeyup="filterThemes()" placeholder="Tema modelini ara...">
-                    <button class="btn btn-secondary px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="row mb-4" id="temaListesiGrid">
+
+            @php
+                $aktif_tema = $themes->first(fn($t) => $company->theme_id == $t->id);
+            @endphp
+
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="fw-bold text-white mb-3">Seçili Temanız</h2>
+                    @if($aktif_tema)
+                        <div class="card p-3 shadow border-success" style="background:#1e293b; max-width:500px;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-success mb-2">
+                                        <i class="fa-solid fa-circle-check me-1"></i> Aktif Tema
+                                    </span>
+                                    <h4 class="text-white mb-0">{{ $aktif_tema->name }}</h4>
+                                </div>
+                                <a href="{{ route('company.theme.editor', ['theme' => $aktif_tema->id]) }}"target="_blank" class="btn btn-success">
+                                    <i class="fa-solid fa-pen-to-square me-1"></i> Düzenle
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="alert alert-warning d-inline-block" style="min-width: 300px;">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i> Tema seçilmedi.
+                        </div>
+                    @endif
                 </div>
             </div>
-        </div>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="temaListesiGrid">
-            
-            @foreach($themes as $tekil_tema_verisi)
-                
-                @php
-                    $bu_tema_aktif_mi = ($company->theme_id == $tekil_tema_verisi->id);
-                @endphp
+            <hr class="border-secondary mb-4">
 
-                <!-- w-100 ve h-100 dengesiyle kartların enini tam genişliğe yayıyoruz -->
-                <div class="col tekil-tema-kart-blok d-flex align-items-stretch">
-                    <div class="card w-100 shadow-sm border-light rounded-3 overflow-hidden {{ $bu_tema_aktif_mi ? 'secili-aktif-tema-karti' : '' }}" style="background-color: #111827;">
-                        
-                        <!-- Kartın Resim Yapısı -->
-                        <div class="kart-resim-alani w-100">
+            <div class="row align-items-center mb-4">
+                <div class="col-md-6">
+                    <h2 class="fw-bold text-white mb-0">Tema Listesi</h2>
+                </div>
+                <div class="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
+                    <div style="width:350px; max-width: 100%;">
+                        <div class="input-group">
+                            <input type="text" 
+                                id="temaAramaInput" 
+                                class="form-control" 
+                                placeholder="Tema modeli ara..." 
+                                oninput="filterThemes()">
+                            <button class="btn btn-outline-light">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                @foreach($themes as $tekil_tema_verisi)
+                    @php
+                        $bu_tema_aktif_mi = ($company->theme_id == $tekil_tema_verisi->id);
+                    @endphp
+
+                    <div class="col d-flex align-items-stretch">
+                        <div class="card w-100 shadow-sm border-light rounded-3 overflow-hidden {{ $bu_tema_aktif_mi ? 'secili-aktif-tema-karti border-success border-2' : '' }}" style="background-color: #111827;">
                             
-                            @if($tekil_tema_verisi->folder_path == 'themes.corporate_blue')
-                                <div class="yapay-grafik-arkasi mavi-gradyan">Kurumsal Mavi</div>
-                            @elseif($tekil_tema_verisi->folder_path == 'themes.modern_dark')
-                                <div class="yapay-grafik-arkasi siyah-gradyan">Modern Karanlık</div>
-                            @else
-                                <div class="yapay-grafik-arkasi mor-gradyan">{{ $tekil_tema_verisi->name }}</div>
-                            @endif
+                            <div class="kart-resim-alani w-100 position-relative">
+                                <div class="yapay-grafik-arkasi {{ $tekil_tema_verisi->slug }} text-center text-white py-5 fw-bold">
+                                    {{ $tekil_tema_verisi->name }}
+                                </div>
 
-                            <!-- HOVER OVERLAY -->
-                            <div class="kart-hover-katmani">
-                                <a href="{{ route('theme.preview', ['themeId' => $tekil_tema_verisi->id]) }}" target="_blank" class="btn btn-light btn-sm w-75 fw-semibold py-2">
-                                    <i class="fa-solid fa-eye me-1"></i> Ön İzleme
-                                </a>
+                                <div class="kart-hover-katmani">
+                                    @if($bu_tema_aktif_mi)
+                                        {{-- Aktif tema ise Düzenle Butonu --}}
+                                        <a href="{{ route('company.theme.editor', ['theme' => $tekil_tema_verisi->id]) }}" target="_blank" class="btn btn-success btn-sm w-75 fw-semibold py-2">
+                                            <i class="fa-solid fa-pen-to-square me-1"></i> Temayı Düzenle
+                                        </a>
+                                    @else
+                                        {{-- Aktif değilse Temayı Seç Formu --}}
+                                        <a href="{{ route('theme.preview', ['themeId' => $tekil_tema_verisi->id]) }}" target="_blank" class="btn btn-light btn-sm w-75 fw-semibold py-2 mb-2">
+                                            <i class="fa-solid fa-eye me-1"></i> Ön İzleme
+                                        </a>
+                                        <form action="{{ route('company.theme.update') }}" method="POST" class="w-75"">
+                                            @csrf
+                                            <input type="hidden" name="theme_id" value="{{ $tekil_tema_verisi->id }}">
+                                            <button type="submit" class="btn btn-primary btn-sm w-100 fw-semibold py-2" style="background:#6366f1; border:none;">
+                                                <i class="fa-solid fa-check me-1"></i> Temayı Seç
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="card-body d-flex justify-content-between align-items-center py-3 bg-white">
+                                <h6 class="card-title fw-bold m-0 text-dark text-truncate" style="max-width: 65%;">
+                                    {{ $tekil_tema_verisi->name }}
+                                </h6>
                                 
-                                @if(!$bu_tema_aktif_mi)
-                                    <form action="/tenant/theme/update" method="POST" class="w-75">
-                                        @csrf
-                                        <input type="hidden" name="theme_id" value="{{ $tekil_tema_verisi->id }}">
-                                        <button type="submit" class="btn btn-primary btn-sm w-100 fw-semibold py-2" style="background-color: #6366f1; border: none;">
-                                            <i class="fa-solid fa-check-double me-1"></i> Seç / Düzenle
-                                        </button>
-                                    </form>
+                                @if($bu_tema_aktif_mi)
+                                    <span class="badge text-success bg-success-subtle px-3 py-1 rounded-pill fw-bold">
+                                        <i class="fa-solid fa-check me-1"></i> Aktif
+                                    </span>
+                                @else
+                                    <span class="badge text-secondary bg-light px-3 py-1 rounded-pill fw-medium">
+                                        Tasarım
+                                    </span>
                                 @endif
                             </div>
 
                         </div>
-
-                        <!-- Kartın Alt Bilgi Alanı -->
-                        <div class="card-body d-flex justify-content-between align-items-center py-3 bg-white">
-                            <!-- Metin rengini koyu yaptık ki beyaz altta okunsun -->
-                            <h6 class="card-title fw-bold m-0 text-dark text-truncate" style="max-width: 65%;">
-                                {{ $tekil_tema_verisi->name }}
-                            </h6>
-                            
-                            @if($bu_tema_aktif_mi)
-                                <span class="badge text-success bg-success-subtle px-3 py-1 rounded-pill fw-bold">
-                                    <i class="fa-solid fa-check me-1"></i> Aktif
-                                </span>
-                            @else
-                                <span class="badge text-secondary bg-light px-3 py-1 rounded-pill fw-medium">
-                                    Tasarım
-                                </span>
-                            @endif
-                        </div>
-
                     </div>
-                </div>
-            @endforeach
-
+                @endforeach
+            </div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function filterThemes() {
-            // 1. Input elemanını tag (input) üzerinden yakalayıp değerini küçük harfe çeviriyoruz
-            const aramaMetni = document.querySelector('input[type="text"]').value.toLowerCase();
-            
-            // 2. Sayfadaki tüm tema kart bloklarını tek tek seçiyoruz
-            const temaKartlari = document.querySelectorAll('.tekil-tema-kart-blok');
+    // 1. ID üzerinden arama inputunu yakalayıp değerini küçük harfe çeviriyoruz
+    const aramaInput = document.getElementById('temaAramaInput');
+    if (!aramaInput) return; // Input bulunamazsa hata vermemesi için koruma
+    
+    const aramaMetni = aramaInput.value.toLowerCase();
+    
+    // 2. Bir önceki kodda döngüye soktuğumuz her bir tema kolonunu yakalıyoruz
+    // Kartların düzgün gizlenmesi için üst kapsayıcı olan .col sınıfını hedefliyoruz
+    const temaKartlari = document.querySelectorAll('.row-cols-lg-4 > .col');
 
-            // 3. Junior dostu sari döngümüzü başlatıyoruz
-            for (let index = 0; index < temaKartlari.length; index++) {
-                
-                // Kartın içerisindeki h6 etiketini (yani tema ismini) sınıf adıyla buluyoruz
-                // Hata vermemesi için senin kart gövdesindeki h6 etiketine 'tema-adi-metni' class'ını ekledim
-                let temaAdiEtiketi = temaKartlari[index].querySelector('.card-title');
-                
-                if (temaAdiEtiketi) {
-                    // Etiketin içindeki düz yazıyı çekip küçük harfe dönüştürüyoruz
-                    let temizTemaIsmi = (temaAdiEtiketi.textContent || temaAdiEtiketi.innerText).toLowerCase();
+    // 3. Döngümüzü başlatıyoruz
+    for (let index = 0; index < temaKartlari.length; index++) {
+        
+        // Kartın altındaki beyaz alanda yer alan .card-title (h6) etiketini buluyoruz
+        let temaAdiEtiketi = temaKartlari[index].querySelector('.card-title');
+        
+        if (temaAdiEtiketi) {
+            // Başlığı küçük harfe çeviriyoruz
+            let temizTemaIsmi = (temaAdiEtiketi.textContent || temaAdiEtiketi.innerText).toLowerCase();
 
-                    // 4. Arama metni temanın isminin içinde var mı kontrolü
-                    if (temizTemaIsmi.indexOf(aramaMetni) > -1) {
-                        temaKartlari[index].style.setProperty('display', '', 'important'); // Kartı göster
-                    } else {
-                        temaKartlari[index].style.setProperty('display', 'none', 'important'); // Kartı gizle
-                    }
-                }           
+            // 4. Arama metni temanın isminin içinde geçiyor mu?
+            if (temizTemaIsmi.indexOf(aramaMetni) > -1) {
+                // Eğer eşleşme varsa Bootstrap grid düzenini bozmamak için display'i sıfırlıyoruz
+                temaKartlari[index].style.setProperty('display', '', 'important'); 
+            } else {
+                // Eşleşme yoksa kolonu tamamen gizliyoruz
+                temaKartlari[index].style.setProperty('display', 'none', 'important'); 
             }
-        }
+        }           
+    }
+}
 </script>
 </body>
 </html>

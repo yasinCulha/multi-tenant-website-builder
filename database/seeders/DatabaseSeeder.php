@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'company_id' => null
         ]);
+
     }
 }
