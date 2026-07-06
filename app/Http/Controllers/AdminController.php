@@ -476,7 +476,7 @@ class AdminController extends Controller
         $defaultSettings,
         $dbSettings
     );
-
+    dd($theme->folder_path);
     return view('tenant.editor.index', [
         'company'  => $company,
         'theme'    => $theme,

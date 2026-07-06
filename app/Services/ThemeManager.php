@@ -82,6 +82,6 @@ class ThemeManager
      */
     public function blade(string $slug)
     {
-        return resource_path("themes/{$slug}/index.blade.php");
+        return resource_path("views/themes/{$slug}/index.blade.php");
     }
 }
