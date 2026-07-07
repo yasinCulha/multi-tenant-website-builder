@@ -1,14 +1,9 @@
-/* =====================================================
-   Genel
-===================================================== */
 @import "./sidebar.css";
 @import "./navbar.css";
 @import "./dashboard.css";
 
 :root {
-
     --sidebar-width: 260px;
-
 }
 
 body {
@@ -24,21 +19,29 @@ body {
 }
 
 .admin-main {
+
     flex: 1;
-    /* display: flex;
-    flex-direction: column; */
+
+    margin-left: 260px;
+
 }
 
 .admin-content {
+
     padding: 40px;
-    min-height: 100vh;
+
 }
 
 .text-gray {
+
     color: #9ca3af;
+
 }
 
 ::placeholder {
+
     color: #9ca3af !important;
-    opacity: 1 !important;
+
+    opacity: 1;
+
 }

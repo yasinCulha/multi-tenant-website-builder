@@ -1,21 +1,28 @@
-<div class="admin-navbar">
+<div class="row align-items-center mb-5">
 
-    <div class="admin-navbar-left">
+    <div class="col-md-8">
 
-        <h1 class="admin-navbar-title">
+        <h1 class="fw-bold text-white mb-1">
+
             Web Sitesi Temaları
+
         </h1>
 
-        <p class="admin-navbar-subtitle">
+        <p class="text-gray mb-0">
+
             Mevcut Şirketiniz:
+
             <span class="text-white fw-semibold">
+
                 {{ $company->name }}
+
             </span>
+
         </p>
 
     </div>
 
-    <div class="admin-navbar-right">
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
 
         <a href="/site/{{ $company->slug }}"
            target="_blank"
