@@ -28,11 +28,11 @@
 
 <div class="admin-wrapper">
 
-    @include('tenant.website.layouts.sidebar')
+    @include('tenant.website.admin.layouts.sidebar')
 
     <div class="admin-main">
 
-        @include('tenant.website.layouts.navbar')
+        @include('tenant.website.admin.layouts.navbar')
 
         <main class="admin-content">
 
