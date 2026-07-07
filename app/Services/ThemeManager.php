@@ -11,7 +11,7 @@ class ThemeManager
 
     public function __construct()
     {
-        $this->themePath = resource_path('views/themes');
+       $this->themePath = resource_path('views/tenant/website/themes');
     }
 
     /**
@@ -84,6 +84,6 @@ class ThemeManager
      */
     public function blade(string $slug)
     {
-        return resource_path("views/themes/{$slug}/index.blade.php");
+         return resource_path("views/tenant/website/themes/{$slug}/index.blade.php");
     }
 }
