@@ -68,7 +68,7 @@ class AdminController extends Controller
     {
         // Giriş yapan kişinin rolü 'admin' değilse, paneli gösterme, ana sayfaya fırlat!
         if (auth()->user()->role !== 'admin') {
-            return redirect('/tenant/dashboard');
+            return view('tenant.website.admin.dashboard.index');
         }
 
         $companies = Company::with('theme')->get();
@@ -429,7 +429,7 @@ class AdminController extends Controller
         // tüm temaları listeliyoruz
         $themes = Theme::all();
 
-        return view('tenant.dashboard', compact('company', 'themes'));
+        return view('tenant.website.admin.dashboard.index', compact('company', 'themes'));
     }
 
     // Firma sahibinin formdan seçtiği temayı veri tabanına kaydeden fonksiyon

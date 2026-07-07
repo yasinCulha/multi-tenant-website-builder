@@ -1,0 +1,45 @@
+/* =====================================================
+   Genel
+===================================================== */
+@import "./sidebar.css";
+@import "./navbar.css";
+@import "./dashboard.css";
+
+:root {
+
+    --sidebar-width: 260px;
+
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0b0f19;
+    color: #f1f5f9;
+    overflow-x: hidden;
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-content {
+    margin-left: 260px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.text-gray {
+    color: #9ca3af;
+}
+
+::placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+}
