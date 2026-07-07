@@ -25,12 +25,11 @@ body {
 
 .admin-main {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
 }
 
 .admin-content {
-    margin-left: 260px;
     padding: 40px;
     min-height: 100vh;
 }

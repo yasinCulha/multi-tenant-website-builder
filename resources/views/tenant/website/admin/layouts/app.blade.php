@@ -32,9 +32,9 @@
 
     <div class="admin-main">
 
-        @include('tenant.website.admin.layouts.navbar')
-
         <main class="admin-content">
+
+            @include('tenant.website.admin.layouts.navbar')
 
             @yield('content')
 
