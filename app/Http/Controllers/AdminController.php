@@ -411,7 +411,7 @@ class AdminController extends Controller
         $companySettings
     );
 
-    return view("themes.{$theme->folder_path}.index", [
+    return view("tenant.website.themes.{$theme->folder_path}.index", [
         'company'  => $company,
         'settings' => $settings,
     ]);
