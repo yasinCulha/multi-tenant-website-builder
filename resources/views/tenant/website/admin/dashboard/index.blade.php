@@ -1,4 +1,4 @@
-@extends('tenant.website.layouts.app')
+@extends('tenant.website.admin.layouts.app')
 
 @section('title', 'Tema Yönetimi')
 
