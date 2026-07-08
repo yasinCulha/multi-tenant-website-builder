@@ -384,6 +384,7 @@ class AdminController extends Controller
 // Sadece parametre adını $slug yerine $subdomain yapıyoruz knk, gerisi NOKTASINA kadar aynı!
 public function showTenantSite($subdomain, ThemeManager $themeManager)
 {
+    dd('showTenantSite çalıştı', $subdomain);
     // Firmayı bul (Burada artık veritabanındaki 'slug' sütununa tarayıcıdan gelen $subdomain'i soruyoruz)
     $company = Company::where('slug', $subdomain)->firstOrFail();
 
