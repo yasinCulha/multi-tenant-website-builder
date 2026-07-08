@@ -19,7 +19,12 @@ Route::domain('{subdomain}.apollonmedya.net')->group(function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    dd(
+        'NORMAL ROUTE',
+        request()->getHost(),
+        request()->route()->uri(),
+        request()->route()->getName()
+    );
 })->name('welcome');
 
 
