@@ -79,13 +79,7 @@ Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('
 Route::domain('{subdomain}.apollonmedya.net')->group(function () {
 
     // Birisi direkt test.apollonmedya.net olarak ana sayfaya geldiğinde çalışacak rota
-    Route::get('/', function ($subdomain) {
-        dd('DOMAIN ROUTE', $subdomain);
-    });
-    Route::get('/host-test', function () {
-    dd('DOMAIN ROUTE',
-            request()->route()->parameters(), request()->getHost());
-});
+    Route::get('/',[AdminController::class, 'showTenantSite'] );
     
     
     // İleride firmanın sitesi içindeki diğer sayfalar için (Örn: test.apollonmedya.net/hakkimizda)
