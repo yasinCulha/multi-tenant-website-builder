@@ -28,8 +28,7 @@ Route::post('admin-logout',[AdminController::class, 'adminLogout'])->name('admin
 Route::middleware(['auth'])->group(function () {
 
     // Süper Admin
-    Route::get('/admin', [AdminController::class, 'index'])
-        ->name('admin.index');  
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');  
 
     Route::post('/admin/company/store', [AdminController::class, 'storeCompany']);
 
@@ -57,66 +56,15 @@ Route::get('/site/theme-preview/{themeId}', [AdminController::class, 'themePrevi
 Route::get('/company/theme-editor/{theme}',[AdminController::class, 'themeEditor'])->name('company.theme.editor');
 Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('company.theme.save');
 
+//MÜŞTERİ SUBDOMAINLERİ İÇİN ROTA GRUBU
+Route::domain('{subdomain}.apollonmedya.net')->group(function () {
 
+    // Birisi direkt test.apollonmedya.net olarak ana sayfaya geldiğinde çalışacak rota
+    Route::get('/', [AdminController::class, 'showTenantSite']);
+    
+    
+    // İleride firmanın sitesi içindeki diğer sayfalar için (Örn: test.apollonmedya.net/hakkimizda)
+    // Route::get('/hakkimizda', [FrontendController::class, 'showAboutPage']);
+});
 
-
-// Route::get('/db-test', function (
-
-//     ThemeManager $themes,
-
-//     ThemeRenderer $renderer
-
-// ) {
-
-//     $theme = CompanyThemeSetting::first();
-
-//     dd($theme);
-
-// });
-
-// Route::get('/theme-test', function (ThemeManager $themeManager) {
-
-//     dd([
-//         "manifest" => $themeManager->find("corporate-blue"),
-
-//         "default" => $themeManager->defaults("corporate-blue"),
-
-//         "editor" => $themeManager->editor("corporate-blue"),
-//     ]);
-
-// });
-
-// Route::get('/theme-render-test', function (
-
-//     ThemeManager $themes,
-
-//     ThemeRenderer $renderer
-
-// ) {
-
-//     $default = $themes->defaults("corporate-blue");
-
-//     $database = [
-
-//         "hero" => [
-
-//             "title" => "Çulha Yazılım"
-
-//         ]
-
-//     ];
-
-//     dd(
-
-//         $renderer->render(
-
-//             $default,
-
-//             $database
-
-//         )
-
-//     );
-
-// });
 require __DIR__.'/auth.php';
