@@ -18,14 +18,14 @@ Route::domain('{subdomain}.apollonmedya.net')->group(function () {
             request()->route()->parameters(), request()->getHost());
 });
 
-Route::get('/', function () {
-    dd(
-        'NORMAL ROUTE',
-        request()->getHost(),
-        request()->route()->uri(),
-        request()->route()->getName()
-    );
-})->name('welcome');
+// Route::get('/', function () {
+//     dd(
+//         'NORMAL ROUTE',
+//         request()->getHost(),
+//         request()->route()->uri(),
+//         request()->route()->getName()
+//     );
+// })->name('welcome');
 
 
 Route::get('/login', function(){abort(404);});
