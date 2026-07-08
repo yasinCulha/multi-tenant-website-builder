@@ -65,8 +65,7 @@ Route::domain('{subdomain}.apollonmedya.net')->group(function () {
     });
     Route::get('/host-test', function () {
     dd('DOMAIN ROUTE',
-            $subdomain,
-            request()->getHost());
+            request()->route()->parameters(), request()->getHost());
 });
     
     
