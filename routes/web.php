@@ -8,7 +8,20 @@ use App\Models\CompanyThemeSetting;
 
 // Ana Sayfa (Tanıtım)
 
+Route::domain('apollonmedya.net')->group(function () {
 
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('welcome');
+
+});
+Route::domain('www.apollonmedya.net')->group(function () {
+
+    Route::get('/', function () {
+        return redirect()->route('welcome');
+    });
+
+});
 Route::domain('lara.apollonmedya.net')->group(function () {
 
     Route::get('/', function () {
