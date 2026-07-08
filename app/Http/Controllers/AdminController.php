@@ -386,8 +386,10 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
 {
     // Firmayı bul (Burada artık veritabanındaki 'slug' sütununa tarayıcıdan gelen $subdomain'i soruyoruz)
     $company = Company::where('slug', $subdomain)->firstOrFail();
-        if (!$company) {
-        return response()->view('errors.tenant-not-found', [], 404);
+    if (!$company) {
+         return response()->view('errors.tenant-not-found', [
+        'subdomain' => $subdomain,
+    ], 404);
     }
 
     // Aktif tema
