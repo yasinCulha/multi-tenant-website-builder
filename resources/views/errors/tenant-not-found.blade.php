@@ -23,7 +23,7 @@
             Aradığınız firma sistemimizde bulunmuyor veya henüz aktif değil.
         </p>
 
-        <a href="https://apollonmedya.net" class="btn btn-warning mt-3">
+        <a href="https://lara.apollonmedya.net" class="btn btn-warning mt-3">
             Ana Sayfaya Dön
         </a>
 
