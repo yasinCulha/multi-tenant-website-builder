@@ -61,6 +61,9 @@ Route::domain('{subdomain}.apollonmedya.net')->group(function () {
 
     // Birisi direkt test.apollonmedya.net olarak ana sayfaya geldiğinde çalışacak rota
     Route::get('/', [AdminController::class, 'showTenantSite']);
+    Route::get('/host-test', function () {
+    dd(request()->getHost());
+});
     
     
     // İleride firmanın sitesi içindeki diğer sayfalar için (Örn: test.apollonmedya.net/hakkimizda)
