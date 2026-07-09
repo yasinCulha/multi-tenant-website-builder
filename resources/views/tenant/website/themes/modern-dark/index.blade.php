@@ -13,7 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <@vite(['resources/views/tenant/website/themes/modern-dark/assets/css/app.css',])
+@vite([
+    'resources/views/tenant/website/themes/modern-dark/assets/css/app.css',
+    'resources/views/tenant/website/themes/modern-dark/assets/js/app.js',
+])
 </head>
 <body>
     
@@ -33,7 +36,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<@vite(['resources/views/tenant/website/themes/modern-dark/assets/js/app.js',])
 </body>
 </html>

@@ -1,14 +1,12 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: #030712;
-    /* Derin uzay siyahı */
     color: #9ca3af;
-    /* Yumuşak gri metinler */
     scroll-behavior: smooth;
 }
 
 /* Navbar */
-@import "resources/views/tenant/website/themes/modern-dark/components/navbar/navbar.css";
+@import "../../components/navbar/navbar.css";
 
 /* Hero */
 @import "../../components/hero/hero.css";
@@ -23,4 +21,4 @@ body {
 @import "../../components/contact/contact.css";
 
 /* Footer */
-@import "resources/views/tenant/website/themes/modern-dark/components/footer/footer.css";
+@import "../../components/footer/footer.css";
