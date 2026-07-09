@@ -8,7 +8,7 @@ body {
 }
 
 /* Navbar */
-@import "../../components/navbar/navbar.css";
+@import "resources/views/tenant/website/themes/modern-dark/components/navbar/navbar.css";
 
 /* Hero */
 @import "../../components/hero/hero.css";
@@ -23,4 +23,4 @@ body {
 @import "../../components/contact/contact.css";
 
 /* Footer */
-@import "../../components/footer/footer.css";
+@import "resources/views/tenant/website/themes/modern-dark/components/footer/footer.css";
