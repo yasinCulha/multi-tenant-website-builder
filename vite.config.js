@@ -12,6 +12,8 @@ export default defineConfig({
                 "resources/views/tenant/website/admin/assets/js/app.js",
 
                 "resources/views/tenant/website/themes/corporate-blue/assets/css/app.css",
+                "resources/views/tenant/website/themes/modern-dark/assets/css/app.css",
+                "resources/views/tenant/website/themes/modern-dark/assets/js/app.js",
             ],
             refresh: true,
         }),

@@ -1,0 +1,26 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #030712;
+    /* Derin uzay siyahı */
+    color: #9ca3af;
+    /* Yumuşak gri metinler */
+    scroll-behavior: smooth;
+}
+
+/* Navbar */
+@import "../../components/navbar/navbar.css";
+
+/* Hero */
+@import "../../components/hero/hero.css";
+
+/* About */
+@import "../../components/about/about.css";
+
+/* Services */
+@import "../../components/services/services.css";
+
+/* Contact */
+@import "../../components/contact/contact.css";
+
+/* Footer */
+@import "../../components/footer/footer.css";

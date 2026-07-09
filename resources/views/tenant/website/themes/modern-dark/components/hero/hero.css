@@ -1,0 +1,17 @@
+.hero-bölümü {
+    padding: 140px 0 100px 0;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 50%);
+}
+
+.hero-baslik {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* GRADYAN METİN: Yazılım firmalarında çok popüler olan renkli yazı efekti */
+.renkli-gradyan-yazi {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

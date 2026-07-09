@@ -1,6 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "../components/navbar/navbar.css";
-@import "../components/hero/hero.css";
-@import "../components/footer/footer.css";

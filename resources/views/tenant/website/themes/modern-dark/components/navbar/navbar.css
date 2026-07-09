@@ -1,0 +1,26 @@
+.modern-karanlik-navbar {
+    background-color: rgba(17, 24, 39, 0.8) !important;
+    /* Yarı şeffaf koyu gri */
+    backdrop-filter: blur(10px);
+    /* Arkadaki içeriği flulaştıran premium efekt */
+    border-bottom: 1px solid #1f2937;
+}
+
+.navbar-brand-text {
+    font-weight: 700;
+    color: #6366f1 !important;
+    /* Mor vurgu rengi */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    color: #d1d5db !important;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #6366f1 !important;
+    /* Üzerine gelince mor olsun */
+}

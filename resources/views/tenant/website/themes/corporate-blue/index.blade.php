@@ -23,15 +23,15 @@
 
     @include('tenant.website.themes.corporate-blue.components.navbar.index')
 
-@include('tenant.website.themes.corporate-blue.components.hero.index')
+    @include('tenant.website.themes.corporate-blue.components.hero.index')
 
-@include('tenant.website.themes.corporate-blue.components.services.index')
+    @include('tenant.website.themes.corporate-blue.components.services.index')
 
-@include('tenant.website.themes.corporate-blue.components.about.index')
+    @include('tenant.website.themes.corporate-blue.components.about.index')
 
-@include('tenant.website.themes.corporate-blue.components.contact.index')
+    @include('tenant.website.themes.corporate-blue.components.contact.index')
 
-@include('tenant.website.themes.corporate-blue.components.footer.index')
+    @include('tenant.website.themes.corporate-blue.components.footer.index')
     
 
     <!-- Bootstrap 5 JS Bundle CDN -->
