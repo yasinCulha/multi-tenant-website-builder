@@ -1,0 +1,17 @@
+/* HAKKIMIZDA BÖLÜMÜ */
+.hakkimizda-section {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.istatistik-kutusu {
+    text-align: center;
+    padding: 20px;
+}
+
+.istatistik-sayi {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+}
