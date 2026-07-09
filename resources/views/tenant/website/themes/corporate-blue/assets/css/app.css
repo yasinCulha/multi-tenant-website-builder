@@ -103,3 +103,21 @@ body {
     background-color: var(--soft-blue);
     color: var(--primary-blue);
 }
+
+/* Navbar */
+@import "../../components/navbar/navbar.css";
+
+/* Hero */
+@import "../../components/hero/hero.css";
+
+/* About */
+@import "../../components/about/about.css";
+
+/* Services */
+@import "../../components/services/services.css";
+
+/* Contact */
+@import "../../components/contact/contact.css";
+
+/* Footer */
+@import "../../components/footer/footer.css

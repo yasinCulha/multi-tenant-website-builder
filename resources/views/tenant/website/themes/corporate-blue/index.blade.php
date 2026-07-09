@@ -17,19 +17,7 @@
     <!-- SweetAlert2 CSS (Modern Hata/Başarı Mesaj Kutuları İçin) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <link rel="stylesheet" href="{{ asset('themes/corporate-blue/assets/css/style.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/navbar/navbar.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/hero/hero.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/services/services.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/about/about.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/contact/contact.css') }}">
-
-<link rel="stylesheet" href="{{ asset('themes/corporate-blue/components/footer/footer.css') }}">
+    <@vite(['resources/views/tenant/website/themes/corporate-blue/assets/css/style.css',])
 </head>
 <body>
 

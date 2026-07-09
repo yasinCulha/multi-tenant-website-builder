@@ -10,13 +10,15 @@ export default defineConfig({
 
                 "resources/views/tenant/website/admin/assets/css/app.css",
                 "resources/views/tenant/website/admin/assets/js/app.js",
+
+                "resources/views/tenant/website/themes/corporate-blue/assets/css/style.css",
             ],
             refresh: true,
         }),
     ],
-    resolve:{
-        alias:{
-             "@": "/resources",
+    resolve: {
+        alias: {
+            "@": "/resources",
         },
     },
 });
