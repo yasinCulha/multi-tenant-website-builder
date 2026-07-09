@@ -17,7 +17,7 @@
     <!-- SweetAlert2 CSS (Modern Hata/Başarı Mesaj Kutuları İçin) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <@vite(['resources/views/tenant/website/themes/corporate-blue/assets/css/style.css',])
+    <@vite(['resources/views/tenant/website/themes/corporate-blue/assets/css/app.css',])
 </head>
 <body>
 
