@@ -555,12 +555,12 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
 {
     $theme = Theme::findOrFail($themeId);
 
-    $viewPath ="tenant.website.themes.{$theme->folder_path}.index.blade.php";
+    $viewPath = "tenant.website.themes.{$theme->folder_path}.index";
 
 
     // View kontrolü
     if (!view()->exists($viewPath)) {
-    $displayPath = "tenant.website.themes.{$theme->folder_path}.index.blade.php";
+    $displayPath = "tenant.website.themes.{$theme->folder_path}.index";
 
         return response(
             "<h3>Tema dosyası bulunamadı!</h3>
