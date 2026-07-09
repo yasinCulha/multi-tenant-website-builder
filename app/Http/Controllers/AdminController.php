@@ -562,13 +562,13 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
     if (!view()->exists($viewPath)) {
     $displayPath = "tenant.website.themes.{$theme->folder_path}.index.blade.php";
 
-    return response(
-        "<h3>Tema dosyası bulunamadı!</h3>
-        <p><strong>Aranan Dosya:</strong></p>
-        <code>{$displayPath}</code>",
-        404
-    );
-}
+        return response(
+            "<h3>Tema dosyası bulunamadı!</h3>
+            <p><strong>Aranan Dosya:</strong></p>
+            <code>{$displayPath}</code>",
+            404
+        );
+    }
 
     $company = Company::with(['socialMedias','phones'])->first(); 
 
