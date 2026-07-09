@@ -381,7 +381,7 @@ class AdminController extends Controller
 
     
     //TENANT SECTİON
-// Sadece parametre adını $slug yerine $subdomain yapıyoruz knk, gerisi NOKTASINA kadar aynı!
+
 public function showTenantSite($subdomain, ThemeManager $themeManager)
 {
     // Firmayı bul (Burada artık veritabanındaki 'slug' sütununa tarayıcıdan gelen $subdomain'i soruyoruz)
@@ -559,11 +559,16 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
 
 
     // View kontrolü
-    if (!view()->exists( $viewPath)) {
-        // Hata durumunda Laravel'in aradığı gerçek klasör yolunu gösterelim
-        $displayPath = 'resources/views/' . str_replace('.', '/',  $viewPath) . '.blade.php';
-        return "<code>" . $displayPath . "</code> dosyası bulunamadı, klasör veya dosya adını kontrol et!";
-    }
+    if (!view()->exists($viewPath)) {
+    $displayPath = "tenant.website.themes.{$theme->folder_path}.index";
+
+    return response(
+        "<h3>Tema dosyası bulunamadı!</h3>
+        <p><strong>Aranan Dosya:</strong></p>
+        <code>{$displayPath}</code>",
+        404
+    );
+}
 
     $company = Company::with(['socialMedias','phones'])->first(); 
 
