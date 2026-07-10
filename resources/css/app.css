@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @import "./builder/builder.css";
+@import "./builder/topbar.css";
 @import "./builder/sidebar.css";
 @import "./builder/preview.css";
 @import "./builder/settings.css";
+@import "./builder/bottombar.css";
+@import "./builder/responsive.css";

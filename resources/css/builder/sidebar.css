@@ -1,71 +1,116 @@
 .builder-sidebar {
-    display: flex;
-    flex-direction: column;
+
     background: #111827;
-    color: white;
+
+    border-right: 1px solid #1F2937;
+
+    display: flex;
+
+    flex-direction: column;
+
     overflow: hidden;
 }
 
 .sidebar-search {
+
     padding: 20px;
-    border-bottom: 1px solid #1f2937;
 }
 
 .sidebar-search input {
+
     width: 100%;
-    padding: 10px 12px;
-    border: none;
-    border-radius: 8px;
-    background: #1f2937;
+
+    background: #1E293B;
+
+    border: 1px solid #334155;
+
     color: white;
+
+    border-radius: 10px;
+
+    padding: 12px 14px;
+
     outline: none;
 }
 
 .sidebar-menu {
-    padding: 15px;
+
+    padding: 0 20px;
+
     display: flex;
+
     flex-direction: column;
+
     gap: 8px;
 }
 
-.sidebar-tab {
+.sidebar-item {
+
     background: transparent;
+
     border: none;
-    color: #d1d5db;
+
+    color: #CBD5E1;
+
     text-align: left;
-    padding: 10px 14px;
-    border-radius: 8px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
     cursor: pointer;
+
     transition: .2s;
 }
 
-.sidebar-tab:hover {
-    background: #1f2937;
-}
-
-.sidebar-tab.active {
-    background: #22d3ee;
-    color: #111827;
-    font-weight: 600;
-}
-
-.sidebar-content {
-    flex: 1;
-    padding: 15px;
-    overflow: auto;
-}
-
-.sidebar-item {
-    padding: 12px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 6px;
-}
-
 .sidebar-item:hover {
-    background: #1f2937;
+
+    background: #1E293B;
 }
 
 .sidebar-item.active {
-    background: #374151;
+
+    background: #22D3EE;
+
+    color: #111827;
+
+    font-weight: 600;
+}
+
+.sidebar-divider {
+
+    height: 1px;
+
+    background: #1F2937;
+
+    margin: 20px;
+}
+
+.sidebar-pages {
+
+    flex: 1;
+
+    overflow: auto;
+
+    padding: 0 20px 20px;
+}
+
+.page-item {
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: #E2E8F0;
+
+    transition: .2s;
+
+    margin-bottom: 8px;
+}
+
+.page-item:hover {
+
+    background: #1E293B;
 }

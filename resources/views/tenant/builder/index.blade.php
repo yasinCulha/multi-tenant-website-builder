@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="builder-layout">
+<div class="builder-app">
 
     @include('tenant.builder.components.topbar')
 
