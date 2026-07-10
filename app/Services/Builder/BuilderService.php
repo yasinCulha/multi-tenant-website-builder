@@ -36,35 +36,39 @@ class BuilderService
         'availableModules' => $availableModules,
     ];
 }
-public function installTheme(Company $company)
+public function installTheme(Company $company): void
 {
-$theme = $company->theme;
-
-$pages = $theme->pages;
-
-foreach ($pages as $page) {
-
-    foreach ($page->modules as $module) {
-
-        PageModule::create([
-
-            'company_id' => $company->id,
-
-            'page_id' => $page->id,
-
-            'module_id' => $module->id,
-
-            'order' => $module->id * 10,
-
-            'content' => [],
-
-            'is_visible' => true,
-
-        ]);
-
+    // Şirket için modüller zaten oluşturulduysa tekrar oluşturma
+    if (PageModule::where('company_id', $company->id)->exists()) {
+        return;
     }
 
-}
+    $theme = $company->theme;
+
+    if (!$theme) {
+        return;
+    }
+
+    $pages = $theme->pages()->with('modules')->get();
+
+    foreach ($pages as $page) {
+
+        $order = 10;
+
+        foreach ($page->modules as $module) {
+
+            PageModule::create([
+                'company_id' => $company->id,
+                'page_id' => $page->id,
+                'module_id' => $module->id,
+                'order' => $order,
+                'content' => [],
+                'is_visible' => true,
+            ]);
+
+            $order += 10;
+        }
+    }
 }
 
 }

@@ -6,10 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class PageModule extends Model
 {
+    protected $fillable = [
+        'company_id',
+        'page_id',
+        'module_id',
+        'order',
+        'content',
+        'is_visible',
+    ];
+
     protected $casts = [
         'content' => 'array',
         'is_visible' => 'boolean',
     ];
+
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -23,9 +33,5 @@ class PageModule extends Model
     public function module()
     {
         return $this->belongsTo(Module::class);
-    }
-    public function modules()
-    {
-        return $this->hasMany(Module::class);
     }
 }
