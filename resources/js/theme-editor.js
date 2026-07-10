@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 setNestedValue(changedFields, path, value);
 
+                if (path.startsWith("modules.")) {
+                    iframe.contentWindow.location.reload();
+                    return;
+                }
+
                 const elements = iframeDocument.querySelectorAll(
                     `[data-bind="${path}"]`,
                 );
@@ -88,10 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         element.setAttribute(attr, value);
 
-                        return;
-                    }
-                    if (path.startsWith("modules.")) {
-                        iframe.contentWindow.location.reload();
                         return;
                     }
 
