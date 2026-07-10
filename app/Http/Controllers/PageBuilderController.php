@@ -15,16 +15,19 @@ class PageBuilderController extends Controller
     {
         $this->builder = $builder;
 
-        $company = auth()->user()->company;
-
-$this->builder->installTheme($company);
-
-$builder = $this->builder->getBuilderData($company);
+        
     }
 
     public function index()
     {
         $company = auth()->user()->company;
+
+
+        $this->builder->installTheme($company);
+
+        $builder = $this->builder->getBuilderData($company);
+
+        
 
         if (!$company) {
             abort(403, 'Şirkete ait kullanıcı bulunamadı.');
