@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             iframe.contentDocument || iframe.contentWindow.document;
 
         document.querySelectorAll(".editor-field").forEach((field) => {
-            field.addEventListener("input", function () {
+            const updateField = function () {
                 const path = this.dataset.path;
                 const value = this.value;
 
@@ -90,10 +90,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         return;
                     }
+                    if (path.startsWith("modules.")) {
+                        iframe.contentWindow.location.reload();
+                        return;
+                    }
 
                     element.textContent = value;
                 });
-            });
+            };
+
+            field.addEventListener("input", updateField);
+
+            field.addEventListener("change", updateField);
         });
     });
 });

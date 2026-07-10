@@ -41,5 +41,12 @@
             'settings' => $settings
         ])
         @break
+    
+    @case('select')
+        @include('tenant.editor.fields.select', [
+            'field' => $field,
+            'settings' => $settings
+        ])
+    @break
 
 @endswitch

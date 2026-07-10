@@ -63,5 +63,8 @@
     "contact_title": " İletişim",
     "phone.{{ $index }}.type": "Telefonların Başlığı",
     "copyright_text": "Copyright Metni"
+  },
+  "modules":{
+    "navbar":"navbar-menu-sağ"
   }
 }

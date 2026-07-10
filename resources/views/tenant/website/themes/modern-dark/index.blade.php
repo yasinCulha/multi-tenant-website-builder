@@ -13,15 +13,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-@vite([
-    'resources/views/tenant/website/themes/modern-dark/assets/css/app.css',
-    'resources/views/tenant/website/themes/modern-dark/assets/js/app.js',
-])
+    @vite([
+        'resources/views/tenant/website/themes/modern-dark/assets/css/app.css',
+        'resources/views/tenant/website/themes/modern-dark/assets/js/app.js',
+    ])
 </head>
 <body>
     
 
-    @include('tenant.website.themes.modern-dark.components.navbar.index')
+    @include(
+    'tenant.website.themes.modules.navbar.' .
+    data_get($settings, 'modules.navbar', 'navbar-menu-sol')
+)
 
     @include('tenant.website.themes.modern-dark.components.hero.index')
 

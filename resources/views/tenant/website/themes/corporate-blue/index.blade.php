@@ -21,7 +21,10 @@
 </head>
 <body>
 
-    @include('tenant.website.themes.corporate-blue.components.navbar.index')
+    @include(
+    'tenant.website.themes.modules.navbar.' .
+    data_get($settings, 'modules.navbar', 'navbar-menu-sağ')
+)
 
     @include('tenant.website.themes.corporate-blue.components.hero.index')
 
