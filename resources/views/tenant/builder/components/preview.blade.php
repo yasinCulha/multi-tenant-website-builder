@@ -10,7 +10,10 @@
             $previewUrl = 'https://' . $company->slug . '.apollonmedya.net';
         @endphp
 
-        @vite("resources/views/tenant/website/themes/{$themeFolder}/assets/css/app.css")
+        @vite([
+    'resources/css/app.css',
+    "resources/css/themes/{$builder['theme']->folder_path}/app.css",
+])
 
         <div class="browser-frame">
 
