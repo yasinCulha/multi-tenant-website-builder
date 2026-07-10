@@ -1,5 +1,3 @@
 <div class="builder-sidebar">
-
-    Sayfalar
-
+    Sidebar
 </div>

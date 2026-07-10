@@ -1,5 +1,3 @@
 <div class="builder-preview">
-
-    CANLI ÖNİZLEME
-
+    Preview
 </div>

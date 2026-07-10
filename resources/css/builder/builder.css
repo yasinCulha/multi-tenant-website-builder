@@ -1,0 +1,27 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.builder {
+    display: grid;
+    grid-template-columns: 280px 1fr 350px;
+    height: 100vh;
+}
+
+.builder-sidebar {
+    background: #111827;
+    color: white;
+}
+
+.builder-preview {
+    background: #f3f4f6;
+}
+
+.builder-settings {
+    background: white;
+    border-left: 1px solid #e5e7eb;
+}

@@ -8,8 +8,8 @@
 
     @include('tenant.builder.components.preview')
 
-    @include('tenant.builder.components.settings-panel')
+    @include('tenant.builder.components.settings')
 
 </div>
 
-@endsection
+@endsection 
