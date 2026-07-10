@@ -9,11 +9,6 @@
     @vite([
     'resources/css/app.css',
 
-    'resources/css/builder/builder.css',
-    'resources/css/builder/sidebar.css',
-    'resources/css/builder/preview.css',
-    'resources/css/builder/settings.css',
-
     'resources/js/app.js',
     'resources/js/builder/builder.js',
 ])

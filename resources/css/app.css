@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./builder/builder.css";
+@import "./builder/sidebar.css";
+@import "./builder/preview.css";
+@import "./builder/settings.css";
