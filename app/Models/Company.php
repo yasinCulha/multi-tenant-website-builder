@@ -34,4 +34,8 @@ class Company extends Model
     {  
         return $this->hasOne(CompanyThemeSetting::class);
     }
+    public function pageModules()
+    {
+        return $this->hasMany(PageModule::class);
+    }
 }

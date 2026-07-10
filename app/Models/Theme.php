@@ -19,4 +19,13 @@ class Theme extends Model
     {
         return $this->hasMany(CompanyThemeSetting::class);
     }
+    public function pages()
+    {
+        return $this->hasMany(Page::class);
+    }
+
+    public function modules()
+    {
+        return $this->hasMany(Module::class);
+    }
 }
