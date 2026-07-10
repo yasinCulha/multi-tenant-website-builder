@@ -76,7 +76,7 @@ Route::get('/site/theme-preview/{themeId}', [AdminController::class, 'themePrevi
 Route::get('/company/theme-editor/{theme}',[AdminController::class, 'themeEditor'])->name('company.theme.editor');
 Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('company.theme.save');
 
-Route::get('/company/page-builder/{page}', [PageBuilderController::class, 'index'])->name('tenant.builder');
+Route::get('/company/builder', [PageBuilderController::class, 'index'])->name('tenant.builder');
 Route::post('/company/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
 Route::get('/company/preview/{page}', [PageBuilderController::class, 'preview'])->name('tenant.preview');
 

@@ -15,4 +15,8 @@ class Module extends Model
     {
         return $this->hasMany(PageModule::class);
     }
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
+    }
 }

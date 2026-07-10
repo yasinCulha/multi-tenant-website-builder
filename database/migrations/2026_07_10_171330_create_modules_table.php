@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('theme_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('page_id')->constrained()->cascadeOnDelete();
 
             $table->string('name');
 

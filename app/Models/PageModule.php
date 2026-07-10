@@ -24,4 +24,8 @@ class PageModule extends Model
     {
         return $this->belongsTo(Module::class);
     }
+    public function modules()
+    {
+        return $this->hasMany(Module::class);
+    }
 }

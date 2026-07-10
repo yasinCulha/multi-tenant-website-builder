@@ -1,18 +1,19 @@
 <div class="builder-preview">
 
-    <div class="preview-toolbar">
+    <h2>{{ $builder['currentPage']->title }}</h2>
 
-        <span>Canlı Önizleme</span>
+    @forelse($builder['pageModules'] as $pageModule)
 
-    </div>
+        <div style="padding:20px;margin-bottom:10px;background:white;border-radius:10px;">
 
-    <div class="preview-wrapper">
+            {{ $pageModule->module->name }}
 
-        <iframe
-            class="preview-frame"
-            src="{{ route('tenant.preview', ['page' => 1]) }}">
-        </iframe>
+        </div>
 
-    </div>
+    @empty
+
+        <p>Bu sayfada henüz modül yok.</p>
+
+    @endforelse
 
 </div>

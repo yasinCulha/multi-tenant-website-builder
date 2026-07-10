@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 
 class PageBuilderController extends Controller
 {
+    public function __construct(
+        protected BuilderService $builder
+    ) {
+    }
     public function index()
     {
-        return view('tenant.builder.index');
+        $company = auth()->user()->company;
+
+        $builder = $this->builder->getBuilderData($company);
+
+        return view('tenant.builder.index', compact('builder'));
     }
     public function preview(Page $page)
     {
