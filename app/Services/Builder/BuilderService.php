@@ -3,13 +3,14 @@
 namespace App\Services\Builder;
 use App\Models\Company;
 use App\Models\Page;
+use App\Models\PageModule;
 
 class BuilderService
 {
     public function getBuilderData(Company $company)
     {
         $theme = $company->theme;
-        dd($theme->pages()->toSql(), $theme->pages()->get());
+        dd($theme->id);
         $pages = $theme->pages()->orderBy('id')->get();
         $currentPage = $pages->first();
 
