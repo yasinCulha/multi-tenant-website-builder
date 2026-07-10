@@ -10,7 +10,6 @@ class BuilderService
     public function getBuilderData(Company $company)
     {
         $theme = $company->theme;
-        dd($theme->id);
         $pages = $theme->pages()->orderBy('id')->get();
         $currentPage = $pages->first();
 
