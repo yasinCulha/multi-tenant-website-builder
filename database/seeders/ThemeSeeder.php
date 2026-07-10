@@ -14,11 +14,13 @@ class ThemeSeeder extends Seeder
     {
         Theme::create([
             'name' => 'Kurumsal Mavi',
+            'slug' => 'kurumsal-mavi',
             'folder_path' => 'themes.corporate-blue',
         ]);
 
         Theme::create([
             'name' => 'Karanlık Modern (Dark)',
+            'slug'=>'modern-dark',
             'folder_path' => 'themes.modern-dark',
         ]);
     }
