@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Services\ThemeManager;
 use App\Services\ThemeRenderer;
 use App\Models\CompanyThemeSetting;
+use App\Http\Controllers\PageBuilderController;
 
 // Ana Sayfa (Tanıtım)
 
