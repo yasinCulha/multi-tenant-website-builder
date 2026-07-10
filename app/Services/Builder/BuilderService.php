@@ -36,5 +36,35 @@ class BuilderService
         'availableModules' => $availableModules,
     ];
 }
+public function installTheme(Company $company)
+{
+$theme = $company->theme;
+
+$pages = $theme->pages;
+
+foreach ($pages as $page) {
+
+    foreach ($page->modules as $module) {
+
+        PageModule::create([
+
+            'company_id' => $company->id,
+
+            'page_id' => $page->id,
+
+            'module_id' => $module->id,
+
+            'order' => $module->id * 10,
+
+            'content' => [],
+
+            'is_visible' => true,
+
+        ]);
+
+    }
+
+}
+}
 
 }

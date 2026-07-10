@@ -14,6 +14,12 @@ class PageBuilderController extends Controller
     public function __construct(BuilderService $builder)
     {
         $this->builder = $builder;
+
+        $company = auth()->user()->company;
+
+$this->builder->installTheme($company);
+
+$builder = $this->builder->getBuilderData($company);
     }
 
     public function index()
