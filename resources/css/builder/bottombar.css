@@ -1,0 +1,53 @@
+.builder-bottombar {
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+}
+
+.bottombar-left,
+.bottombar-center,
+.bottombar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bottombar-center {
+    justify-content: center;
+}
+
+.bottombar-right {
+    justify-content: flex-end;
+}
+
+.builder-bottombar button {
+    height: 28px;
+    padding: 0 11px;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.builder-bottombar button:hover {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.builder-bottombar .add-module-button {
+    background: var(--primary);
+    color: #07111F;
+    font-weight: 800;
+}
+
+.builder-bottombar .add-module-button:hover {
+    background: var(--primary-hover);
+    color: #07111F;
+}

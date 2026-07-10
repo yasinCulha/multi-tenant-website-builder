@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "./builder/variables.css";
 @import "./builder/builder.css";
 @import "./builder/topbar.css";
@@ -9,6 +5,4 @@
 @import "./builder/preview.css";
 @import "./builder/settings.css";
 @import "./builder/bottombar.css";
-@import "./builder/components.css";
-@import "./builder/animations.css";
 @import "./builder/responsive.css";

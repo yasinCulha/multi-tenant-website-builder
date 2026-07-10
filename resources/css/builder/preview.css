@@ -1,45 +1,79 @@
 .builder-preview {
-    background: #eceff3;
+    min-width: 0;
+    min-height: 0;
+    background:
+        linear-gradient(rgba(148, 163, 184, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, .045) 1px, transparent 1px),
+        var(--preview);
+    background-size: 28px 28px;
+    overflow: auto;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
 }
 
-.preview-toolbar {
-    height: 55px;
-    background: white;
-    border-bottom: 1px solid #ddd;
+.website-canvas {
+    width: min(1200px, 100%);
+    min-width: 760px;
+    min-height: 1200px;
+    background: var(--canvas);
+    color: var(--canvas-text);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
 
+.canvas-header {
+    padding: 34px 40px 26px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.canvas-kicker {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--canvas-muted);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.canvas-header h2 {
+    color: var(--canvas-text);
+    font-size: 32px;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.builder-module {
+    min-height: 72px;
+    margin: 22px 40px;
+    padding: 20px;
     display: flex;
     align-items: center;
-
-    padding: 0 20px;
+    gap: 14px;
+    border: 1px dashed #CBD5E1;
+    border-radius: 14px;
+    background: #F8FAFC;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.preview-wrapper {
-    flex: 1;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: flex-start;
-
-    overflow: auto;
-
-    padding: 30px;
+.module-handle {
+    width: 10px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(var(--primary), var(--primary-hover));
 }
 
-.preview-frame {
-
-    width: 1400px;
-
-    height: 900px;
-
-    background: white;
-
-    border: none;
-
-    border-radius: 12px;
-
-    box-shadow: 0 15px 40px rgba(0, 0, 0, .12);
+.empty-canvas {
+    margin: 28px 40px;
+    padding: 28px;
+    border: 1px dashed #CBD5E1;
+    border-radius: 14px;
+    background: #F8FAFC;
+    color: var(--canvas-muted);
+    text-align: center;
 }

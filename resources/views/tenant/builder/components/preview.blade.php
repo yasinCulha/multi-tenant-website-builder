@@ -2,19 +2,23 @@
 
     <div class="website-canvas">
 
-        <h2>{{ $builder['currentPage']->title }}</h2>
+        <div class="canvas-header">
+            <span class="canvas-kicker">Current page</span>
+            <h2>{{ $builder['currentPage']->title }}</h2>
+        </div>
 
         @forelse($builder['pageModules'] as $pageModule)
 
             <div class="builder-module">
 
-                {{ $pageModule->module->name }}
+                <span class="module-handle"></span>
+                <span>{{ $pageModule->module->name }}</span>
 
             </div>
 
         @empty
 
-            <p>Bu sayfada henüz modül yok.</p>
+            <p class="empty-canvas">Bu sayfada henuz modul yok.</p>
 
         @endforelse
 

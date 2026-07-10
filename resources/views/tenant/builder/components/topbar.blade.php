@@ -22,18 +22,18 @@
 
     <div class="topbar-center">
 
-        <button class="device active">
-            🖥
+        <button class="device active" type="button" aria-label="Desktop preview">
+            <span class="device-icon">D</span>
             <span>Desktop</span>
         </button>
 
-        <button class="device">
-            📱
+        <button class="device" type="button" aria-label="Tablet preview">
+            <span class="device-icon">T</span>
             <span>Tablet</span>
         </button>
 
-        <button class="device">
-            📲
+        <button class="device" type="button" aria-label="Mobile preview">
+            <span class="device-icon">M</span>
             <span>Mobile</span>
         </button>
 
@@ -41,16 +41,12 @@
 
     <div class="topbar-right">
 
-        <button class="btn-preview">
-
-            👁 Önizle
-
+        <button class="btn-preview" type="button">
+            Preview
         </button>
 
-        <button class="btn-save">
-
-            💾 Kaydet
-
+        <button class="btn-save" type="button">
+            Save
         </button>
 
     </div>
