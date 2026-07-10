@@ -30,52 +30,52 @@
                             "type": "text"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "id": "navbar",
+            "title": "Üst Menü (Navbar)",
+            "fields": [
+                {
+                    "type": "text",
+                    "label": "Ana Sayfa Menü Adı",
+                    "path": "navbar.nav_home"
                 },
                 {
-                    "id": "navbar",
-                    "title": "Üst Menü (Navbar)",
-                    "fields": [
-                        {
-                            "type": "text",
-                            "label": "Ana Sayfa Menü Adı",
-                            "path": "navbar.nav_home"
-                        },
-                        {
-                            "type": "url",
-                            "label": "Ana Sayfa Menü Linki",
-                            "path": "navbar.nav_home_url"
-                        },
-                        {
-                            "type": "text",
-                            "label": "Hizmetler Menü Adı",
-                            "path": "navbar.nav_services"
-                        },
-                        {
-                            "type": "url",
-                            "label": "Hizmetler Menü Linki",
-                            "path": "navbar.nav_services_url"
-                        },
-                        {
-                            "type": "text",
-                            "label": "Hakkımızda Menü Adı",
-                            "path": "navbar.nav_about"
-                        },
-                        {
-                            "type": "url",
-                            "label": "Hakkımızda Menü Linki",
-                            "path": "navbar.nav_about_url"
-                        },
-                        {
-                            "type": "text",
-                            "label": "İletişim Menü Adı",
-                            "path": "navbar.nav_contact"
-                        },
-                        {
-                            "type": "url",
-                            "label": "İletişim Menü Linki",
-                            "path": "navbar.nav_contact_url"
-                        }
-                    ]
+                    "type": "url",
+                    "label": "Ana Sayfa Menü Linki",
+                    "path": "navbar.nav_home_url"
+                },
+                {
+                    "type": "text",
+                    "label": "Hizmetler Menü Adı",
+                    "path": "navbar.nav_services"
+                },
+                {
+                    "type": "url",
+                    "label": "Hizmetler Menü Linki",
+                    "path": "navbar.nav_services_url"
+                },
+                {
+                    "type": "text",
+                    "label": "Hakkımızda Menü Adı",
+                    "path": "navbar.nav_about"
+                },
+                {
+                    "type": "url",
+                    "label": "Hakkımızda Menü Linki",
+                    "path": "navbar.nav_about_url"
+                },
+                {
+                    "type": "text",
+                    "label": "İletişim Menü Adı",
+                    "path": "navbar.nav_contact"
+                },
+                {
+                    "type": "url",
+                    "label": "İletişim Menü Linki",
+                    "path": "navbar.nav_contact_url"
                 }
             ]
         },
