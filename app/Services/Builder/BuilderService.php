@@ -4,6 +4,7 @@ namespace App\Services\Builder;
 use App\Models\Company;
 use App\Models\Page;
 use App\Models\PageModule;
+use App\Models\Module;
 
 class BuilderService
 {
