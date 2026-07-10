@@ -1,19 +1,23 @@
-<div class="builder-preview">
+<main class="builder-preview">
 
-    <h2>{{ $builder['currentPage']->title }}</h2>
+    <div class="website-canvas">
 
-    @forelse($builder['pageModules'] as $pageModule)
+        <h2>{{ $builder['currentPage']->title }}</h2>
 
-        <div style="padding:20px;margin-bottom:10px;background:white;border-radius:10px;">
+        @forelse($builder['pageModules'] as $pageModule)
 
-            {{ $pageModule->module->name }}
+            <div class="builder-module">
 
-        </div>
+                {{ $pageModule->module->name }}
 
-    @empty
+            </div>
 
-        <p>Bu sayfada henüz modül yok.</p>
+        @empty
 
-    @endforelse
+            <p>Bu sayfada henüz modül yok.</p>
 
-</div>
+        @endforelse
+
+    </div>
+
+</main>
