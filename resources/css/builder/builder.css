@@ -6,22 +6,35 @@ body {
     overflow: hidden;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .builder {
     display: grid;
+
     grid-template-columns: 280px 1fr 350px;
+
+    width: 100vw;
     height: 100vh;
 }
 
 .builder-sidebar {
     background: #111827;
     color: white;
+    height: 100%;
+    padding: 20px;
 }
 
 .builder-preview {
     background: #f3f4f6;
+    height: 100%;
+    padding: 20px;
 }
 
 .builder-settings {
     background: white;
+    height: 100%;
+    padding: 20px;
     border-left: 1px solid #e5e7eb;
 }

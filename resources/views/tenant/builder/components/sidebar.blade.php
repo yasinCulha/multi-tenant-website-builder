@@ -1,3 +1,3 @@
 <div class="builder-sidebar">
-    Sidebar
+    <h3>📄 Sayfalar</h3>
 </div>

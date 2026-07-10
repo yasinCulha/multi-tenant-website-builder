@@ -1,5 +1,3 @@
 <div class="builder-settings">
-
-    Ayarlar
-
+    <h3>⚙️ Özellikler</h3>
 </div>

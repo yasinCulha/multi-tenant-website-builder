@@ -1,3 +1,3 @@
 <div class="builder-preview">
-    Preview
+    <h2>Canlı Önizleme</h2>
 </div>
