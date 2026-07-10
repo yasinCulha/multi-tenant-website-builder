@@ -1,35 +1,58 @@
-<div class="builder-topbar">
+<header class="builder-topbar">
 
     <div class="topbar-left">
+
         <div class="builder-logo">
-            APOLLON
+            A
         </div>
 
-        <span class="builder-title">
-            Website Builder
-        </span>
+        <div class="builder-brand">
+
+            <span class="brand-title">
+                APOLLON Builder
+            </span>
+
+            <span class="brand-subtitle">
+                Visual Website Builder
+            </span>
+
+        </div>
+
     </div>
 
     <div class="topbar-center">
 
-        <button class="device-btn active">🖥 Desktop</button>
+        <button class="device active">
+            🖥
+            <span>Desktop</span>
+        </button>
 
-        <button class="device-btn">📱 Tablet</button>
+        <button class="device">
+            📱
+            <span>Tablet</span>
+        </button>
 
-        <button class="device-btn">📲 Mobile</button>
+        <button class="device">
+            📲
+            <span>Mobile</span>
+        </button>
 
     </div>
 
     <div class="topbar-right">
 
-        <button class="preview-btn">
-            Önizle
+        <button class="btn-preview">
+
+            👁 Önizle
+
         </button>
 
-        <button class="save-btn">
-            Kaydet
+        <button class="btn-save">
+
+            💾 Kaydet
+
         </button>
 
     </div>
 
-</div>
+</header>
