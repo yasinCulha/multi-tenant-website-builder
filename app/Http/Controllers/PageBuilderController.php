@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 class PageBuilderController extends Controller
 {
     public function index()
-{
-    return view('tenant.builder.index');
-}
+    {
+        return view('tenant.builder.index');
+    }
+    public function preview(Page $page)
+    {
+        return view('tenant.builder.preview-page');
+    }
     public function addModuleToPage(Request $request)
 {
     $request->validate([
