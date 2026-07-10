@@ -74,7 +74,9 @@ Route::post('/site/{slug}/contact', [AdminController::class, 'handleContactForm'
 Route::get('/site/theme-preview/{themeId}', [AdminController::class, 'themePreview'])->name('theme.preview');
 Route::get('/company/theme-editor/{theme}',[AdminController::class, 'themeEditor'])->name('company.theme.editor');
 Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('company.theme.save');
-Route::post('/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
+
+Route::get('/company/page-builder/{page}', [PageBuilderController::class, 'index'])->name('tenant.builder');
+Route::post('/company/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
 
 //MÜŞTERİ SUBDOMAINLERİ İÇİN ROTA GRUBU
 Route::domain('{subdomain}.apollonmedya.net')->group(function () {

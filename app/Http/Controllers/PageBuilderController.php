@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class PageBuilderController extends Controller
 {
+    public function index()
+{
+    return view('tenant.builder.index');
+}
     public function addModuleToPage(Request $request)
 {
     $request->validate([
