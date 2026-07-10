@@ -2,16 +2,22 @@
 
 @section('content')
 
-@include('tenant.builder.components.topbar')
-<div class="builder">
+<div class="builder-layout">
 
-    @include('tenant.builder.components.sidebar')
+    @include('tenant.builder.components.topbar')
 
-    @include('tenant.builder.components.preview')
+    <div class="builder-main">
 
-    @include('tenant.builder.components.settings-panel')
+        @include('tenant.builder.components.sidebar')
+
+        @include('tenant.builder.components.preview')
+
+        @include('tenant.builder.components.settings-panel')
+
+    </div>
+
+    @include('tenant.builder.components.bottombar')
 
 </div>
-@include('tenant.builder.components.bottombar')
 
-@endsection 
+@endsection

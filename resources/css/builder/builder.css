@@ -11,7 +11,8 @@ body {
 }
 
 .builder {
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
     grid-template-columns: 280px 1fr 350px;
 
@@ -19,6 +20,18 @@ body {
     height: 100vh;
 
     height: calc(100vh - 110px);
+}
+
+.builder-main {
+
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns: 280px 1fr 350px;
+
+    overflow: hidden;
+
 }
 
 .builder-sidebar {
@@ -41,7 +54,7 @@ body {
     border-left: 1px solid #e5e7eb;
 }
 
-    /* TOPBAR SECTİONS */
+/* TOPBAR SECTİONS */
 .builder-topbar {
     height: 65px;
 
