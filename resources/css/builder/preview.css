@@ -16,56 +16,160 @@
 .website-canvas {
     width: min(1200px, 100%);
     min-width: 760px;
-    min-height: 1200px;
-    background: var(--canvas);
+    min-height: 720px;
+    background: #111827;
     color: var(--canvas-text);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     overflow: hidden;
 }
 
-.canvas-header {
-    padding: 34px 40px 26px;
+.browser-frame {
+    min-height: 720px;
+    display: flex;
+    flex-direction: column;
+    background: var(--canvas);
+}
+
+.browser-toolbar {
+    height: 54px;
+    flex: 0 0 54px;
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr) 120px;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+    background: #F8FAFC;
     border-bottom: 1px solid #E2E8F0;
 }
 
-.canvas-kicker {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--canvas-muted);
+.browser-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.browser-actions span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #EF4444;
+}
+
+.browser-actions span:nth-child(2) {
+    background: #F59E0B;
+}
+
+.browser-actions span:nth-child(3) {
+    background: #22C55E;
+}
+
+.browser-address {
+    min-width: 0;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.browser-status {
+    color: #64748B;
     font-size: 12px;
     font-weight: 800;
+    text-align: right;
     text-transform: uppercase;
     letter-spacing: .08em;
 }
 
-.canvas-header h2 {
-    color: var(--canvas-text);
-    font-size: 32px;
-    line-height: 1.15;
-    font-weight: 800;
+.website-render {
+    min-height: 666px;
+    overflow: hidden;
+    background: var(--canvas);
 }
 
-.builder-module {
-    min-height: 72px;
-    margin: 22px 40px;
-    padding: 20px;
+.builder-module-shell {
+    position: relative;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    transition: outline-color var(--transition), box-shadow var(--transition);
+}
+
+.builder-module-shell:hover,
+.builder-module-shell:focus,
+.builder-module-shell.is-selected {
+    z-index: 2;
+    outline-color: var(--primary);
+    box-shadow: inset 0 0 0 1px rgba(34, 211, 238, .25);
+}
+
+.module-selection-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 8;
+    height: 26px;
     display: flex;
     align-items: center;
-    gap: 14px;
-    border: 1px dashed #CBD5E1;
-    border-radius: 14px;
-    background: #F8FAFC;
-    color: #334155;
-    font-size: 14px;
-    font-weight: 700;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #07111F;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity var(--transition), transform var(--transition);
 }
 
-.module-handle {
-    width: 10px;
-    height: 34px;
-    border-radius: 10px;
-    background: linear-gradient(var(--primary), var(--primary-hover));
+.module-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.module-actions button {
+    height: 28px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: #0F172A;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .22);
+}
+
+.module-actions button:hover {
+    background: var(--primary);
+    color: #07111F;
+}
+
+.builder-module-shell:hover .module-selection-label,
+.builder-module-shell:hover .module-actions,
+.builder-module-shell:focus .module-selection-label,
+.builder-module-shell:focus .module-actions,
+.builder-module-shell.is-selected .module-selection-label,
+.builder-module-shell.is-selected .module-actions {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .empty-canvas {
@@ -76,4 +180,112 @@
     background: #F8FAFC;
     color: var(--canvas-muted);
     text-align: center;
+}
+
+.module-missing-view {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    color: #64748B;
+    font-weight: 700;
+}
+
+.website-render .container {
+    width: min(100% - 48px, 1120px);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.website-render .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.website-render .align-items-center {
+    align-items: center;
+}
+
+.website-render .g-5 {
+    gap: 48px;
+}
+
+.website-render .col-lg-6 {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.website-render .d-flex {
+    display: flex;
+}
+
+.website-render .gap-3 {
+    gap: 16px;
+}
+
+.website-render .text-center {
+    text-align: center;
+}
+
+.website-render .text-white {
+    color: #FFFFFF;
+}
+
+.website-render .text-light {
+    color: #F8FAFC;
+}
+
+.website-render .text-secondary {
+    color: #94A3B8;
+}
+
+.website-render .mb-4 {
+    margin-bottom: 24px;
+}
+
+.website-render .px-4 {
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.website-render .py-3 {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.website-render .fw-semibold {
+    font-weight: 700;
+}
+
+.website-render .fs-5 {
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.website-render .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.website-render .btn-primary {
+    color: #FFFFFF;
+}
+
+.website-render .btn-outline-secondary {
+    border: 1px solid rgba(148, 163, 184, .38);
+}
+
+.website-render .d-none {
+    display: none;
+}
+
+.website-render [class*="hero"],
+.website-render [class*="services"],
+.website-render [class*="about"],
+.website-render [class*="contact"],
+.website-render [class*="footer"] {
+    max-width: 100%;
 }

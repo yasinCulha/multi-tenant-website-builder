@@ -42,7 +42,8 @@
 }
 
 .settings-placeholder,
-.settings-button-placeholder {
+.settings-button-placeholder,
+.settings-image-placeholder {
     width: 100%;
     border: 1px solid #273449;
     border-radius: 12px;
@@ -73,4 +74,17 @@
     border-color: rgba(34, 211, 238, .24);
     color: var(--primary);
     font-weight: 800;
+}
+
+.settings-image-placeholder {
+    min-height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    background:
+        linear-gradient(135deg, rgba(34, 211, 238, .12), transparent),
+        var(--surface);
+    color: var(--text-soft);
+    font-weight: 700;
 }
