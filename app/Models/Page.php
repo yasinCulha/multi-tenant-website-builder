@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Module;
+use App\Models\PageModule;
 
 class Page extends Model
 {
@@ -14,5 +16,9 @@ class Page extends Model
     public function pageModules()
     {
         return $this->hasMany(PageModule::class);
+    }
+    public function modules()
+    {
+        return $this->hasMany(Module::class);
     }
 }
