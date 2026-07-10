@@ -8,9 +8,7 @@
 
     @vite([
     'resources/css/app.css',
-
     'resources/js/app.js',
-    'resources/js/builder/builder.js',
 ])
 </head>
 <body>
