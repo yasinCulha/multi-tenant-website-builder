@@ -1,10 +1,11 @@
 <aside class="builder-sidebar">
 
+   {{-- Search --}}
     <div class="sidebar-search">
 
         <input
             type="text"
-            placeholder="Ara..."
+            placeholder="Sayfa Ara..."
         >
 
     </div>
@@ -39,15 +40,43 @@
 
         @foreach($builder['pages'] as $page)
 
-            <div class="page-item">
+            <div
+    class="page-item {{ $builder['currentPage']?->id === $page->id ? 'active' : '' }}"
+    data-page-id="{{ $page->id }}"
+>
 
-                <span class="page-item-title">{{ $page->title }}</span>
-                <span class="page-item-meta">Page</span>
+    <div class="page-info">
 
-            </div>
+        <span class="page-item-title">
+            {{ $page->title }}
+        </span>
+
+        <span class="page-item-meta">
+            /{{ $page->slug }}
+        </span>
+
+    </div>
+
+    <button
+        class="page-actions-btn"
+        type="button"
+    >
+        ⋮
+    </button>
+
+</div>
 
         @endforeach
 
     </div>
+    <div class="sidebar-footer">
 
+    <button
+        class="new-page-btn"
+        type="button"
+    >
+        + Yeni Sayfa
+    </button>
+
+</div>
 </aside>

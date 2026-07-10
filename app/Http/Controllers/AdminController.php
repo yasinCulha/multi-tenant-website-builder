@@ -455,10 +455,6 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
         );
 
         return redirect()->back()
-            // ->route(
-            //     'company.theme.editor',
-            //     $theme->id
-            // )
             ->with(
                 'success',
                 'Tema başarıyla seçildi.'
