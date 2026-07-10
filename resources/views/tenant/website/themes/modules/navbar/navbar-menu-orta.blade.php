@@ -1,21 +1,36 @@
-<nav class="bg-white border-b border-gray-200 dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 flex items-center">
-                <a href="#" class="text-xl font-bold text-gray-800 dark:text-white">SaaSLogo</a>
-            </div>
-
-            <div class="hidden sm:flex space-x-8">
-                <a href="#" class="text-indigo-600 dark:text-indigo-400 text-sm font-medium">Özellikler</a>
-                <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-sm font-medium">Fiyatlandırma</a>
-                <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-sm font-medium">Dokümantasyon</a>
-                <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white text-sm font-medium">Blog</a>
-            </div>
-
-            <div class="hidden sm:flex items-center space-x-4">
-                <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 text-sm font-medium">Kayıt Ol</a>
-                <a href="#" class="bg-gray-900 dark:bg-white dark:text-gray-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800">Başla</a>
-            </div>
+<nav class="navbar navbar-expand-lg kurumsal-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ data_get($settings, 'general.company_website', '#') }}" data-bind-href="general.company_website">
+            <i class="fa-solid fa-briefcase"></i>
+            <span data-bind="general.company_name">{{ data_get($settings, 'general.company_name', $company->name) }}</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavCenter">
+            <i class="fa-solid fa-bars fs-4 text-dark"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavCenter">
+            <ul class="navbar-nav mx-auto gap-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_home_url', '#') }}" data-bind-href="navbar.nav_home_url">
+                        <span data-bind="navbar.nav_home">{{ data_get($settings, 'navbar.nav_home', 'Ana Sayfa') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_services_url', '#hizmetler') }}" data-bind-href="navbar.nav_services_url">
+                        <span data-bind="navbar.nav_services">{{ data_get($settings, 'navbar.nav_services', 'Hizmetlerimiz') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_about_url', '#hakkimizda') }}" data-bind-href="navbar.nav_about_url">
+                        <span data-bind="navbar.nav_about">{{ data_get($settings, 'navbar.nav_about', 'Hakkımızda') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ data_get($settings, 'navbar.nav_contact_url', '#iletisim') }}" data-bind-href="navbar.nav_contact_url">
+                        <span data-bind="navbar.nav_contact">{{ data_get($settings, 'navbar.nav_contact', 'İletişim') }}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="d-none d-lg-block" style="width: 150px;"></div>
         </div>
     </div>
 </nav>

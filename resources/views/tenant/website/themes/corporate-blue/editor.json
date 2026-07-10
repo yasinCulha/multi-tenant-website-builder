@@ -36,46 +36,53 @@
         {
             "id": "navbar",
             "title": "Üst Menü (Navbar)",
-            "fields": [
+            "icon": "fa-solid fa-bars",
+            "groups": [
                 {
-                    "type": "text",
-                    "label": "Ana Sayfa Menü Adı",
-                    "path": "navbar.nav_home"
-                },
-                {
-                    "type": "url",
-                    "label": "Ana Sayfa Menü Linki",
-                    "path": "navbar.nav_home_url"
-                },
-                {
-                    "type": "text",
-                    "label": "Hizmetler Menü Adı",
-                    "path": "navbar.nav_services"
-                },
-                {
-                    "type": "url",
-                    "label": "Hizmetler Menü Linki",
-                    "path": "navbar.nav_services_url"
-                },
-                {
-                    "type": "text",
-                    "label": "Hakkımızda Menü Adı",
-                    "path": "navbar.nav_about"
-                },
-                {
-                    "type": "url",
-                    "label": "Hakkımızda Menü Linki",
-                    "path": "navbar.nav_about_url"
-                },
-                {
-                    "type": "text",
-                    "label": "İletişim Menü Adı",
-                    "path": "navbar.nav_contact"
-                },
-                {
-                    "type": "url",
-                    "label": "İletişim Menü Linki",
-                    "path": "navbar.nav_contact_url"
+                    "id": "navbar_links",
+                    "title": "Menü Link Ayarları",
+                    "fields": [
+                        {
+                            "type": "text",
+                            "label": "Ana Sayfa Menü Adı",
+                            "path": "navbar.nav_home"
+                        },
+                        {
+                            "type": "url",
+                            "label": "Ana Sayfa Menü Linki",
+                            "path": "navbar.nav_home_url"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Hizmetler Menü Adı",
+                            "path": "navbar.nav_services"
+                        },
+                        {
+                            "type": "url",
+                            "label": "Hizmetler Menü Linki",
+                            "path": "navbar.nav_services_url"
+                        },
+                        {
+                            "type": "text",
+                            "label": "Hakkımızda Menü Adı",
+                            "path": "navbar.nav_about"
+                        },
+                        {
+                            "type": "url",
+                            "label": "Hakkımızda Menü Linki",
+                            "path": "navbar.nav_about_url"
+                        },
+                        {
+                            "type": "text",
+                            "label": "İletişim Menü Adı",
+                            "path": "navbar.nav_contact"
+                        },
+                        {
+                            "type": "url",
+                            "label": "İletişim Menü Linki",
+                            "path": "navbar.nav_contact_url"
+                        }
+                    ]
                 }
             ]
         },
@@ -85,6 +92,7 @@
             "icon": "fa-solid fa-cubes",
             "groups": [
                 {
+                    "id": "navbar_module_settings",
                     "title": "Navbar",
                     "fields": [
                         {
@@ -107,6 +115,7 @@
             "icon": "fa-solid fa-image",
             "groups": [
                 {
+                    "id": "hero_content",
                     "title": "İçerik ve Butonlar",
                     "fields": [
                         {
@@ -159,6 +168,7 @@
             "icon": "fa-solid fa-screwdriver-wrench",
             "groups": [
                 {
+                    "id": "services_headers",
                     "title": "Bölüm Başlıkları",
                     "fields": [
                         {
@@ -174,6 +184,7 @@
                     ]
                 },
                 {
+                    "id": "services_items",
                     "title": "Hizmet Kartları İçeriği",
                     "fields": [
                         {
@@ -216,6 +227,7 @@
             "icon": "fa-solid fa-building",
             "groups": [
                 {
+                    "id": "about_texts",
                     "title": "Metin İçerikleri",
                     "fields": [
                         {
@@ -231,6 +243,7 @@
                     ]
                 },
                 {
+                    "id": "about_stats",
                     "title": "İstatistik Sayıları & Yazıları",
                     "fields": [
                         {
@@ -273,6 +286,7 @@
             "icon": "fa-solid fa-phone",
             "groups": [
                 {
+                    "id": "contact_texts",
                     "title": "Bölüm Metinleri",
                     "fields": [
                         {
@@ -298,6 +312,7 @@
                     ]
                 },
                 {
+                    "id": "contact_form_labels",
                     "title": "Form Girdilerinin Etiketleri (Labels)",
                     "fields": [
                         {
@@ -335,6 +350,7 @@
             "icon": "fa-solid fa-shoe-prints",
             "groups": [
                 {
+                    "id": "footer_content_settings",
                     "title": "İçerik Ayarları",
                     "fields": [
                         {
@@ -360,6 +376,7 @@
                     ]
                 },
                 {
+                    "id": "footer_dynamic_loops",
                     "title": "Döngü Şema Yolları (Referans)",
                     "fields": [
                         {
@@ -387,6 +404,7 @@
             "icon": "fa-solid fa-globe",
             "groups": [
                 {
+                    "id": "seo_search_engine_settings",
                     "title": "Arama Motoru Ayarları",
                     "fields": [
                         {
@@ -402,7 +420,13 @@
             "id": "gallery",
             "title": "Galeri",
             "icon": "fa-solid fa-images",
-            "groups": []
+            "groups": [
+                {
+                    "id": "gallery_images",
+                    "title": "Görsel Listesi",
+                    "fields": []
+                }
+            ]
         }
     ]
 }
