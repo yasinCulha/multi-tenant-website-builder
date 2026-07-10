@@ -8,7 +8,7 @@
 
     @include('tenant.builder.components.preview')
 
-    @include('tenant.builder.components.settings')
+    @include('tenant.builder.components.settings-panel')
 
 </div>
 
