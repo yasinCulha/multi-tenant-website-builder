@@ -20,7 +20,7 @@ class ThemeTemplateSeeder extends Seeder
      */
     private function seedCorporateBlue(): void
     {
-        $theme = Theme::where('folder_path', 'themes.corporate-blue')->first();
+        $theme = Theme::where('folder_path', 'corporate-blue')->first();
 
         if (!$theme) {
             return;
@@ -67,7 +67,7 @@ class ThemeTemplateSeeder extends Seeder
      */
     private function seedModernDark(): void
     {
-        $theme = Theme::where('folder_path', 'themes.modern-dark')->first();
+        $theme = Theme::where('folder_path', 'modern-dark')->first();
 
         if (!$theme) {
             return;
