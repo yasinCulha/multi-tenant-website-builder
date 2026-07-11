@@ -24,17 +24,19 @@ return new class extends Migration
 
         });
 
-        Schema::create('page_module_contents', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('page_module_id')
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->string('field_key');
-            $table->text('field_value')->nullable();
-            $table->timestamps();
+        if (!Schema::hasTable('page_module_contents')) {
+            Schema::create('page_module_contents', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('page_module_id')
+                    ->constrained()
+                    ->cascadeOnDelete();
+                $table->string('field_key');
+                $table->text('field_value')->nullable();
+                $table->timestamps();
 
-            $table->unique(['page_module_id', 'field_key']);
-        });
+                $table->unique(['page_module_id', 'field_key']);
+            });
+        }
     }
 
     public function down(): void

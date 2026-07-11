@@ -417,9 +417,30 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
         $companySettings
     );
 
+    $pages = $company->pages()
+        ->orderBy('id')
+        ->get();
+
+    $pageSlug = request()->query('page');
+
+    $currentPage = $pages->firstWhere('slug', $pageSlug)
+        ?? $pages->firstWhere('slug', 'home')
+        ?? $pages->first();
+
+    $pageModules = $currentPage
+        ? $currentPage->pageModules()
+            ->with(['themeModule', 'contents'])
+            ->where('is_visible', true)
+            ->orderBy('order')
+            ->get()
+        : collect();
+
     return view("tenant.website.themes.{$theme->folder_path}.index", [
-        'company'  => $company,
-        'settings' => $settings,
+        'company'     => $company,
+        'settings'    => $settings,
+        'pages'       => $pages,
+        'currentPage' => $currentPage,
+        'pageModules' => $pageModules,
     ]);
 }
     public function companyDashboard()

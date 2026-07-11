@@ -6,14 +6,8 @@ use App\Models\Company;
 
 class BuilderService
 {
-    public function __construct(
-        protected ThemeInstaller $installer
-    ) {}
-
     public function getBuilderData(Company $company): array
     {
-        $this->installer->install($company);
-
         $theme = $company->theme;
 
         if (!$theme) {
@@ -39,18 +33,7 @@ class BuilderService
         $pageModules = $currentPage
             ? $currentPage->pageModules()
                 ->with(['themeModule', 'contents'])
-                ->orderBy('order')
-                ->get()
-            : collect();
-
-        $templatePage = $currentPage
-            ? $theme->templatePages()
-                ->where('slug', $currentPage->slug)
-                ->first()
-            : null;
-
-        $availableModules = $templatePage
-            ? $templatePage->modules()
+                ->where('is_visible', true)
                 ->orderBy('order')
                 ->get()
             : collect();
@@ -61,7 +44,7 @@ class BuilderService
             'pages'            => $pages,
             'currentPage'      => $currentPage,
             'pageModules'      => $pageModules,
-            'availableModules' => $availableModules,
+            'availableModules' => collect(),
         ];
     }
 }

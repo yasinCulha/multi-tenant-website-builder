@@ -37,6 +37,12 @@
 
             <div class="website-render">
 
+                @includeIf("tenant.website.themes.{$themeFolder}.partials.navbar", [
+                    'company' => $company,
+                    'settings' => $settings,
+                    'theme' => $theme,
+                ])
+
                 @forelse($builder['pageModules'] as $pageModule)
 
                     @php

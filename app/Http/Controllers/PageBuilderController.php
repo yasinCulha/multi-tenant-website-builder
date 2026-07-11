@@ -4,31 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\PageModule;
-use Illuminate\Http\Request;
 use App\Services\Builder\BuilderService;
-use App\Services\Builder\ThemeInstaller;
+use Illuminate\Http\Request;
 
 class PageBuilderController extends Controller
 {
-    protected BuilderService $builder;
-
-    public function __construct(BuilderService $builder)
-    {
-        $this->builder = $builder;
-
-        
-    }
+    public function __construct(
+        protected BuilderService $builder
+    ) {}
 
     public function index()
     {
         $company = auth()->user()->company;
-        
-        $builder = $this->builder->getBuilderData($company);
-
-        
 
         if (!$company) {
-            abort(403, 'Şirkete ait kullanıcı bulunamadı.');
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
         }
 
         $builder = $this->builder->getBuilderData($company);
@@ -66,7 +56,7 @@ class PageBuilderController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Modül başarıyla eklendi.',
+            'message' => 'Modul basariyla eklendi.',
         ]);
     }
 }
