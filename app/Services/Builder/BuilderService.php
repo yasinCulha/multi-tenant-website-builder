@@ -12,7 +12,6 @@ class BuilderService
 
     public function getBuilderData(Company $company): array
     {
-        // Eksik page_modules kayıtlarını oluştur
         $this->installer->install($company);
 
         $theme = $company->theme;
@@ -28,29 +27,31 @@ class BuilderService
             ];
         }
 
-        // Temaya ait sayfalar
-        $pages = $theme->pages()
+        $pages = $company->pages()
             ->orderBy('id')
             ->get();
 
-        // URL'den seçili sayfa
         $pageSlug = request()->query('page');
 
         $currentPage = $pages->firstWhere('slug', $pageSlug)
             ?? $pages->first();
 
-        // Sayfadaki modüller
         $pageModules = $currentPage
             ? $currentPage->pageModules()
-                ->with('module')
+                ->with(['themeModule', 'contents'])
                 ->orderBy('order')
                 ->get()
             : collect();
 
-        // Bu sayfaya eklenebilecek modüller
-        $availableModules = $currentPage
-            ? $currentPage->modules()
-                ->orderBy('id')
+        $templatePage = $currentPage
+            ? $theme->templatePages()
+                ->where('slug', $currentPage->slug)
+                ->first()
+            : null;
+
+        $availableModules = $templatePage
+            ? $templatePage->modules()
+                ->orderBy('order')
                 ->get()
             : collect();
 

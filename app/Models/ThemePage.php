@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ThemePage extends Model
 {
@@ -12,12 +14,12 @@ class ThemePage extends Model
         'slug',
     ];
 
-    public function theme()
+    public function theme(): BelongsTo
     {
         return $this->belongsTo(Theme::class);
     }
 
-    public function modules()
+    public function modules(): HasMany
     {
         return $this->hasMany(ThemePageModule::class);
     }

@@ -18,7 +18,7 @@ class ThemeInstaller
 
         $themePages = $theme
             ->templatePages()
-            ->with('modules')
+            ->with(['modules' => fn ($query) => $query->orderBy('order')])
             ->orderBy('id')
             ->get();
 

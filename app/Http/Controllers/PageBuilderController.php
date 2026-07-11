@@ -46,7 +46,7 @@ class PageBuilderController extends Controller
         $request->validate([
             'company_id' => 'required|exists:companies,id',
             'page_id'    => 'required|exists:pages,id',
-            'module_id'  => 'required|exists:modules,id',
+            'module_id'  => 'required|exists:theme_page_modules,id',
         ]);
 
         $lastModule = PageModule::where('company_id', $request->company_id)
@@ -57,12 +57,11 @@ class PageBuilderController extends Controller
         $order = $lastModule ? $lastModule->order + 10 : 10;
 
         PageModule::create([
-            'company_id' => $request->company_id,
-            'page_id'    => $request->page_id,
-            'module_id'  => $request->module_id,
-            'order'      => $order,
-            'content'    => [],
-            'is_visible' => true,
+            'company_id'           => $request->company_id,
+            'page_id'              => $request->page_id,
+            'theme_page_module_id' => $request->module_id,
+            'order'                => $order,
+            'is_visible'           => true,
         ]);
 
         return response()->json([

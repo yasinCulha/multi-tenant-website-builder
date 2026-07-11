@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Module;
-use App\Models\PageModule;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Page extends Model
 {
@@ -13,21 +13,14 @@ class Page extends Model
         'title',
         'slug',
     ];
-    public function theme()
-    {
-        return $this->belongsTo(Theme::class);
-    }
-    public function company()
+
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function pageModules()
+    public function pageModules(): HasMany
     {
         return $this->hasMany(PageModule::class);
-    }
-    public function modules()
-    {
-        return $this->hasMany(Module::class);
     }
 }

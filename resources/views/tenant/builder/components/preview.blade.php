@@ -41,7 +41,7 @@
 
                     @php
 
-                        $module = $pageModule->module;
+                        $module = $pageModule->themeModule;
 
                         /*
                          |------------------------------------------
@@ -50,24 +50,26 @@
                          |------------------------------------------
                          */
 
-                        $moduleSlug = $module->view_path
+                        $moduleSlug = $module?->view_path
                             ? trim($module->view_path)
-                            : \Illuminate\Support\Str::slug($module->name);
+                            : \Illuminate\Support\Str::slug($module?->name ?? '');
 
                         $builderModuleView =
-                            "tenant.website.themes.{$themeFolder}.modules.{$moduleSlug}";
+                            str_starts_with($moduleSlug, 'tenant.')
+                                ? $moduleSlug
+                                : "tenant.website.themes.{$themeFolder}." . ltrim($moduleSlug, '.');
 
                     @endphp
 
                     <section
                         class="builder-module-shell {{ $loop->first ? 'is-selected' : '' }}"
-                        data-module-id="{{ $module->id }}"
+                        data-module-id="{{ $module?->id }}"
                     >
 
                         {{-- Builder etiketi --}}
                         <div class="module-selection-label">
 
-                            {{ $module->name }}
+                            {{ $module?->name }}
 
                         </div>
 

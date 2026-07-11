@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Page;
 
 class Theme extends Model
 {
@@ -20,16 +19,24 @@ class Theme extends Model
     {
         return $this->hasMany(CompanyThemeSetting::class);
     }
+
+    /**
+     * @deprecated Company pages are installed from templatePages().
+     */
     public function pages()
     {
         return $this->hasMany(Page::class);
     }
 
+    /**
+     * @deprecated Theme modules are scoped through templatePages()->modules().
+     */
     public function modules()
     {
         return $this->hasMany(Module::class);
     }
-    public function templatePages()
+
+    public function templatePages(): HasMany
     {
         return $this->hasMany(ThemePage::class);
     }
