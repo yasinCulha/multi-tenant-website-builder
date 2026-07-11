@@ -1,78 +1,66 @@
 <?php
 
 namespace App\Services\Builder;
+
 use App\Models\Company;
-use App\Models\Page;
-use App\Models\PageModule;
-use App\Models\Module;
 
 class BuilderService
 {
-    public function getBuilderData(Company $company)
-{
-    $theme = $company->theme;
+    public function __construct(
+        protected ThemeInstaller $installer
+    ) {}
 
-    $pages = $theme->pages()->orderBy('id')->get();
+    public function getBuilderData(Company $company): array
+    {
+        // Eksik page_modules kayıtlarını oluştur
+        $this->installer->install($company);
 
-    $pageSlug = request()->query('page');
+        $theme = $company->theme;
 
-    $currentPage = $pages
-        ->firstWhere('slug', $pageSlug)
-        ?? $pages->first();
-
-    $pageModules = $currentPage
-        ? $currentPage->pageModules()
-            ->with('module')
-            ->orderBy('order')
-            ->get()
-        : collect();
-
-    $availableModules = $currentPage
-        ? $currentPage->modules()->orderBy('id')->get()
-        : collect();
-
-    return [
-        'company' => $company,
-        'theme' => $theme,
-        'pages' => $pages,
-        'currentPage' => $currentPage,
-        'pageModules' => $pageModules,
-        'availableModules' => $availableModules,
-    ];
-}
-public function installTheme(Company $company): void
-{
-    // Şirket için modüller zaten oluşturulduysa tekrar oluşturma
-    if (PageModule::where('company_id', $company->id)->exists()) {
-        return;
-    }
-
-    $theme = $company->theme;
-
-    if (!$theme) {
-        return;
-    }
-
-    $pages = $theme->pages()->with('modules')->get();
-
-    foreach ($pages as $page) {
-
-        $order = 10;
-
-        foreach ($page->modules as $module) {
-
-            PageModule::create([
-                'company_id' => $company->id,
-                'page_id' => $page->id,
-                'module_id' => $module->id,
-                'order' => $order,
-                'content' => [],
-                'is_visible' => true,
-            ]);
-
-            $order += 10;
+        if (!$theme) {
+            return [
+                'company' => $company,
+                'theme' => null,
+                'pages' => collect(),
+                'currentPage' => null,
+                'pageModules' => collect(),
+                'availableModules' => collect(),
+            ];
         }
-    }
-}
 
+        // Temaya ait sayfalar
+        $pages = $theme->pages()
+            ->orderBy('id')
+            ->get();
+
+        // URL'den seçili sayfa
+        $pageSlug = request()->query('page');
+
+        $currentPage = $pages->firstWhere('slug', $pageSlug)
+            ?? $pages->first();
+
+        // Sayfadaki modüller
+        $pageModules = $currentPage
+            ? $currentPage->pageModules()
+                ->with('module')
+                ->orderBy('order')
+                ->get()
+            : collect();
+
+        // Bu sayfaya eklenebilecek modüller
+        $availableModules = $currentPage
+            ? $currentPage->modules()
+                ->orderBy('id')
+                ->get()
+            : collect();
+
+        return [
+            'company'          => $company,
+            'theme'            => $theme,
+            'pages'            => $pages,
+            'currentPage'      => $currentPage,
+            'pageModules'      => $pageModules,
+            'availableModules' => $availableModules,
+        ];
+    }
 }
