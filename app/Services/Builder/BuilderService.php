@@ -3,8 +3,8 @@
 namespace App\Services\Builder;
 
 use App\Models\Company;
-use App\Models\CompanyThemeSetting;
 use App\Models\Page;
+use App\Services\ThemeEngine;
 use App\Services\ThemeManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
 class BuilderService
 {
     public function __construct(
-        protected ThemeManager $themeManager
+        protected ThemeManager $themeManager,
+        protected ThemeEngine $themeEngine
     ) {}
 
     public function getBuilderData(Company $company, ?string $pageSlug = null): array
@@ -32,44 +33,25 @@ class BuilderService
             ];
         }
 
-        $pages = $company->pages()
-            ->with(['pageModules' => fn ($query) => $query
-                ->with('themeModule')
-                ->where('is_visible', true)
-                ->orderBy('order')
-            ])
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->get();
-
-        $pageSlug ??= request()->query('page');
-
-        $currentPage = $pages->firstWhere('slug', $pageSlug)
-            ?? $pages->firstWhere('slug', 'home')
-            ?? $pages->first();
-
-        $pageModules = $currentPage
-            ? $currentPage->pageModules()
-                ->with(['themeModule', 'contents'])
-                ->where('is_visible', true)
-                ->orderBy('order')
-                ->get()
-            : collect();
-
-        $themeSetting = CompanyThemeSetting::where('company_id', $company->id)->first();
-        $settings = array_replace_recursive(
-            $this->themeManager->defaults($theme->folder_path),
-            $themeSetting?->settings ?? []
+        $context = $this->themeEngine->makeRenderContext(
+            $company,
+            $pageSlug ?? request()->query('page'),
+            true
         );
 
         return [
             'company' => $company,
             'theme' => $theme,
-            'pages' => $pages,
-            'currentPage' => $currentPage,
-            'pageModules' => $pageModules,
-            'settings' => $settings,
+            'pages' => $context['pages'],
+            'currentPage' => $context['currentPage'],
+            'pageModules' => $context['pageModules'],
+            'settings' => $context['settings'],
             'availableModules' => $this->getAvailableModules($company),
+            'previewHtml' => $this->themeEngine->renderHtml(
+                $company,
+                $context['currentPage']?->slug,
+                true
+            ),
         ];
     }
 

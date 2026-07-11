@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\PageModule;
+use App\Services\ThemeEngine;
 use App\Services\Builder\BuilderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ use Illuminate\View\View;
 class PageBuilderController extends Controller
 {
     public function __construct(
-        protected BuilderService $builder
+        protected BuilderService $builder,
+        protected ThemeEngine $themeEngine
     ) {}
 
     public function index(Request $request): View|JsonResponse
@@ -34,7 +36,7 @@ class PageBuilderController extends Controller
 
     public function preview(Page $page)
     {
-        return view('tenant.builder.preview-page', compact('page'));
+        return $this->themeEngine->render($page->company, $page->slug, true);
     }
 
     public function addModuleToPage(Request $request)
@@ -85,6 +87,31 @@ class PageBuilderController extends Controller
         return $this->builderResponse($builder, [
             'success' => true,
             'page' => $page,
+        ]);
+    }
+
+    public function save(Request $request): JsonResponse
+    {
+        $request->validate([
+            'contents' => 'array',
+            'contents.*.page_module_id' => 'required|integer',
+            'contents.*.fields' => 'array',
+        ]);
+
+        $company = auth()->user()->company;
+
+        if (!$company) {
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
+        }
+
+        $this->themeEngine->saveModuleContents(
+            $company,
+            $request->input('contents', [])
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Degisiklikler kaydedildi.',
         ]);
     }
 

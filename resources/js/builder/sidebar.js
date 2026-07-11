@@ -92,6 +92,18 @@ document.addEventListener("click", async (event) => {
     const openButton = event.target.closest("[data-open-new-page-modal]");
     const closeButton = event.target.closest("[data-close-new-page-modal]");
     const pageLink = event.target.closest("[data-page-link]");
+    const previewButton = event.target.closest("[data-live-preview-url]");
+    const saveButton = event.target.closest("[data-builder-save]");
+
+    if (previewButton) {
+        window.open(previewButton.dataset.livePreviewUrl, "_blank", "noopener");
+        return;
+    }
+
+    if (saveButton) {
+        await saveBuilderChanges(saveButton);
+        return;
+    }
 
     if (openButton) {
         refreshPositionOptions();
@@ -123,6 +135,59 @@ document.addEventListener("click", async (event) => {
         window.history.pushState({}, "", pageLink.href);
     }
 });
+
+const collectModuleContents = () => {
+    const grouped = new Map();
+
+    document
+        .querySelectorAll("[data-page-module-id][data-field-key]")
+        .forEach((field) => {
+            const pageModuleId = field.dataset.pageModuleId;
+            const fieldKey = field.dataset.fieldKey;
+
+            if (!pageModuleId || !fieldKey) {
+                return;
+            }
+
+            if (!grouped.has(pageModuleId)) {
+                grouped.set(pageModuleId, {
+                    page_module_id: Number(pageModuleId),
+                    fields: {},
+                });
+            }
+
+            grouped.get(pageModuleId).fields[fieldKey] = field.type === "checkbox"
+                ? field.checked
+                : field.value;
+        });
+
+    return [...grouped.values()];
+};
+
+const saveBuilderChanges = async (button) => {
+    button.disabled = true;
+
+    try {
+        const response = await fetch("/company/builder/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken(),
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json",
+            },
+            body: JSON.stringify({
+                contents: collectModuleContents(),
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Save failed");
+        }
+    } finally {
+        button.disabled = false;
+    }
+};
 
 document.addEventListener("input", (event) => {
     const titleInput = event.target.closest("[data-page-title-input]");

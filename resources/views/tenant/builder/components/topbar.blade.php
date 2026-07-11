@@ -41,11 +41,14 @@
 
     <div class="topbar-right">
 
-        <button class="btn-preview" type="button">
+        <button
+            class="btn-preview"
+            type="button"
+            data-live-preview-url="https://{{ $builder['company']->slug }}.apollonmedya.net">
             Preview
         </button>
 
-        <button class="btn-save" type="button">
+        <button class="btn-save" type="button" data-builder-save>
             Save
         </button>
 

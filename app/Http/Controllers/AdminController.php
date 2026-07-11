@@ -382,66 +382,17 @@ class AdminController extends Controller
     
     //TENANT SECTİON
 
-public function showTenantSite($subdomain, ThemeManager $themeManager)
+public function showTenantSite($subdomain, ThemeEngine $themeEngine)
 {
-    // Firmayı bul (Burada artık veritabanındaki 'slug' sütununa tarayıcıdan gelen $subdomain'i soruyoruz)
     $company = Company::where('slug', $subdomain)->first();
+
     if (!$company) {
-         return response()->view('errors.tenant-not-found', [
-        'subdomain' => $subdomain,
-    ], 404);
+        return response()->view('errors.tenant-not-found', [
+            'subdomain' => $subdomain,
+        ], 404);
     }
 
-    // Aktif tema
-    $theme = $company->theme;
-
-    if (!$theme) {
-        abort(404, 'Tema bulunamadı.');
-    }
-
-    // Firma ayarları
-    $themeSetting = CompanyThemeSetting::where(
-        'company_id',
-        $company->id
-    )->first();
-
-    // Default ayarlar
-    $defaultSettings = $themeManager->defaults($theme->folder_path);
-
-    // Veritabanındaki ayarlar
-    $companySettings = $themeSetting?->settings ?? [];
-
-    // Default + Firma ayarlarını birleştir
-    $settings = array_replace_recursive(
-        $defaultSettings,
-        $companySettings
-    );
-
-    $pages = $company->pages()
-        ->orderBy('id')
-        ->get();
-
-    $pageSlug = request()->query('page');
-
-    $currentPage = $pages->firstWhere('slug', $pageSlug)
-        ?? $pages->firstWhere('slug', 'home')
-        ?? $pages->first();
-
-    $pageModules = $currentPage
-        ? $currentPage->pageModules()
-            ->with(['themeModule', 'contents'])
-            ->where('is_visible', true)
-            ->orderBy('order')
-            ->get()
-        : collect();
-
-    return view("tenant.website.themes.{$theme->folder_path}.index", [
-        'company'     => $company,
-        'settings'    => $settings,
-        'pages'       => $pages,
-        'currentPage' => $currentPage,
-        'pageModules' => $pageModules,
-    ]);
+    return $themeEngine->render($company, request()->query('page'));
 }
     public function companyDashboard()
     {
@@ -606,3 +557,4 @@ public function showTenantSite($subdomain, ThemeManager $themeManager)
 
     
 }
+

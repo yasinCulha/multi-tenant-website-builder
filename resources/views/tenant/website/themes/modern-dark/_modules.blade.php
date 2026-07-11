@@ -12,6 +12,7 @@
             <section
                 class="builder-module-shell {{ $loop->first ? 'is-selected' : '' }}"
                 data-module-id="{{ $module?->id }}"
+                data-page-module-id="{{ $pageModule->id }}"
             >
                 <div class="module-selection-label">{{ $module?->name }}</div>
 

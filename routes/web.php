@@ -80,6 +80,7 @@ Route::get('/company/builder', [PageBuilderController::class, 'index'])->name('t
 Route::post('/company/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
 Route::get('/company/preview/{page}', [PageBuilderController::class, 'preview'])->name('tenant.preview');
 Route::post('/company/builder/pages', [PageBuilderController::class, 'storePage'])->name('builder.pages.store');
+Route::post('/company/builder/save', [PageBuilderController::class, 'save'])->name('builder.save');
 
 //MÜŞTERİ SUBDOMAINLERİ İÇİN ROTA GRUBU
 Route::domain('{subdomain}.apollonmedya.net')->group(function () {
