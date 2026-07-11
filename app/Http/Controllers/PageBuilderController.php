@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\PageModule;
 use App\Services\Builder\BuilderService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class PageBuilderController extends Controller
 {
@@ -14,7 +15,7 @@ class PageBuilderController extends Controller
         protected BuilderService $builder
     ) {}
 
-    public function index()
+    public function index(Request $request): View|JsonResponse
     {
         $company = auth()->user()->company;
 
@@ -22,7 +23,11 @@ class PageBuilderController extends Controller
             abort(403, 'Sirkete ait kullanici bulunamadi.');
         }
 
-        $builder = $this->builder->getBuilderData($company);
+        $builder = $this->builder->getBuilderData($company, $request->query('page'));
+
+        if ($request->ajax()) {
+            return $this->builderResponse($builder);
+        }
 
         return view('tenant.builder.index', compact('builder'));
     }
@@ -64,16 +69,33 @@ class PageBuilderController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
         ]);
 
         $page = $this->builder->createPage(
             auth()->user()->company,
-            $request->title
+            $request->title,
+            $request->slug,
+            $request->input('position', 'end')
         );
 
-        return response()->json([
+        $builder = $this->builder->getBuilderData(auth()->user()->company, $page->slug);
+
+        return $this->builderResponse($builder, [
             'success' => true,
             'page' => $page,
         ]);
+    }
+
+    protected function builderResponse(array $builder, array $payload = []): JsonResponse
+    {
+        return response()->json(array_merge([
+            'success' => true,
+            'currentPage' => $builder['currentPage'],
+            'sidebar' => view('tenant.builder.components.sidebar', compact('builder'))->render(),
+            'preview' => view('tenant.builder.components.preview', compact('builder'))->render(),
+            'settings' => view('tenant.builder.components.settings-panel', compact('builder'))->render(),
+        ], $payload));
     }
 }

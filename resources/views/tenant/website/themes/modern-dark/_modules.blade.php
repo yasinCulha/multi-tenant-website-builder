@@ -46,7 +46,7 @@
 @empty
     @if($isBuilderPreview)
         <div class="empty-canvas">
-            Bu sayfada henuz modul bulunmuyor.
+            Bu sayfa bos. Modul ekleyerek baslayabilirsiniz.
         </div>
     @endif
 @endforelse

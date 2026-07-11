@@ -40,4 +40,9 @@ class Theme extends Model
     {
         return $this->hasMany(ThemePage::class);
     }
+
+    public function templateModules()
+    {
+        return $this->hasManyThrough(ThemePageModule::class, ThemePage::class);
+    }
 }

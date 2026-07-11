@@ -10,8 +10,10 @@ class Page extends Model
 {
     protected $fillable = [
         'company_id',
+        'theme_id',
         'title',
         'slug',
+        'sort_order',
     ];
 
     public function company(): BelongsTo

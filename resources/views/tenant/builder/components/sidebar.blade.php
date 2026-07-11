@@ -1,95 +1,75 @@
-<aside class="builder-sidebar">
+<aside class="builder-sidebar" data-builder-sidebar>
 
     <div class="sidebar-search">
         <input
             type="text"
             placeholder="Sayfa Ara..."
+            data-page-search
         >
     </div>
 
-    <div class="sidebar-menu">
-
-        <button class="sidebar-item active" type="button">
-            <span class="sidebar-item-icon">📄</span>
+    <section class="sidebar-panel">
+        <div class="sidebar-panel-title">
+            <span class="sidebar-item-icon">P</span>
             <span>Sayfalar</span>
-        </button>
+        </div>
 
-        <button class="sidebar-item" type="button">
-            <span class="sidebar-item-icon">🧩</span>
-            <span>Modüller</span>
-        </button>
+        <div class="sidebar-pages" data-page-list>
+            @foreach($builder['pages'] as $page)
+                @php
+                    $isCurrentPage = $builder['currentPage']?->id === $page->id;
+                @endphp
 
-        <button class="sidebar-item" type="button">
-            <span class="sidebar-item-icon">🖼️</span>
-            <span>Medya</span>
-        </button>
+                <a
+                    href="{{ route('tenant.builder', ['page' => $page->slug]) }}"
+                    class="page-item {{ $isCurrentPage ? 'active' : '' }}"
+                    data-page-link
+                    data-page-id="{{ $page->id }}"
+                    data-page-title="{{ $page->title }}"
+                    data-page-slug="{{ $page->slug }}"
+                >
+                    <div class="page-info">
+                        <span class="page-item-title">{{ $page->title }}</span>
+                        <span class="page-item-meta">/{{ $page->slug }}</span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
 
-        <button class="sidebar-item" type="button">
-            <span class="sidebar-item-icon">⚙️</span>
-            <span>Site Ayarları</span>
+        <button class="new-page-btn" type="button" data-open-new-page-modal>
+            + Yeni Sayfa
         </button>
-
-    </div>
+    </section>
 
     <div class="sidebar-divider"></div>
 
-    <div class="sidebar-pages">
+    <section class="sidebar-panel sidebar-modules-panel">
+        <div class="sidebar-panel-title">
+            <span class="sidebar-item-icon">M</span>
+            <span>Moduller</span>
+        </div>
 
-        @foreach($builder['pageTree'] as $treeItem)
-            @php
-                $page = $treeItem['page'];
-                $isCurrentPage = $builder['currentPage']?->id === $page->id;
-            @endphp
-
-            <details class="page-tree-item {{ $isCurrentPage ? 'active' : '' }}" {{ $isCurrentPage ? 'open' : '' }}>
-                <summary>
-                    <a
-                        href="{{ route('tenant.builder', ['page' => $page->slug]) }}"
-                        class="page-item {{ $isCurrentPage ? 'active' : '' }}"
-                        data-page-id="{{ $page->id }}"
-                    >
-                        <div class="page-info">
-                            <span class="page-item-title">
-                                {{ $page->title }}
-                            </span>
-
-                            <span class="page-item-meta">
-                                /{{ $page->slug }}
-                            </span>
-                        </div>
-
-                        <span
-                            class="page-actions-btn"
-                            aria-hidden="true"
-                        >
-                            ⋮
-                        </span>
-                    </a>
-                </summary>
-
-                <div class="page-module-tree">
-                    @foreach($treeItem['modules'] as $moduleItem)
-                        <div class="page-module-tree-item {{ $moduleItem['type'] === 'layout' ? 'is-layout' : '' }}">
-                            <span class="page-module-dot"></span>
-                            <span>{{ $moduleItem['title'] }}</span>
-                        </div>
-                    @endforeach
+        <div class="sidebar-modules" data-available-modules>
+            @forelse($builder['availableModules'] as $module)
+                <button
+                    class="available-module-item"
+                    type="button"
+                    draggable="true"
+                    data-module-id="{{ $module->id }}"
+                    data-module-name="{{ $module->name }}"
+                    data-module-view="{{ $module->view_path }}"
+                >
+                    <span class="available-module-icon">
+                        {{ $module->icon ?: strtoupper(mb_substr($module->name, 0, 1)) }}
+                    </span>
+                    <span>{{ $module->name }}</span>
+                </button>
+            @empty
+                <div class="sidebar-empty-state">
+                    Bu tema icin modul bulunamadi.
                 </div>
-            </details>
-
-        @endforeach
-
-    </div>
-
-    <div class="sidebar-footer">
-        <button
-            class="new-page-btn"
-            data-bs-toggle="modal"
-            data-bs-target="#newPageModal">
-
-            + Yeni Sayfa
-
-        </button>
-    </div>
+            @endforelse
+        </div>
+    </section>
 
 </aside>
