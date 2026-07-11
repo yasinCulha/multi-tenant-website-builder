@@ -3,11 +3,12 @@
     @php
         $company = $builder['company'];
         $currentPage = $builder['currentPage'];
-        $previewUrl = 'https://' . $company->slug . '.apollonmedya.net'
-            . ($currentPage ? '?page=' . $currentPage->slug : '');
+        $previewUrl = route('builder.preview', [
+            'page' => $currentPage?->slug,
+        ]);
     @endphp
 
-    <div class="website-canvas">
+    <div class="website-canvas" data-preview-canvas>
 
         <div class="browser-frame">
 
@@ -32,7 +33,8 @@
             <iframe
                 class="website-render website-render-frame"
                 title="Builder Preview"
-                srcdoc="{{ e($builder['previewHtml'] ?? '') }}"
+                src="{{ $previewUrl }}"
+                data-builder-preview-frame
             ></iframe>
 
         </div>

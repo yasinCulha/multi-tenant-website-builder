@@ -55,11 +55,6 @@ class ThemeEngine
         );
     }
 
-    public function renderHtml(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false): string
-    {
-        return $this->render($company, $pageSlug, $isBuilderPreview)->render();
-    }
-
     public function makeRenderContext(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false): array
     {
         $company->loadMissing('theme');

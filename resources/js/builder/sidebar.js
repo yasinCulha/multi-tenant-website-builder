@@ -94,6 +94,12 @@ document.addEventListener("click", async (event) => {
     const pageLink = event.target.closest("[data-page-link]");
     const previewButton = event.target.closest("[data-live-preview-url]");
     const saveButton = event.target.closest("[data-builder-save]");
+    const deviceButton = event.target.closest("[data-preview-device]");
+
+    if (deviceButton) {
+        setPreviewDevice(deviceButton);
+        return;
+    }
 
     if (previewButton) {
         window.open(previewButton.dataset.livePreviewUrl, "_blank", "noopener");
@@ -135,6 +141,20 @@ document.addEventListener("click", async (event) => {
         window.history.pushState({}, "", pageLink.href);
     }
 });
+
+const setPreviewDevice = (button) => {
+    const canvas = document.querySelector("[data-preview-canvas]");
+
+    if (!canvas) {
+        return;
+    }
+
+    document
+        .querySelectorAll("[data-preview-device]")
+        .forEach((item) => item.classList.toggle("active", item === button));
+
+    canvas.dataset.previewDevice = button.dataset.previewDevice;
+};
 
 const collectModuleContents = () => {
     const grouped = new Map();

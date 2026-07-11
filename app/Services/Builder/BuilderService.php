@@ -47,11 +47,6 @@ class BuilderService
             'pageModules' => $context['pageModules'],
             'settings' => $context['settings'],
             'availableModules' => $this->getAvailableModules($company),
-            'previewHtml' => $this->themeEngine->renderHtml(
-                $company,
-                $context['currentPage']?->slug,
-                true
-            ),
         ];
     }
 

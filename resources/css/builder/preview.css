@@ -22,6 +22,17 @@
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     overflow: hidden;
+    transition: width var(--transition), min-width var(--transition);
+}
+
+.website-canvas[data-preview-device="tablet"] {
+    width: 768px;
+    min-width: 768px;
+}
+
+.website-canvas[data-preview-device="mobile"] {
+    width: 390px;
+    min-width: 390px;
 }
 
 .browser-frame {
@@ -99,6 +110,7 @@
 
 .website-render-frame {
     width: 100%;
+    min-height: 666px;
     flex: 1;
     border: 0;
     display: block;

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Services\ThemeManager;
 use App\Services\ThemeRenderer;
 use App\Models\CompanyThemeSetting;
+use App\Http\Controllers\BuilderPreviewController;
 use App\Http\Controllers\PageBuilderController;
 
 // Ana Sayfa (Tanıtım)
@@ -77,6 +78,7 @@ Route::get('/company/theme-editor/{theme}',[AdminController::class, 'themeEditor
 Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('company.theme.save');
 
 Route::get('/company/builder', [PageBuilderController::class, 'index'])->name('tenant.builder');
+Route::get('/company/builder/preview', BuilderPreviewController::class)->name('builder.preview');
 Route::post('/company/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
 Route::get('/company/preview/{page}', [PageBuilderController::class, 'preview'])->name('tenant.preview');
 Route::post('/company/builder/pages', [PageBuilderController::class, 'storePage'])->name('builder.pages.store');
