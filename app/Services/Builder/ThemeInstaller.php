@@ -4,6 +4,7 @@ namespace App\Services\Builder;
 
 use App\Models\Company;
 use App\Models\Page;
+use App\Models\PageModule;
 
 class ThemeInstaller
 {
@@ -17,12 +18,13 @@ class ThemeInstaller
 
         $themePages = $theme
             ->templatePages()
+            ->with('modules')
             ->orderBy('id')
             ->get();
 
         foreach ($themePages as $themePage) {
 
-            Page::firstOrCreate(
+            $page = Page::firstOrCreate(
                 [
                     'company_id' => $company->id,
                     'slug'       => $themePage->slug,
@@ -31,7 +33,21 @@ class ThemeInstaller
                     'title' => $themePage->title,
                 ]
             );
+
+            foreach ($themePage->modules as $themeModule) {
+
+                PageModule::firstOrCreate(
+                    [
+                        'company_id'           => $company->id,
+                        'page_id'              => $page->id,
+                        'theme_page_module_id' => $themeModule->id,
+                    ],
+                    [
+                        'order'      => $themeModule->order,
+                        'is_visible' => true,
+                    ]
+                );
+            }
         }
-        dd($themePage->modules()->get());
     }
 }
