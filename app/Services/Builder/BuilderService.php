@@ -14,7 +14,11 @@ class BuilderService
 
     $pages = $theme->pages()->orderBy('id')->get();
 
-    $currentPage = $pages->first();
+    $pageSlug = request()->query('page');
+
+    $currentPage = $pages
+        ->firstWhere('slug', $pageSlug)
+        ?? $pages->first();
 
     $pageModules = $currentPage
         ? $currentPage->pageModules()
