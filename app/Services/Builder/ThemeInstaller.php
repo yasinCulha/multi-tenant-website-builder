@@ -32,5 +32,6 @@ class ThemeInstaller
                 ]
             );
         }
+        dd($themePage->modules()->get());
     }
 }
