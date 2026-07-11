@@ -1,18 +1,32 @@
+@php
+    $navigationLinks = $navigationLinks ?? collect();
+    $brandUrl = data_get($navigationLinks->firstWhere('slug', 'home'), 'url')
+        ?? data_get($navigationLinks->first(), 'url')
+        ?? '#';
+@endphp
+
 <header class="md-navbar">
     <div class="md-container md-navbar__inner">
-        <a class="md-navbar__brand" href="{{ data_get($settings ?? [], 'general.company_website', '/') }}">
+        <a class="md-navbar__brand" href="{{ $brandUrl }}">
             {{ $company->name ?? data_get($settings ?? [], 'general.company_name', 'Firma Adi') }}
         </a>
 
         <nav class="md-navbar__menu" aria-label="Ana menu">
-            <a href="{{ data_get($settings ?? [], 'navbar.nav_home_url', '#ana-sayfa') }}">{{ data_get($settings ?? [], 'navbar.nav_home', 'Anasayfa') }}</a>
-            <a href="{{ data_get($settings ?? [], 'navbar.nav_about_url', '#hakkimizda') }}">{{ data_get($settings ?? [], 'navbar.nav_about', 'Hakkimizda') }}</a>
-            <a href="{{ data_get($settings ?? [], 'navbar.nav_services_url', '#hizmetler') }}">{{ data_get($settings ?? [], 'navbar.nav_services', 'Hizmetler') }}</a>
-            <a href="{{ data_get($settings ?? [], 'navbar.nav_contact_url', '#iletisim') }}">{{ data_get($settings ?? [], 'navbar.nav_contact', 'Iletisim') }}</a>
+            @foreach($navigationLinks as $link)
+                <a
+                    href="{{ $link['url'] }}"
+                    class="{{ $link['is_active'] ? 'is-active' : '' }}"
+                    data-page-slug="{{ $link['slug'] }}"
+                >
+                    {{ $link['title'] }}
+                </a>
+            @endforeach
         </nav>
 
-        <a class="md-button md-button--sm" href="{{ data_get($settings ?? [], 'navbar.cta_button_url', '#iletisim') }}">
-            {{ data_get($settings ?? [], 'navbar.cta_button_text', 'Teklif Al') }}
-        </a>
+        @if($navigationLinks->isNotEmpty())
+            <a class="md-button md-button--sm" href="{{ $navigationLinks->last()['url'] }}">
+                {{ data_get($settings ?? [], 'navbar.cta_button_text', 'Iletisime Gec') }}
+            </a>
+        @endif
     </div>
 </header>

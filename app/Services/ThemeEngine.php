@@ -84,6 +84,7 @@ class ThemeEngine
             'theme' => $theme,
             'settings' => $this->settingsFor($company, $theme),
             'pages' => $pages,
+            'navigationLinks' => $this->navigationLinks($company, $pages, $currentPage, $isBuilderPreview),
             'currentPage' => $currentPage,
             'pageModules' => $pageModules,
             'isBuilderPreview' => $isBuilderPreview,
@@ -161,5 +162,30 @@ class ThemeEngine
             $this->themeManager->defaults($theme->folder_path),
             $themeSetting?->settings ?? []
         );
+    }
+
+    private function navigationLinks(Company $company, $pages, ?Page $currentPage, bool $isBuilderPreview)
+    {
+        return $pages->map(fn (Page $page) => [
+            'title' => $page->title,
+            'slug' => $page->slug,
+            'url' => $this->pageUrl($company, $page, $isBuilderPreview),
+            'is_active' => $currentPage?->id === $page->id,
+        ]);
+    }
+
+    private function pageUrl(Company $company, Page $page, bool $isBuilderPreview): string
+    {
+        if ($isBuilderPreview) {
+            return route('builder.preview', ['page' => $page->slug]);
+        }
+
+        $baseUrl = 'https://' . $company->slug . '.apollonmedya.net';
+
+        if ($page->slug === 'home') {
+            return $baseUrl;
+        }
+
+        return $baseUrl . '/?page=' . urlencode($page->slug);
     }
 }

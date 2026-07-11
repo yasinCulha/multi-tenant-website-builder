@@ -307,7 +307,30 @@ const bindPreviewFrameActions = () => {
     frame.addEventListener("load", () => {
         try {
             frame.contentDocument?.addEventListener("click", async (event) => {
+                const navigationLink = event.target.closest("[data-page-slug]");
                 const deleteButton = event.target.closest("[data-delete-page-module]");
+
+                if (navigationLink) {
+                    event.preventDefault();
+
+                    const pageSlug = navigationLink.dataset.pageSlug;
+                    const response = await fetch(`/company/builder?page=${encodeURIComponent(pageSlug)}`, {
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            "Accept": "application/json",
+                        },
+                    });
+
+                    if (!response.ok) {
+                        frame.src = navigationLink.href;
+                        return;
+                    }
+
+                    const payload = await response.json();
+                    replaceBuilderFragments(payload);
+                    window.history.pushState({}, "", `/company/builder?page=${pageSlug}`);
+                    return;
+                }
 
                 if (!deleteButton) {
                     return;
