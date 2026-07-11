@@ -22,7 +22,7 @@ class ThemeInstaller
             ->orderBy('id')
             ->get();
 
-        foreach ($themePages as $themePage) {
+        foreach ($themePages->values() as $index => $themePage) {
 
             $page = Page::firstOrCreate(
                 [
@@ -31,8 +31,13 @@ class ThemeInstaller
                 ],
                 [
                     'title' => $themePage->title,
+                    'sort_order' => ($index + 1) * 10,
                 ]
             );
+
+            if (!$page->sort_order) {
+                $page->forceFill(['sort_order' => ($index + 1) * 10])->save();
+            }
 
             foreach ($themePage->modules as $themeModule) {
 

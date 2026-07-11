@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\ThemeEngine;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class BuilderPreviewController extends Controller
 {
@@ -12,7 +12,7 @@ class BuilderPreviewController extends Controller
         protected ThemeEngine $themeEngine
     ) {}
 
-    public function __invoke(Request $request): View
+    public function __invoke(Request $request): Response
     {
         $company = $request->user()?->company;
 
@@ -20,10 +20,13 @@ class BuilderPreviewController extends Controller
             abort(403, 'Sirkete ait kullanici bulunamadi.');
         }
 
-        return $this->themeEngine->render(
+        return response($this->themeEngine->render(
             $company,
             $request->query('page'),
             true
-        );
+        ))->withHeaders([
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ]);
     }
 }

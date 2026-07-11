@@ -5,6 +5,7 @@
         $currentPage = $builder['currentPage'];
         $previewUrl = route('builder.preview', [
             'page' => $currentPage?->slug,
+            'v' => $currentPage?->updated_at?->timestamp ?? time(),
         ]);
     @endphp
 
@@ -20,7 +21,7 @@
                     <span></span>
                 </div>
 
-                <div class="browser-address">
+                <div class="browser-address" data-preview-address>
                     {{ $previewUrl }}
                 </div>
 

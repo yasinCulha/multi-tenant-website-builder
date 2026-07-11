@@ -27,6 +27,26 @@ const replaceBuilderFragments = (payload) => {
     if (settings && payload.settings) {
         settings.outerHTML = payload.settings;
     }
+
+    if (payload.currentPage?.slug) {
+        refreshPreviewFrame(payload.currentPage.slug);
+    }
+};
+
+const refreshPreviewFrame = (pageSlug) => {
+    const frame = document.querySelector("[data-builder-preview-frame]");
+    const address = document.querySelector("[data-preview-address]");
+
+    if (!frame || !pageSlug) {
+        return;
+    }
+
+    const previewUrl = `/company/builder/preview?page=${encodeURIComponent(pageSlug)}&v=${Date.now()}`;
+    frame.src = previewUrl;
+
+    if (address) {
+        address.textContent = previewUrl;
+    }
 };
 
 const modal = () => document.querySelector("[data-builder-modal]");
@@ -88,6 +108,26 @@ const setError = (message) => {
     error.removeAttribute("hidden");
 };
 
+const showBuilderNotice = (message, type = "success") => {
+    let notice = document.querySelector("[data-builder-notice]");
+
+    if (!notice) {
+        notice = document.createElement("div");
+        notice.dataset.builderNotice = "";
+        notice.className = "builder-notice";
+        document.body.appendChild(notice);
+    }
+
+    notice.textContent = message;
+    notice.dataset.type = type;
+    notice.classList.add("is-visible");
+
+    window.clearTimeout(showBuilderNotice.timeout);
+    showBuilderNotice.timeout = window.setTimeout(() => {
+        notice.classList.remove("is-visible");
+    }, 3200);
+};
+
 document.addEventListener("click", async (event) => {
     const openButton = event.target.closest("[data-open-new-page-modal]");
     const closeButton = event.target.closest("[data-close-new-page-modal]");
@@ -137,7 +177,9 @@ document.addEventListener("click", async (event) => {
             return;
         }
 
-        replaceBuilderFragments(await response.json());
+        const payload = await response.json();
+
+        replaceBuilderFragments(payload);
         window.history.pushState({}, "", pageLink.href);
     }
 });
@@ -201,9 +243,19 @@ const saveBuilderChanges = async (button) => {
             }),
         });
 
-        if (!response.ok) {
+        const payload = await response.json();
+
+        if (!response.ok || !payload.success) {
+            showBuilderNotice(payload.message || "Degisiklikler kaydedilemedi.", "error");
             throw new Error("Save failed");
         }
+
+        showBuilderNotice(payload.message || "Degisiklikler basariyla kaydedildi.", "success");
+
+        const activePage = document.querySelector("[data-page-link].active");
+        refreshPreviewFrame(activePage?.dataset.pageSlug);
+    } catch (error) {
+        showBuilderNotice("Degisiklikler kaydedilemedi.", "error");
     } finally {
         button.disabled = false;
     }
