@@ -31,7 +31,6 @@ class ThemeInstaller
                     'title' => $themePage->title,
                 ]
             );
-
         }
     }
 }
