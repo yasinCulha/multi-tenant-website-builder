@@ -9,9 +9,8 @@ class PageModule extends Model
     protected $fillable = [
         'company_id',
         'page_id',
-        'module_id',
+        'theme_page_module_id',
         'order',
-        'content',
         'is_visible',
     ];
 
@@ -30,8 +29,11 @@ class PageModule extends Model
         return $this->belongsTo(Page::class);
     }
 
-    public function module()
-    {
-        return $this->belongsTo(Module::class);
-    }
+    public function themeModule()
+{
+    return $this->belongsTo(
+        ThemePageModule::class,
+        'theme_page_module_id'
+    );
+}
 }
