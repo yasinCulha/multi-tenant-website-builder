@@ -22,10 +22,7 @@ class PageBuilderController extends Controller
     public function index()
     {
         $company = auth()->user()->company;
-
-
-        $this->builder->installTheme($company);
-
+        
         $builder = $this->builder->getBuilderData($company);
 
         
