@@ -8,9 +8,18 @@ use App\Models\PageModule;
 
 class Page extends Model
 {
+    protected $fillable = [
+        'company_id',
+        'title',
+        'slug',
+    ];
     public function theme()
     {
         return $this->belongsTo(Theme::class);
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function pageModules()

@@ -29,4 +29,8 @@ class Theme extends Model
     {
         return $this->hasMany(Module::class);
     }
+    public function templatePages()
+    {
+        return $this->hasMany(ThemePage::class);
+    }
 }
