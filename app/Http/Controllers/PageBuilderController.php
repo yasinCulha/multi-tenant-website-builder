@@ -6,6 +6,7 @@ use App\Models\Page;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
 use App\Services\Builder\BuilderService;
+use App\Services\Builder\ThemeInstaller;
 
 class PageBuilderController extends Controller
 {
