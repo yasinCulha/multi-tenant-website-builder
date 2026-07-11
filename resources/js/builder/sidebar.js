@@ -31,6 +31,8 @@ const replaceBuilderFragments = (payload) => {
     if (payload.currentPage?.slug) {
         refreshPreviewFrame(payload.currentPage.slug);
     }
+
+    bindPreviewFrameActions();
 };
 
 const refreshPreviewFrame = (pageSlug) => {
@@ -42,6 +44,7 @@ const refreshPreviewFrame = (pageSlug) => {
     }
 
     const previewUrl = `/company/builder/preview?page=${encodeURIComponent(pageSlug)}&v=${Date.now()}`;
+    bindPreviewFrameActions();
     frame.src = previewUrl;
 
     if (address) {
@@ -128,6 +131,84 @@ const showBuilderNotice = (message, type = "success") => {
     }, 3200);
 };
 
+const requestJson = async (url, options = {}) => {
+    const response = await fetch(url, {
+        headers: {
+            "X-CSRF-TOKEN": csrfToken(),
+            "X-Requested-With": "XMLHttpRequest",
+            "Accept": "application/json",
+            ...(options.headers || {}),
+        },
+        ...options,
+    });
+
+    const payload = await response.json();
+
+    if (!response.ok || payload.success === false) {
+        throw new Error(payload.message || "Islem tamamlanamadi.");
+    }
+
+    return payload;
+};
+
+const activePageLink = () => document.querySelector("[data-page-link].active")
+    ?? document.querySelector(".page-item.active [data-page-link]");
+
+const addModuleToCurrentPage = async (button) => {
+    const pageLink = activePageLink();
+
+    if (!pageLink) {
+        showBuilderNotice("Once bir sayfa secin.", "error");
+        return;
+    }
+
+    button.disabled = true;
+
+    try {
+        const payload = await requestJson("/company/page-builder/add-module", {
+            method: "POST",
+            body: new URLSearchParams({
+                page_id: pageLink.dataset.pageId,
+                theme_page_module_id: button.dataset.moduleId,
+            }),
+        });
+
+        replaceBuilderFragments(payload);
+        showBuilderNotice(payload.message || "Modul eklendi.", "success");
+    } catch (error) {
+        showBuilderNotice(error.message || "Modul eklenemedi.", "error");
+    } finally {
+        button.disabled = false;
+    }
+};
+
+const deleteCurrentPage = async (button) => {
+    if (!window.confirm("Bu sayfa ve modulleri silinsin mi?")) {
+        return;
+    }
+
+    button.disabled = true;
+
+    try {
+        const payload = await requestJson(`/company/builder/pages/${button.dataset.pageId}`, {
+            method: "DELETE",
+        });
+
+        replaceBuilderFragments(payload);
+        showBuilderNotice(payload.message || "Sayfa silindi.", "success");
+
+        if (payload.currentPage?.slug) {
+            window.history.pushState({}, "", `/company/builder?page=${payload.currentPage.slug}`);
+        } else {
+            window.history.pushState({}, "", "/company/builder");
+        }
+    } catch (error) {
+        showBuilderNotice(error.message || "Sayfa silinemedi.", "error");
+    } finally {
+        button.disabled = false;
+    }
+};
+
 document.addEventListener("click", async (event) => {
     const openButton = event.target.closest("[data-open-new-page-modal]");
     const closeButton = event.target.closest("[data-close-new-page-modal]");
@@ -135,9 +216,21 @@ document.addEventListener("click", async (event) => {
     const previewButton = event.target.closest("[data-live-preview-url]");
     const saveButton = event.target.closest("[data-builder-save]");
     const deviceButton = event.target.closest("[data-preview-device]");
+    const addModuleButton = event.target.closest("[data-add-module]");
+    const deletePageButton = event.target.closest("[data-delete-page]");
 
     if (deviceButton) {
         setPreviewDevice(deviceButton);
+        return;
+    }
+
+    if (addModuleButton) {
+        await addModuleToCurrentPage(addModuleButton);
+        return;
+    }
+
+    if (deletePageButton) {
+        await deleteCurrentPage(deletePageButton);
         return;
     }
 
@@ -198,6 +291,50 @@ const setPreviewDevice = (button) => {
     canvas.dataset.previewDevice = button.dataset.previewDevice;
 };
 
+const bindPreviewFrameActions = () => {
+    const frame = document.querySelector("[data-builder-preview-frame]");
+
+    if (!frame) {
+        return;
+    }
+
+    if (frame.dataset.actionsBound) {
+        return;
+    }
+
+    frame.dataset.actionsBound = "true";
+
+    frame.addEventListener("load", () => {
+        try {
+            frame.contentDocument?.addEventListener("click", async (event) => {
+                const deleteButton = event.target.closest("[data-delete-page-module]");
+
+                if (!deleteButton) {
+                    return;
+                }
+
+                event.preventDefault();
+                deleteButton.disabled = true;
+
+                try {
+                    const payload = await requestJson(
+                        `/company/page-builder/modules/${deleteButton.dataset.deletePageModule}`,
+                        { method: "DELETE" }
+                    );
+
+                    replaceBuilderFragments(payload);
+                    showBuilderNotice(payload.message || "Modul silindi.", "success");
+                } catch (error) {
+                    showBuilderNotice(error.message || "Modul silinemedi.", "error");
+                    deleteButton.disabled = false;
+                }
+            });
+        } catch (error) {
+            showBuilderNotice("Preview islemleri baglanamadi.", "error");
+        }
+    });
+};
+
 const collectModuleContents = () => {
     const grouped = new Map();
 
@@ -239,6 +376,7 @@ const saveBuilderChanges = async (button) => {
                 "Accept": "application/json",
             },
             body: JSON.stringify({
+                page: activePageLink()?.dataset.pageSlug,
                 contents: collectModuleContents(),
             }),
         });
@@ -328,3 +466,5 @@ document.addEventListener("submit", async (event) => {
         submitButton.disabled = false;
     }
 });
+
+bindPreviewFrameActions();

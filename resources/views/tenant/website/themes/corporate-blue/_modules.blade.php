@@ -19,7 +19,7 @@
                 <div class="module-actions">
                     <button type="button">Edit</button>
                     <button type="button">Duplicate</button>
-                    <button type="button">Delete</button>
+                    <button type="button" data-delete-page-module="{{ $pageModule->id }}">Delete</button>
                 </div>
 
                 @include($moduleView, [

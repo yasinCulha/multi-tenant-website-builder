@@ -4,6 +4,8 @@ namespace App\Services\Builder;
 
 use App\Models\Company;
 use App\Models\Page;
+use App\Models\PageModule;
+use App\Models\ThemePageModule;
 use App\Services\ThemeEngine;
 use App\Services\ThemeManager;
 use Illuminate\Support\Collection;
@@ -67,6 +69,50 @@ class BuilderService
                 'slug' => $this->uniquePageSlug($company, $slug ?: $title),
                 'sort_order' => $sortOrder,
             ]);
+        });
+    }
+
+    public function addModuleToPage(Company $company, Page $page, ThemePageModule $themeModule): PageModule
+    {
+        return DB::transaction(function () use ($company, $page, $themeModule) {
+            $lastOrder = (int) $company->pageModules()
+                ->where('page_id', $page->id)
+                ->max('order');
+
+            return PageModule::create([
+                'company_id' => $company->id,
+                'page_id' => $page->id,
+                'theme_page_module_id' => $themeModule->id,
+                'order' => $lastOrder + 10,
+                'is_visible' => true,
+            ]);
+        });
+    }
+
+    public function deleteModule(Company $company, PageModule $pageModule): void
+    {
+        DB::transaction(function () use ($company, $pageModule) {
+            $company->pageModules()
+                ->whereKey($pageModule->id)
+                ->firstOrFail()
+                ->delete();
+        });
+    }
+
+    public function deletePage(Company $company, Page $page): ?Page
+    {
+        return DB::transaction(function () use ($company, $page) {
+            $company->pages()
+                ->whereKey($page->id)
+                ->firstOrFail()
+                ->delete();
+
+            $this->normalizePageOrder($company);
+
+            return $company->pages()
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->first();
         });
     }
 

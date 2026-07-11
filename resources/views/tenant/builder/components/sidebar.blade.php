@@ -20,19 +20,34 @@
                     $isCurrentPage = $builder['currentPage']?->id === $page->id;
                 @endphp
 
-                <a
-                    href="{{ route('tenant.builder', ['page' => $page->slug]) }}"
+                <div
                     class="page-item {{ $isCurrentPage ? 'active' : '' }}"
-                    data-page-link
                     data-page-id="{{ $page->id }}"
                     data-page-title="{{ $page->title }}"
                     data-page-slug="{{ $page->slug }}"
                 >
-                    <div class="page-info">
+                    <a
+                        href="{{ route('tenant.builder', ['page' => $page->slug]) }}"
+                        class="page-info"
+                        data-page-link
+                        data-page-id="{{ $page->id }}"
+                        data-page-title="{{ $page->title }}"
+                        data-page-slug="{{ $page->slug }}"
+                    >
                         <span class="page-item-title">{{ $page->title }}</span>
                         <span class="page-item-meta">/{{ $page->slug }}</span>
-                    </div>
-                </a>
+                    </a>
+
+                    <button
+                        class="page-delete-btn"
+                        type="button"
+                        aria-label="{{ $page->title }} sayfasini sil"
+                        data-delete-page
+                        data-page-id="{{ $page->id }}"
+                    >
+                        x
+                    </button>
+                </div>
             @endforeach
         </div>
 
@@ -55,6 +70,7 @@
                     class="available-module-item"
                     type="button"
                     draggable="true"
+                    data-add-module
                     data-module-id="{{ $module->id }}"
                     data-module-name="{{ $module->name }}"
                     data-module-view="{{ $module->view_path }}"

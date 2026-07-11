@@ -392,8 +392,7 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
         ], 404);
     }
 
-    // return $themeEngine->render($company, request()->query('page'));
-    return view('tenant.website.admin.dashboard.index', compact('company', 'themes'));
+    return $themeEngine->render($company, request()->query('page'));
 }
     public function companyDashboard()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\PageModule;
+use App\Models\ThemePageModule;
 use App\Services\ThemeEngine;
 use App\Services\Builder\BuilderService;
 use Illuminate\Http\JsonResponse;
@@ -42,28 +43,26 @@ class PageBuilderController extends Controller
     public function addModuleToPage(Request $request)
     {
         $request->validate([
-            'company_id'           => 'required|exists:companies,id',
             'page_id'              => 'required|exists:pages,id',
             'theme_page_module_id' => 'required|exists:theme_page_modules,id',
         ]);
 
-        $lastModule = PageModule::where('company_id', $request->company_id)
-            ->where('page_id', $request->page_id)
-            ->orderByDesc('order')
-            ->first();
+        $company = auth()->user()->company;
 
-        $order = $lastModule ? $lastModule->order + 10 : 10;
+        if (!$company) {
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
+        }
 
-        PageModule::create([
-            'company_id'           => $request->company_id,
-            'page_id'              => $request->page_id,
-            'theme_page_module_id' => $request->theme_page_module_id,
-            'order'                => $order,
-            'is_visible'           => true,
-        ]);
+        $page = $company->pages()->whereKey($request->page_id)->firstOrFail();
+        $themeModule = ThemePageModule::whereKey($request->theme_page_module_id)
+            ->whereHas('page', fn ($query) => $query->where('theme_id', $company->theme_id))
+            ->firstOrFail();
 
-        return response()->json([
-            'success' => true,
+        $this->builder->addModuleToPage($company, $page, $themeModule);
+
+        $builder = $this->builder->getBuilderData($company, $page->slug);
+
+        return $this->builderResponse($builder, [
             'message' => 'Modul basariyla eklendi.',
         ]);
     }
@@ -109,9 +108,45 @@ class PageBuilderController extends Controller
             $request->input('contents', [])
         );
 
-        return response()->json([
-            'success' => true,
+        $builder = $this->builder->getBuilderData($company, $request->input('page'));
+
+        return $this->builderResponse($builder, [
             'message' => 'Degisiklikler kaydedildi.',
+        ]);
+    }
+
+    public function destroyModule(PageModule $pageModule): JsonResponse
+    {
+        $company = auth()->user()->company;
+        $pageSlug = $pageModule->page?->slug;
+
+        if (!$company) {
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
+        }
+
+        $this->builder->deleteModule($company, $pageModule);
+
+        $builder = $this->builder->getBuilderData($company, $pageSlug);
+
+        return $this->builderResponse($builder, [
+            'message' => 'Modul silindi.',
+        ]);
+    }
+
+    public function destroyPage(Page $page): JsonResponse
+    {
+        $company = auth()->user()->company;
+
+        if (!$company) {
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
+        }
+
+        $nextPage = $this->builder->deletePage($company, $page);
+        $builder = $this->builder->getBuilderData($company, $nextPage?->slug);
+
+        return $this->builderResponse($builder, [
+            'message' => 'Sayfa silindi.',
+            'page' => $nextPage,
         ]);
     }
 
