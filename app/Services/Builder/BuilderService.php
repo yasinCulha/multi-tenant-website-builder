@@ -5,6 +5,8 @@ namespace App\Services\Builder;
 use App\Models\Company;
 use App\Models\CompanyThemeSetting;
 use App\Services\ThemeManager;
+use App\Models\Page;
+use Illuminate\Support\Str;
 
 class BuilderService
 {
@@ -82,5 +84,28 @@ class BuilderService
             'settings'         => $settings,
             'availableModules' => collect(),
         ];
+    }
+    public function createPage(Company $company, string $title): Page
+    {
+        $slug = Str::slug($title);
+
+        // Aynı slug varsa benzersiz hale getir
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (
+            Page::where('company_id', $company->id)
+                ->where('slug', $slug)
+                ->exists()
+        ) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return Page::create([
+            'company_id' => $company->id,
+            'title'      => $title,
+            'slug'       => $slug,
+        ]);
     }
 }

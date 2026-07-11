@@ -6,6 +6,7 @@ use App\Models\Page;
 use App\Models\PageModule;
 use App\Services\Builder\BuilderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageBuilderController extends Controller
 {
@@ -57,6 +58,22 @@ class PageBuilderController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Modul basariyla eklendi.',
+        ]);
+    }
+    public function storePage(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $page = $this->builder->createPage(
+            auth()->user()->company,
+            $request->title
+        );
+
+        return response()->json([
+            'success' => true,
+            'page' => $page,
         ]);
     }
 }

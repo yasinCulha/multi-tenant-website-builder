@@ -84,9 +84,11 @@
     <div class="sidebar-footer">
         <button
             class="new-page-btn"
-            type="button"
-        >
+            data-bs-toggle="modal"
+            data-bs-target="#newPageModal">
+
             + Yeni Sayfa
+
         </button>
     </div>
 
