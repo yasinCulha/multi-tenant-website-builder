@@ -44,9 +44,9 @@ class PageBuilderController extends Controller
     public function addModuleToPage(Request $request)
     {
         $request->validate([
-            'company_id' => 'required|exists:companies,id',
-            'page_id'    => 'required|exists:pages,id',
-            'module_id'  => 'required|exists:theme_page_modules,id',
+            'company_id'           => 'required|exists:companies,id',
+            'page_id'              => 'required|exists:pages,id',
+            'theme_page_module_id' => 'required|exists:theme_page_modules,id',
         ]);
 
         $lastModule = PageModule::where('company_id', $request->company_id)
@@ -59,7 +59,7 @@ class PageBuilderController extends Controller
         PageModule::create([
             'company_id'           => $request->company_id,
             'page_id'              => $request->page_id,
-            'theme_page_module_id' => $request->module_id,
+            'theme_page_module_id' => $request->theme_page_module_id,
             'order'                => $order,
             'is_visible'           => true,
         ]);

@@ -12,6 +12,7 @@ return new class extends Migration
         }
 
         DB::statement('ALTER TABLE page_modules MODIFY module_id BIGINT UNSIGNED NULL');
+        DB::statement('ALTER TABLE page_modules MODIFY content JSON NULL');
     }
 
     public function down(): void
@@ -21,5 +22,6 @@ return new class extends Migration
         }
 
         DB::statement('ALTER TABLE page_modules MODIFY module_id BIGINT UNSIGNED NOT NULL');
+        DB::statement('ALTER TABLE page_modules MODIFY content JSON NULL');
     }
 };
