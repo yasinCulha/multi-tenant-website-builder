@@ -44,27 +44,35 @@ class ThemeInstaller
                 $page->forceFill(['sort_order' => ($index + 1) * 10])->save();
             }
 
-            foreach ($themePage->modules as $themeModule) {
-//                 dd(
-//     $themeModule->name,
-//     $themeModule->fields
-// );
+                foreach ($themePage->modules as $themeModule) {
 
-                $pageModule::firstOrCreate(
-                    [
-                        'company_id'           => $company->id,
-                        'page_id'              => $page->id,
-                        'theme_page_module_id' => $themeModule->id,
-                        'page_module_id' => $pageModule->id,
-                        'field_key'      => $field->field_key,
-                    ],
-                    [
-                        'field_value'    => $field->default_value,
-                        'order'      => $themeModule->order,
-                        'is_visible' => true,
-                    ]
-                );
-            }
+    // Önce PageModule oluştur
+    $pageModule = PageModule::firstOrCreate(
+        [
+            'company_id'           => $company->id,
+            'page_id'              => $page->id,
+            'theme_page_module_id' => $themeModule->id,
+        ],
+        [
+            'order'      => $themeModule->order,
+            'is_visible' => true,
+        ]
+    );
+
+    // Sonra bu modülün field'larını oluştur
+    foreach ($themeModule->fields as $field) {
+
+        PageModuleContent::firstOrCreate(
+            [
+                'page_module_id' => $pageModule->id,
+                'field_key'      => $field->field_key,
+            ],
+            [
+                'field_value' => $field->default_value,
+            ]
+        );
+    }
+}
         }
     }
 }
