@@ -25,4 +25,10 @@ class ThemePageModule extends Model
     {
         return $this->hasMany(PageModule::class);
     }
+    public function fields()
+{
+    return $this->hasMany(
+        ThemePageModuleField::class
+    )->orderBy('sort_order');
+}
 }
