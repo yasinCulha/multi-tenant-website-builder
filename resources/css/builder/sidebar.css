@@ -114,18 +114,18 @@
 
 .sidebar-panel-content {
 
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
-    grid-template-rows: 1fr;
+    gap: 12px;
 
     overflow: hidden;
 
     transition:
-        grid-template-rows .25s ease,
-        opacity .25s ease,
-        margin-top .25s ease;
+        max-height .3s ease,
+        opacity .2s ease;
 
-    margin-top: 12px;
+    max-height: 900px;
 
     opacity: 1;
 }
@@ -135,6 +135,8 @@
 }
 
 .sidebar-panel:not(.open) .sidebar-panel-content {
+    max-height: 0;
+    pointer-events: none;
 
     grid-template-rows: 0fr;
 
@@ -159,15 +161,15 @@
 
 .sidebar-pages {
 
-    display: grid;
+    display: flex;
+
+    flex-direction: column;
 
     gap: 10px;
 
-    max-height: 320px;
+    overflow-y: auto;
 
-    overflow: auto;
-
-    padding-right: 4px;
+    max-height: 260px;
 }
 
 .page-item {

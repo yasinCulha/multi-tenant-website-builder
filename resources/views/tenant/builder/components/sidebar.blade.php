@@ -71,16 +71,17 @@
                     </div>
 
                 @endforeach
-
-            </div>
-
-            <button
+                <button
                 class="new-page-btn"
                 type="button"
                 data-open-new-page-modal
             >
                 + Yeni Sayfa
             </button>
+
+            </div>
+
+            
 
         </div>
 
