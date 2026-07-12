@@ -535,17 +535,43 @@ document.addEventListener("submit", async (event) => {
         submitButton.disabled = false;
     }
 });
-document.addEventListener("DOMContentLoaded", () => {
+function initSidebarAccordion() {
     document.querySelectorAll("[data-sidebar-toggle]").forEach((button) => {
         const panel = button.closest(".sidebar-panel");
 
-        // İlk açılışta açık gelsin
-        panel.classList.add("open");
+        if (!panel) return;
+
+        const key = `sidebar-${button.dataset.sidebarToggle}`;
+
+        // İlk açılışta localStorage'dan oku.
+        // Yoksa varsayılan olarak açık olsun.
+        const isOpen = localStorage.getItem(key);
+
+        if (isOpen === null || isOpen === "true") {
+            panel.classList.add("open");
+        } else {
+            panel.classList.remove("open");
+        }
+
+        // Aynı event'i ikinci kez ekleme
+        if (button.dataset.initialized) return;
+
+        button.dataset.initialized = "true";
 
         button.addEventListener("click", () => {
             panel.classList.toggle("open");
+
+            localStorage.setItem(key, panel.classList.contains("open"));
         });
     });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    initSidebarAccordion();
 });
+
+// Builder AJAX ile sidebar yeniden render ederse
+// dışarıdan tekrar çağırabilmek için.
+window.initSidebarAccordion = initSidebarAccordion;
 
 bindPreviewFrameActions();
