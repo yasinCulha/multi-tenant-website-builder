@@ -535,12 +535,16 @@ document.addEventListener("submit", async (event) => {
         submitButton.disabled = false;
     }
 });
-document.querySelectorAll("[data-sidebar-toggle]").forEach((button) => {
-    button.addEventListener("click", () => {
-        const panel = button.nextElementSibling;
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-sidebar-toggle]").forEach((button) => {
+        const panel = button.closest(".sidebar-panel");
 
-        panel.classList.toggle("closed");
-        panel.classList.toggle("open");
+        // İlk açılışta açık gelsin
+        panel.classList.add("open");
+
+        button.addEventListener("click", () => {
+            panel.classList.toggle("open");
+        });
     });
 });
 

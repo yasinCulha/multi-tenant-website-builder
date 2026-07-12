@@ -63,7 +63,7 @@
                 <span>Modüller</span>
             </div>
 
-            <span class="sidebar-chevron">⌄</span>
+            <i class="fa-solid fa-chevron-down sidebar-chevron"></i>
 
         </button>
         <div class="sidebar-panel-content" id="modules-panel">
