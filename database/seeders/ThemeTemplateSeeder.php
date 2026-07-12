@@ -155,7 +155,6 @@ class ThemeTemplateSeeder extends Seeder
     {
         
         $moduleKey = strtolower(str_replace(['modules.', '-'], ['', '_'], $themeModule->view_path));
-        dd($moduleKey, $this->fieldsFor($moduleKey));
 
         foreach ($this->fieldsFor($moduleKey) as $index => $field) {
             // Tema modulu hangi alanlarla editlenecek bilgisini veritabaninda tutar.
@@ -173,6 +172,7 @@ class ThemeTemplateSeeder extends Seeder
                     'is_required' => $field['is_required'] ?? false,
                 ]
             );
+            dd($field);
         }
     }
 

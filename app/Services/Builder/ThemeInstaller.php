@@ -45,6 +45,7 @@ class ThemeInstaller
             }
 
             foreach ($themePage->modules as $themeModule) {
+                dd($themeModule->name, $field);
                 // Once firma sayfasina bagli PageModule kaydi olusturulur.
                 $pageModule = PageModule::firstOrCreate(
                     [
