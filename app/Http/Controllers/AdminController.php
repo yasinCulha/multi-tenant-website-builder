@@ -462,6 +462,7 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
         'theme'    => $theme,
         'editor'   => $themeManager->editor($theme->folder_path),
         'settings' => $settings,
+        'builder' => $builder,
     ]);
 }
    public function saveTheme(Request $request)
