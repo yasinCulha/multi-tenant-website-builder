@@ -1,13 +1,5 @@
 <aside class="builder-sidebar" data-builder-sidebar>
 
-    <div class="sidebar-search">
-        <input
-            type="text"
-            placeholder="Sayfa Ara..."
-            data-page-search
-        >
-    </div>
-
     {{-- ==================== SAYFALAR ==================== --}}
 
     <section class="sidebar-panel open">
