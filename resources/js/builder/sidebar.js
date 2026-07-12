@@ -1,15 +1,17 @@
-const slugify = (value) => value
-    .toString()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/ı/g, "i")
-    .replace(/İ/g, "i")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+const slugify = (value) =>
+    value
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ı/g, "i")
+        .replace(/İ/g, "i")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
-const csrfToken = () => document.querySelector('meta[name="csrf-token"]')?.content ?? "";
+const csrfToken = () =>
+    document.querySelector('meta[name="csrf-token"]')?.content ?? "";
 
 const replaceBuilderFragments = (payload) => {
     const sidebar = document.querySelector("[data-builder-sidebar]");
@@ -76,7 +78,9 @@ const closeNewPageModal = () => {
     currentModal.classList.remove("is-open");
     currentModal.setAttribute("aria-hidden", "true");
     currentModal.querySelector("[data-new-page-form]")?.reset();
-    currentModal.querySelector("[data-new-page-error]")?.setAttribute("hidden", "hidden");
+    currentModal
+        .querySelector("[data-new-page-error]")
+        ?.setAttribute("hidden", "hidden");
 };
 
 const refreshPositionOptions = () => {
@@ -93,11 +97,20 @@ const refreshPositionOptions = () => {
     select.append(new Option("Listenin Basina", "start"));
 
     pages.forEach((page) => {
-        select.append(new Option(`${page.dataset.pageTitle}'dan Sonra`, `after:${page.dataset.pageId}`));
+        select.append(
+            new Option(
+                `${page.dataset.pageTitle}'dan Sonra`,
+                `after:${page.dataset.pageId}`,
+            ),
+        );
     });
 
     select.append(new Option("Listenin Sonuna", "end"));
-    select.value = [...select.options].some((option) => option.value === selected) ? selected : "end";
+    select.value = [...select.options].some(
+        (option) => option.value === selected,
+    )
+        ? selected
+        : "end";
 };
 
 const setError = (message) => {
@@ -136,7 +149,7 @@ const requestJson = async (url, options = {}) => {
         headers: {
             "X-CSRF-TOKEN": csrfToken(),
             "X-Requested-With": "XMLHttpRequest",
-            "Accept": "application/json",
+            Accept: "application/json",
             ...(options.headers || {}),
         },
         ...options,
@@ -151,8 +164,9 @@ const requestJson = async (url, options = {}) => {
     return payload;
 };
 
-const activePageLink = () => document.querySelector("[data-page-link].active")
-    ?? document.querySelector(".page-item.active [data-page-link]");
+const activePageLink = () =>
+    document.querySelector("[data-page-link].active") ??
+    document.querySelector(".page-item.active [data-page-link]");
 
 const addModuleToCurrentPage = async (button) => {
     const pageLink = activePageLink();
@@ -190,15 +204,22 @@ const deleteCurrentPage = async (button) => {
     button.disabled = true;
 
     try {
-        const payload = await requestJson(`/company/builder/pages/${button.dataset.pageId}`, {
-            method: "DELETE",
-        });
+        const payload = await requestJson(
+            `/company/builder/pages/${button.dataset.pageId}`,
+            {
+                method: "DELETE",
+            },
+        );
 
         replaceBuilderFragments(payload);
         showBuilderNotice(payload.message || "Sayfa silindi.", "success");
 
         if (payload.currentPage?.slug) {
-            window.history.pushState({}, "", `/company/builder?page=${payload.currentPage.slug}`);
+            window.history.pushState(
+                {},
+                "",
+                `/company/builder?page=${payload.currentPage.slug}`,
+            );
         } else {
             window.history.pushState({}, "", "/company/builder");
         }
@@ -261,7 +282,7 @@ document.addEventListener("click", async (event) => {
         const response = await fetch(pageLink.href, {
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
         });
 
@@ -308,18 +329,23 @@ const bindPreviewFrameActions = () => {
         try {
             frame.contentDocument?.addEventListener("click", async (event) => {
                 const navigationLink = event.target.closest("[data-page-slug]");
-                const deleteButton = event.target.closest("[data-delete-page-module]");
+                const deleteButton = event.target.closest(
+                    "[data-delete-page-module]",
+                );
 
                 if (navigationLink) {
                     event.preventDefault();
 
                     const pageSlug = navigationLink.dataset.pageSlug;
-                    const response = await fetch(`/company/builder?page=${encodeURIComponent(pageSlug)}`, {
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest",
-                            "Accept": "application/json",
+                    const response = await fetch(
+                        `/company/builder?page=${encodeURIComponent(pageSlug)}`,
+                        {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest",
+                                Accept: "application/json",
+                            },
                         },
-                    });
+                    );
 
                     if (!response.ok) {
                         frame.src = navigationLink.href;
@@ -328,7 +354,11 @@ const bindPreviewFrameActions = () => {
 
                     const payload = await response.json();
                     replaceBuilderFragments(payload);
-                    window.history.pushState({}, "", `/company/builder?page=${pageSlug}`);
+                    window.history.pushState(
+                        {},
+                        "",
+                        `/company/builder?page=${pageSlug}`,
+                    );
                     return;
                 }
 
@@ -342,13 +372,19 @@ const bindPreviewFrameActions = () => {
                 try {
                     const payload = await requestJson(
                         `/company/page-builder/modules/${deleteButton.dataset.deletePageModule}`,
-                        { method: "DELETE" }
+                        { method: "DELETE" },
                     );
 
                     replaceBuilderFragments(payload);
-                    showBuilderNotice(payload.message || "Modul silindi.", "success");
+                    showBuilderNotice(
+                        payload.message || "Modul silindi.",
+                        "success",
+                    );
                 } catch (error) {
-                    showBuilderNotice(error.message || "Modul silinemedi.", "error");
+                    showBuilderNotice(
+                        error.message || "Modul silinemedi.",
+                        "error",
+                    );
                     deleteButton.disabled = false;
                 }
             });
@@ -378,9 +414,8 @@ const collectModuleContents = () => {
                 });
             }
 
-            grouped.get(pageModuleId).fields[fieldKey] = field.type === "checkbox"
-                ? field.checked
-                : field.value;
+            grouped.get(pageModuleId).fields[fieldKey] =
+                field.type === "checkbox" ? field.checked : field.value;
         });
 
     return [...grouped.values()];
@@ -396,7 +431,7 @@ const saveBuilderChanges = async (button) => {
                 "Content-Type": "application/json",
                 "X-CSRF-TOKEN": csrfToken(),
                 "X-Requested-With": "XMLHttpRequest",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 page: activePageLink()?.dataset.pageSlug,
@@ -407,11 +442,17 @@ const saveBuilderChanges = async (button) => {
         const payload = await response.json();
 
         if (!response.ok || !payload.success) {
-            showBuilderNotice(payload.message || "Degisiklikler kaydedilemedi.", "error");
+            showBuilderNotice(
+                payload.message || "Degisiklikler kaydedilemedi.",
+                "error",
+            );
             throw new Error("Save failed");
         }
 
-        showBuilderNotice(payload.message || "Degisiklikler basariyla kaydedildi.", "success");
+        showBuilderNotice(
+            payload.message || "Degisiklikler basariyla kaydedildi.",
+            "success",
+        );
 
         const activePage = document.querySelector("[data-page-link].active");
         refreshPreviewFrame(activePage?.dataset.pageSlug);
@@ -440,7 +481,8 @@ document.addEventListener("input", (event) => {
         const term = searchInput.value.toLowerCase().trim();
 
         document.querySelectorAll("[data-page-link]").forEach((page) => {
-            page.hidden = term && !page.dataset.pageTitle.toLowerCase().includes(term);
+            page.hidden =
+                term && !page.dataset.pageTitle.toLowerCase().includes(term);
         });
     }
 });
@@ -465,7 +507,7 @@ document.addEventListener("submit", async (event) => {
             headers: {
                 "X-CSRF-TOKEN": csrfToken(),
                 "X-Requested-With": "XMLHttpRequest",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: formData,
         });
@@ -481,13 +523,25 @@ document.addEventListener("submit", async (event) => {
         closeNewPageModal();
 
         if (payload.page?.slug) {
-            window.history.pushState({}, "", `/company/builder?page=${payload.page.slug}`);
+            window.history.pushState(
+                {},
+                "",
+                `/company/builder?page=${payload.page.slug}`,
+            );
         }
     } catch (error) {
         setError("Beklenmeyen bir hata olustu.");
     } finally {
         submitButton.disabled = false;
     }
+});
+document.querySelectorAll("[data-sidebar-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+        const panel = button.nextElementSibling;
+
+        panel.classList.toggle("closed");
+        panel.classList.toggle("open");
+    });
 });
 
 bindPreviewFrameActions();

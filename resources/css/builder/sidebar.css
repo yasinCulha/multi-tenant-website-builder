@@ -41,12 +41,32 @@
 
 .sidebar-panel-title {
     min-height: 34px;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 10px;
     color: var(--text);
     font-size: 13px;
     font-weight: 800;
+    border: none;
+    background: none;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.sidebar-panel-content {
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.sidebar-panel-content.closed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.sidebar-panel-content.open {
+    max-height: 900px;
+    opacity: 1;
 }
 
 .sidebar-item-icon {
