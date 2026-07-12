@@ -45,10 +45,10 @@ class ThemeInstaller
             }
 
             foreach ($themePage->modules as $themeModule) {
-                dd(
-    $themeModule->name,
-    $themeModule->fields
-);
+//                 dd(
+//     $themeModule->name,
+//     $themeModule->fields
+// );
 
                 $pageModule::firstOrCreate(
                     [
