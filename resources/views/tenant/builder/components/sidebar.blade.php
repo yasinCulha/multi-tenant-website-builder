@@ -9,10 +9,15 @@
     </div>
 
     <section class="sidebar-panel">
-        <div class="sidebar-panel-title">
-            <span class="sidebar-item-icon">P</span>
-            <span>Sayfalar</span>
-        </div>
+
+        <button class="sidebar-panel-title" data-sidebar-toggle="pages">
+            <div class="sidebar-panel-left">
+                <span class="sidebar-item-icon">P</span>
+                <span>Sayfalar</span>
+            </div>
+
+            <span class="sidebar-chevron">⌄</span>
+        </button>
 
         <div class="sidebar-pages" data-page-list>
             @foreach($builder['pages'] as $page)
@@ -59,10 +64,16 @@
     <div class="sidebar-divider"></div>
 
     <section class="sidebar-panel sidebar-modules-panel">
-        <div class="sidebar-panel-title">
-            <span class="sidebar-item-icon">M</span>
-            <span>Moduller</span>
-        </div>
+        <button class="sidebar-panel-title" data-sidebar-toggle="modules">
+
+            <div class="sidebar-panel-left">
+                <span class="sidebar-item-icon">M</span>
+                <span>Modüller</span>
+            </div>
+
+            <span class="sidebar-chevron">⌄</span>
+
+        </button>
 
         <div class="sidebar-modules" data-available-modules>
             @forelse($builder['availableModules'] as $module)
