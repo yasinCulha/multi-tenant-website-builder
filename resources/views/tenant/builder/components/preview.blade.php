@@ -5,6 +5,7 @@
         $currentPage = $builder['currentPage'];
         $previewUrl = route('builder.preview', [
             'page' => $currentPage?->slug,
+            'selected_page_module_id' => $builder['selectedPageModuleId'] ?? null,
             'v' => $currentPage?->updated_at?->timestamp ?? time(),
         ]);
     @endphp

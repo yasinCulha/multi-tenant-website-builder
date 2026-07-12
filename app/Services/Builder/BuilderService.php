@@ -21,7 +21,7 @@ class BuilderService
         protected ThemeInstaller $themeInstaller
     ) {}
 
-    public function getBuilderData(Company $company, ?string $pageSlug = null): array
+    public function getBuilderData(Company $company, ?string $pageSlug = null, ?int $selectedPageModuleId = null): array
     {
         $theme = $company->theme;
 
@@ -34,6 +34,8 @@ class BuilderService
                 'pageModules' => collect(),
                 'settings' => [],
                 'availableModules' => collect(),
+                'selectedPageModule' => null,
+                'selectedPageModuleId' => null,
             ];
         }
 
@@ -41,6 +43,11 @@ class BuilderService
             $company,
             $pageSlug ?? request()->query('page'),
             true
+        );
+
+        $selectedPageModule = $this->resolveSelectedPageModule(
+            $context['pageModules'],
+            $selectedPageModuleId
         );
 
         return [
@@ -51,7 +58,26 @@ class BuilderService
             'pageModules' => $context['pageModules'],
             'settings' => $context['settings'],
             'availableModules' => $this->getAvailableModules($company),
+            'selectedPageModule' => $selectedPageModule,
+            'selectedPageModuleId' => $selectedPageModule?->id,
         ];
+    }
+
+    protected function resolveSelectedPageModule(Collection $pageModules, ?int $selectedPageModuleId): ?PageModule
+    {
+        if ($pageModules->isEmpty()) {
+            return null;
+        }
+
+        if ($selectedPageModuleId) {
+            $selected = $pageModules->firstWhere('id', $selectedPageModuleId);
+
+            if ($selected) {
+                return $selected;
+            }
+        }
+
+        return $pageModules->first();
     }
 
     public function createPage(Company $company, string $title, ?string $slug = null, string $position = 'end'): Page

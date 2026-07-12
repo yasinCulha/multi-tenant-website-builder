@@ -13,6 +13,33 @@ const slugify = (value) =>
 const csrfToken = () =>
     document.querySelector('meta[name="csrf-token"]')?.content ?? "";
 
+let selectedPageModuleId =
+    document.querySelector("[data-builder-settings] [data-page-module-id]")
+        ?.dataset.pageModuleId ?? null;
+
+const setSelectedPreviewModule = (frameDocument, pageModuleId) => {
+    if (!frameDocument || !pageModuleId) {
+        return;
+    }
+
+    frameDocument
+        .querySelectorAll(".builder-module-shell")
+        .forEach((shell) => {
+            shell.classList.toggle(
+                "is-selected",
+                shell.dataset.pageModuleId === String(pageModuleId),
+            );
+        });
+};
+
+const replaceSettingsPanel = (settingsHtml) => {
+    const settings = document.querySelector("[data-builder-settings]");
+
+    if (settings && settingsHtml) {
+        settings.outerHTML = settingsHtml;
+    }
+};
+
 const replaceBuilderFragments = (payload) => {
     const sidebar = document.querySelector("[data-builder-sidebar]");
     const preview = document.querySelector(".builder-preview");
@@ -30,6 +57,10 @@ const replaceBuilderFragments = (payload) => {
         settings.outerHTML = payload.settings;
     }
 
+    if (payload.selectedPageModuleId) {
+        selectedPageModuleId = String(payload.selectedPageModuleId);
+    }
+
     if (payload.currentPage?.slug) {
         refreshPreviewFrame(payload.currentPage.slug);
     }
@@ -45,7 +76,10 @@ const refreshPreviewFrame = (pageSlug) => {
         return;
     }
 
-    const previewUrl = `/company/builder/preview?page=${encodeURIComponent(pageSlug)}&v=${Date.now()}`;
+    const selectedQuery = selectedPageModuleId
+        ? `&selected_page_module_id=${encodeURIComponent(selectedPageModuleId)}`
+        : "";
+    const previewUrl = `/company/builder/preview?page=${encodeURIComponent(pageSlug)}${selectedQuery}&v=${Date.now()}`;
     bindPreviewFrameActions();
     frame.src = previewUrl;
 
@@ -327,8 +361,13 @@ const bindPreviewFrameActions = () => {
 
     frame.addEventListener("load", () => {
         try {
+            setSelectedPreviewModule(frame.contentDocument, selectedPageModuleId);
+
             frame.contentDocument?.addEventListener("click", async (event) => {
                 const navigationLink = event.target.closest("[data-page-slug]");
+                const editButton = event.target.closest(
+                    "[data-edit-page-module]",
+                );
                 const deleteButton = event.target.closest(
                     "[data-delete-page-module]",
                 );
@@ -359,6 +398,36 @@ const bindPreviewFrameActions = () => {
                         "",
                         `/company/builder?page=${pageSlug}`,
                     );
+                    return;
+                }
+
+                if (editButton) {
+                    event.preventDefault();
+
+                    const pageModuleId = editButton.dataset.editPageModule;
+                    selectedPageModuleId = pageModuleId;
+                    setSelectedPreviewModule(frame.contentDocument, pageModuleId);
+
+                    try {
+                        const payload = await requestJson(
+                            `/company/page-builder/modules/${pageModuleId}/select`,
+                        );
+
+                        selectedPageModuleId = String(
+                            payload.selectedPageModuleId || pageModuleId,
+                        );
+                        replaceSettingsPanel(payload.settings);
+                        setSelectedPreviewModule(
+                            frame.contentDocument,
+                            selectedPageModuleId,
+                        );
+                    } catch (error) {
+                        showBuilderNotice(
+                            error.message || "Modul secilemedi.",
+                            "error",
+                        );
+                    }
+
                     return;
                 }
 

@@ -1,7 +1,7 @@
 <div class="builder-settings" data-builder-settings>
 
     @php
-        $selectedModule = $builder['pageModules']->first();
+        $selectedModule = $builder['selectedPageModule'] ?? $builder['pageModules']->first();
     @endphp
 
     @if(($builder['currentPage'] ?? null) && $builder['pageModules']->isEmpty())

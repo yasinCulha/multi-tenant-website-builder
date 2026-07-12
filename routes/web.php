@@ -80,6 +80,7 @@ Route::post('/company/theme/save',[AdminController::class, 'saveTheme'])->name('
 Route::get('/company/builder', [PageBuilderController::class, 'index'])->name('tenant.builder');
 Route::get('/company/builder/preview', BuilderPreviewController::class)->name('builder.preview');
 Route::post('/company/page-builder/add-module', [PageBuilderController::class, 'addModuleToPage']);
+Route::get('/company/page-builder/modules/{pageModule}/select', [PageBuilderController::class, 'selectModule'])->name('builder.modules.select');
 Route::delete('/company/page-builder/modules/{pageModule}', [PageBuilderController::class, 'destroyModule'])->name('builder.modules.destroy');
 Route::get('/company/preview/{page}', [PageBuilderController::class, 'preview'])->name('tenant.preview');
 Route::post('/company/builder/pages', [PageBuilderController::class, 'storePage'])->name('builder.pages.store');

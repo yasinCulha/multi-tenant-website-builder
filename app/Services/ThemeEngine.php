@@ -45,9 +45,9 @@ class ThemeEngine
         });
     }
 
-    public function render(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false): View
+    public function render(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false, ?int $selectedPageModuleId = null): View
     {
-        $context = $this->makeRenderContext($company, $pageSlug, $isBuilderPreview);
+        $context = $this->makeRenderContext($company, $pageSlug, $isBuilderPreview, $selectedPageModuleId);
 
         return view(
             "tenant.website.themes.{$context['theme']->folder_path}.index",
@@ -55,7 +55,7 @@ class ThemeEngine
         );
     }
 
-    public function makeRenderContext(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false): array
+    public function makeRenderContext(Company $company, ?string $pageSlug = null, bool $isBuilderPreview = false, ?int $selectedPageModuleId = null): array
     {
         $company->loadMissing('theme');
         $theme = $company->theme;
@@ -89,6 +89,7 @@ class ThemeEngine
             'currentPage' => $currentPage,
             'pageModules' => $pageModules,
             'isBuilderPreview' => $isBuilderPreview,
+            'selectedPageModuleId' => $selectedPageModuleId ?: $pageModules->first()?->id,
         ];
     }
 

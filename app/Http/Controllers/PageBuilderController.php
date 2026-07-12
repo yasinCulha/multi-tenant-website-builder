@@ -26,7 +26,11 @@ class PageBuilderController extends Controller
             abort(403, 'Sirkete ait kullanici bulunamadi.');
         }
 
-        $builder = $this->builder->getBuilderData($company, $request->query('page'));
+        $builder = $this->builder->getBuilderData(
+            $company,
+            $request->query('page'),
+            $request->integer('selected_page_module_id') ?: null
+        );
 
         if ($request->ajax()) {
             return $this->builderResponse($builder);
@@ -115,6 +119,33 @@ class PageBuilderController extends Controller
         ]);
     }
 
+    public function selectModule(PageModule $pageModule): JsonResponse
+    {
+        $company = auth()->user()->company;
+
+        if (!$company) {
+            abort(403, 'Sirkete ait kullanici bulunamadi.');
+        }
+
+        $pageModule = $company->pageModules()
+            ->with(['page', 'themeModule.fields', 'contents'])
+            ->whereKey($pageModule->id)
+            ->firstOrFail();
+
+        $builder = $this->builder->getBuilderData(
+            $company,
+            $pageModule->page?->slug,
+            $pageModule->id
+        );
+
+        return response()->json([
+            'success' => true,
+            'selectedPageModuleId' => $pageModule->id,
+            'currentPage' => $builder['currentPage'],
+            'settings' => view('tenant.builder.components.settings-panel', compact('builder'))->render(),
+        ]);
+    }
+
     public function destroyModule(PageModule $pageModule): JsonResponse
     {
         $company = auth()->user()->company;
@@ -155,6 +186,7 @@ class PageBuilderController extends Controller
         return response()->json(array_merge([
             'success' => true,
             'currentPage' => $builder['currentPage'],
+            'selectedPageModuleId' => $builder['selectedPageModuleId'] ?? null,
             'sidebar' => view('tenant.builder.components.sidebar', compact('builder'))->render(),
             'preview' => view('tenant.builder.components.preview', compact('builder'))->render(),
             'settings' => view('tenant.builder.components.settings-panel', compact('builder'))->render(),

@@ -23,7 +23,8 @@ class BuilderPreviewController extends Controller
         return response($this->themeEngine->render(
             $company,
             $request->query('page'),
-            true
+            true,
+            $request->integer('selected_page_module_id') ?: null
         ))->withHeaders([
             'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
             'Pragma' => 'no-cache',
