@@ -433,7 +433,7 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
                 'Tema başarıyla seçildi.'
             );
     }
-    public function themeEditor(Theme $theme, ThemeManager $themeManager)
+    public function themeEditor(Theme $theme, ThemeManager $themeManager,BuilderService $builderService)
 {
     $company = auth()->user()->company;
 
@@ -450,7 +450,7 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
         return back()->with('error', 'Tema ayarı bulunamadı.');
     }
 
-    $builder = $builderService->getBuilderData($company, request()->query('page'));
+    $builder =$builderService->getBuilderData($company, request()->query('page'));
 
     $defaultSettings = $themeManager->defaults($theme->folder_path);
 
