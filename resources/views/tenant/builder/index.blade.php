@@ -16,7 +16,6 @@
 
     </div>
 
-    @include('tenant.builder.components.bottombar')
 
 </div>
 
