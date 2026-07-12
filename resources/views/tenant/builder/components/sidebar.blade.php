@@ -8,16 +8,8 @@
         >
     </div>
 
-    <section class="sidebar-panel">
+    <section class="sidebar-panel open">
 
-        <button class="sidebar-panel-title" data-sidebar-toggle="pages">
-            <div class="sidebar-panel-left">
-                <span class="sidebar-item-icon">P</span>
-                <span>Sayfalar</span>
-            </div>
-
-            <span class="sidebar-chevron">⌄</span>
-        </button>
         <div class="sidebar-panel-content" id="pages-panel">
             <div class="sidebar-pages" data-page-list>
                 @foreach($builder['pages'] as $page)
