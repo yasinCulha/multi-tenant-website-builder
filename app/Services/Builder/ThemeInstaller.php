@@ -20,19 +20,19 @@ class ThemeInstaller
         $themePages = $theme
             ->templatePages()
             ->with([
-    'modules' => fn ($query) => $query
-        ->with('fields')
-        ->orderBy('order')
-])
+                // Install sirasinda modullerin dinamik field tanimlari da okunur.
+                'modules' => fn ($query) => $query
+                    ->with('fields')
+                    ->orderBy('order'),
+            ])
             ->orderBy('id')
             ->get();
 
         foreach ($themePages->values() as $index => $themePage) {
-
             $page = Page::firstOrCreate(
                 [
                     'company_id' => $company->id,
-                    'slug'       => $themePage->slug,
+                    'slug' => $themePage->slug,
                 ],
                 [
                     'title' => $themePage->title,
@@ -44,35 +44,40 @@ class ThemeInstaller
                 $page->forceFill(['sort_order' => ($index + 1) * 10])->save();
             }
 
-                foreach ($themePage->modules as $themeModule) {
+            foreach ($themePage->modules as $themeModule) {
+                // Once firma sayfasina bagli PageModule kaydi olusturulur.
+                $pageModule = PageModule::firstOrCreate(
+                    [
+                        'company_id' => $company->id,
+                        'page_id' => $page->id,
+                        'theme_page_module_id' => $themeModule->id,
+                    ],
+                    [
+                        'order' => $themeModule->order,
+                        'is_visible' => true,
+                    ]
+                );
 
-    // Önce PageModule oluştur
-    $pageModule = PageModule::firstOrCreate(
-        [
-            'company_id'           => $company->id,
-            'page_id'              => $page->id,
-            'theme_page_module_id' => $themeModule->id,
-        ],
-        [
-            'order'      => $themeModule->order,
-            'is_visible' => true,
-        ]
-    );
-
-    // Sonra bu modülün field'larını oluştur
-    foreach ($themeModule->fields as $field) {
-
-        PageModuleContent::firstOrCreate(
-            [
-                'page_module_id' => $pageModule->id,
-                'field_key'      => $field->field_key,
-            ],
-            [
-                'field_value' => $field->default_value,
-            ]
-        );
+                $this->createDefaultContents($pageModule);
+            }
+        }
     }
-}
+
+    public function createDefaultContents(PageModule $pageModule): void
+    {
+        $pageModule->loadMissing('themeModule.fields');
+
+        foreach ($pageModule->themeModule?->fields ?? collect() as $field) {
+            // Her field icin varsayilan icerik sadece eksikse uretilir.
+            PageModuleContent::firstOrCreate(
+                [
+                    'page_module_id' => $pageModule->id,
+                    'field_key' => $field->field_key,
+                ],
+                [
+                    'field_value' => $field->default_value,
+                ]
+            );
         }
     }
 }

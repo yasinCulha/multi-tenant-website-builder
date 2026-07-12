@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Page;
 use App\Models\PageModule;
 use App\Models\ThemePageModule;
+use App\Services\Builder\ThemeInstaller;
 use App\Services\ThemeEngine;
 use App\Services\ThemeManager;
 use Illuminate\Support\Collection;
@@ -16,7 +17,8 @@ class BuilderService
 {
     public function __construct(
         protected ThemeManager $themeManager,
-        protected ThemeEngine $themeEngine
+        protected ThemeEngine $themeEngine,
+        protected ThemeInstaller $themeInstaller
     ) {}
 
     public function getBuilderData(Company $company, ?string $pageSlug = null): array
@@ -79,13 +81,18 @@ class BuilderService
                 ->where('page_id', $page->id)
                 ->max('order');
 
-            return PageModule::create([
+            $pageModule = PageModule::create([
                 'company_id' => $company->id,
                 'page_id' => $page->id,
                 'theme_page_module_id' => $themeModule->id,
                 'order' => $lastOrder + 10,
                 'is_visible' => true,
             ]);
+
+            // Sonradan eklenen moduller de field defaultlarini page_module_contents'a alir.
+            $this->themeInstaller->createDefaultContents($pageModule);
+
+            return $pageModule;
         });
     }
 
@@ -133,6 +140,7 @@ class BuilderService
         return $company->theme
             ? $company->theme->templateModules()
                 ->select('theme_page_modules.*')
+                ->with('fields')
                 ->orderBy('theme_page_modules.order')
                 ->orderBy('theme_page_modules.name')
                 ->get()

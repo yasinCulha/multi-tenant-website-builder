@@ -1,26 +1,31 @@
+@php
+    // Modul icerigi oncelikle page_module_contents verisinden okunur.
+    $content = $content ?? [];
+@endphp
+
 <section id="hizmetler" class="md-services">
     <div class="md-container">
         <div class="md-section-heading">
-            <span class="md-eyebrow">Capabilities</span>
-            <h2>{{ data_get($settings ?? [], 'services.section_title', 'Neden Bizimle Calismalisiniz?') }}</h2>
-            <p>{{ data_get($settings ?? [], 'services.section_subtitle', 'Yuksek enerjili, olceklenebilir ve net dijital cozumler.') }}</p>
+            <span class="md-eyebrow">{{ data_get($content, 'eyebrow', 'Capabilities') }}</span>
+            <h2>{{ data_get($content, 'section_title', data_get($settings ?? [], 'services.section_title', 'Neden Bizimle Calismalisiniz?')) }}</h2>
+            <p>{{ data_get($content, 'section_subtitle', data_get($settings ?? [], 'services.section_subtitle', 'Yuksek enerjili, olceklenebilir ve net dijital cozumler.')) }}</p>
         </div>
 
         <div class="md-services__grid">
             <article class="md-glass-card">
                 <span>01</span>
-                <h3>{{ data_get($settings ?? [], 'services.item_1_title', 'Guvenli Mimari') }}</h3>
-                <p>{{ data_get($settings ?? [], 'services.item_1_desc', 'Veri, performans ve deneyimi ayni mimaride toplariz.') }}</p>
+                <h3>{{ data_get($content, 'item_1_title', data_get($settings ?? [], 'services.item_1_title', 'Guvenli Mimari')) }}</h3>
+                <p>{{ data_get($content, 'item_1_desc', data_get($settings ?? [], 'services.item_1_desc', 'Veri, performans ve deneyimi ayni mimaride toplariz.')) }}</p>
             </article>
             <article class="md-glass-card">
                 <span>02</span>
-                <h3>{{ data_get($settings ?? [], 'services.item_2_title', 'Hizli Deneyim') }}</h3>
-                <p>{{ data_get($settings ?? [], 'services.item_2_desc', 'Kullanici akislarini hizli, sade ve etkili hale getiririz.') }}</p>
+                <h3>{{ data_get($content, 'item_2_title', data_get($settings ?? [], 'services.item_2_title', 'Hizli Deneyim')) }}</h3>
+                <p>{{ data_get($content, 'item_2_desc', data_get($settings ?? [], 'services.item_2_desc', 'Kullanici akislarini hizli, sade ve etkili hale getiririz.')) }}</p>
             </article>
             <article class="md-glass-card">
                 <span>03</span>
-                <h3>{{ data_get($settings ?? [], 'services.item_3_title', 'Surekli Gelisim') }}</h3>
-                <p>{{ data_get($settings ?? [], 'services.item_3_desc', 'Yayindan sonra da olculebilir iyilestirmelerle ilerleriz.') }}</p>
+                <h3>{{ data_get($content, 'item_3_title', data_get($settings ?? [], 'services.item_3_title', 'Surekli Gelisim')) }}</h3>
+                <p>{{ data_get($content, 'item_3_desc', data_get($settings ?? [], 'services.item_3_desc', 'Yayindan sonra da olculebilir iyilestirmelerle ilerleriz.')) }}</p>
             </article>
         </div>
     </div>

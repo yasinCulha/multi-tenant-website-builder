@@ -1,6 +1,8 @@
 @forelse($pageModules ?? collect() as $pageModule)
     @php
         $module = $pageModule->themeModule;
+        // Moduller canli sitede ve preview'da page_module_contents uzerinden veri okur.
+        $content = $pageModule->contents->pluck('field_value', 'field_key')->all();
         $moduleView = $module?->view_path
             ? 'tenant.website.themes.corporate-blue.' . ltrim(trim($module->view_path), '.')
             : null;
@@ -25,6 +27,7 @@
                 @include($moduleView, [
                     'company' => $company,
                     'settings' => $settings ?? [],
+                    'content' => $content,
                     'pageModule' => $pageModule,
                     'module' => $module,
                 ])
@@ -33,6 +36,7 @@
             @include($moduleView, [
                 'company' => $company,
                 'settings' => $settings ?? [],
+                'content' => $content,
                 'pageModule' => $pageModule,
                 'module' => $module,
             ])

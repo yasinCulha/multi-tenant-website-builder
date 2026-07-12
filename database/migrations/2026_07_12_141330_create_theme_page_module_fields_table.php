@@ -11,28 +11,35 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('theme_page_module_fields')) {
+            return;
+        }
+
         Schema::create('theme_page_module_fields', function (Blueprint $table) {
             $table->id();
 
-    $table->foreignId('theme_page_module_id')
-        ->constrained()
-        ->cascadeOnDelete();
+            // Her kayit bir tema modulunun Builder'da editlenebilir alanini tanimlar.
+            $table->foreignId('theme_page_module_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-    $table->string('field_key');
+            $table->string('field_key');
 
-    $table->string('field_name');
+            $table->string('field_name');
 
-    $table->string('type');
+            $table->string('type');
 
-    $table->string('placeholder')->nullable();
+            $table->string('placeholder')->nullable();
 
-    $table->text('default_value')->nullable();
+            $table->text('default_value')->nullable();
 
-    $table->integer('sort_order')->default(0);
+            $table->integer('sort_order')->default(0);
 
-    $table->boolean('is_required')->default(false);
+            $table->boolean('is_required')->default(false);
 
-    $table->timestamps();
+            $table->timestamps();
+
+            $table->unique(['theme_page_module_id', 'field_key']);
         });
     }
 

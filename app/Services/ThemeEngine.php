@@ -73,7 +73,8 @@ class ThemeEngine
 
         $pageModules = $currentPage
             ? $currentPage->pageModules()
-                ->with(['themeModule', 'contents'])
+                // Builder ve canli render field tanimlari ile icerikleri birlikte okur.
+                ->with(['themeModule.fields', 'contents'])
                 ->where('is_visible', true)
                 ->orderBy('order')
                 ->get()
@@ -104,6 +105,7 @@ class ThemeEngine
                 }
 
                 foreach (($item['fields'] ?? []) as $fieldKey => $fieldValue) {
+                    // Builder save islemi page_module_contents uzerinden tekil field'i gunceller.
                     PageModuleContent::updateOrCreate(
                         [
                             'page_module_id' => $pageModule->id,

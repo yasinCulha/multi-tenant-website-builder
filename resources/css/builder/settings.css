@@ -41,6 +41,42 @@
     font-weight: 700;
 }
 
+/* Dinamik Builder field inputlari ortak gorunumle render edilir. */
+.settings-input,
+.settings-textarea {
+    width: 100%;
+    border: 1px solid #273449;
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+}
+
+.settings-input {
+    height: 42px;
+    padding: 0 12px;
+}
+
+.settings-textarea {
+    min-height: 108px;
+    padding: 12px;
+    resize: vertical;
+}
+
+.settings-input:focus,
+.settings-textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, .12);
+}
+
+.settings-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+}
+
 .settings-placeholder,
 .settings-button-placeholder,
 .settings-image-placeholder {
