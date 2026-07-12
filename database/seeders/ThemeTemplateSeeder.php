@@ -153,6 +153,7 @@ class ThemeTemplateSeeder extends Seeder
 
     private function seedModuleFields(ThemePageModule $themeModule): void
     {
+        dd($themeModule->id, $themeModule->name, $themeModule->view_path);
         $moduleKey = strtolower(str_replace(['modules.', '-'], ['', '_'], $themeModule->view_path));
 
         foreach ($this->fieldsFor($moduleKey) as $index => $field) {
