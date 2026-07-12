@@ -457,7 +457,7 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
         $defaultSettings,
         $dbSettings
     );
-    return view('tenant.builder.layouts.index', [
+    return view('tenant.builder.index', [
         'company'  => $company,
         'theme'    => $theme,
         'editor'   => $themeManager->editor($theme->folder_path),
