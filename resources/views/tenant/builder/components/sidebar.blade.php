@@ -2,7 +2,7 @@
 
     {{-- ==================== SAYFALAR ==================== --}}
 
-    <section class="sidebar-panel open">
+    <section class="sidebar-panel open mt-1">
 
         <button
             class="sidebar-panel-title"
