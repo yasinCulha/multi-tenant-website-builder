@@ -449,8 +449,8 @@ public function showTenantSite($subdomain, ThemeEngine $themeEngine)
     if (!$themeSetting) {
         return back()->with('error', 'Tema ayarı bulunamadı.');
     }
-    
-    $builder = $builderService->build($company, request()->query('page'));
+
+    $builder = $builderService->getBuilderData($company, request()->query('page'));
 
     $defaultSettings = $themeManager->defaults($theme->folder_path);
 
